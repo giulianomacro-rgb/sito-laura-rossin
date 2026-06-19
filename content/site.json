@@ -1,0 +1,430 @@
+{
+  "assets": {
+    "logo": "assets/logo-laura-rossin.svg",
+    "heroImage": "assets/laura-rossin-ritratto.jpg",
+    "portraitImage": "assets/laura-rossin-primo-piano.jpg",
+    "patternImage": "assets/pattern-banner.jpg",
+    "studioDeskImage": "assets/studio-scrivania.jpg",
+    "ogImage": "assets/og-laura-rossin.jpg"
+  },
+  "home": {
+    "seo": {
+      "title": "Laura Rossin | Psicologa e psicoterapeuta a Bolzano",
+      "description": "Per chi cerca uno psicologo a Bolzano: Dott.ssa Laura Rossin, psicologa e psicoterapeuta. Psicoterapia breve strategica, coaching e sportello aziendale.",
+      "ogTitle": "Laura Rossin | Psicologa e psicoterapeuta a Bolzano",
+      "ogDescription": "Psicologa e psicoterapeuta a Bolzano per psicoterapia breve strategica, coaching professionale e supporto psicologico ad aziende, professionisti e adolescenti."
+    },
+    "hero": {
+      "eyebrow": "Bolzano",
+      "title": "Psicologa e psicoterapeuta per persone, professionisti e aziende.",
+      "lead": "La Dott.ssa Laura Rossin accompagna percorsi di psicoterapia breve strategica, coaching professionale e benessere psicologico nei contesti di vita e lavoro.",
+      "primaryLabel": "Richiedi un colloquio",
+      "primaryHref": "prenotazioni.html",
+      "secondaryLabel": "Scopri i percorsi",
+      "secondaryHref": "#servizi"
+    },
+    "trust": [
+      {
+        "title": "Albo",
+        "text": "Psicologi Provincia di Bolzano, Sez. A n. 1006",
+        "href": "https://www.psy.it/albo-psicologi"
+      },
+      {
+        "title": "Approccio",
+        "text": "Breve strategico, orientato agli obiettivi",
+        "href": "https://www.centroditerapiastrategica.com/"
+      },
+      {
+        "title": "Aree",
+        "text": "Psicoterapia, lavoro, coaching, adolescenti",
+        "href": "#servizi"
+      }
+    ],
+    "intro": {
+      "eyebrow": "Uno sguardo concreto",
+      "title": "Quando qualcosa si blocca, non serve girarci intorno: serve capire cosa lo mantiene fermo.",
+      "text": "Il lavoro psicologico diventa uno spazio per osservare il problema con precisione, ridurre la confusione e costruire passi possibili. La relazione terapeutica resta accogliente, ma il percorso mantiene una direzione chiara: portare cambiamenti misurabili nella vita quotidiana, nelle relazioni e nel lavoro."
+    },
+    "services": {
+      "eyebrow": "Servizi principali",
+      "title": "Percorsi pensati per bisogni diversi, con la stessa cura nel metodo.",
+      "items": [
+        {
+          "marker": "blue",
+          "title": "Psicoterapia breve strategica",
+          "text": "Per ansia, panico, difficoltà relazionali, momenti di blocco, scelte complesse o situazioni che sembrano ripetersi senza trovare un'uscita.",
+          "href": "servizi/psicoterapia-breve-strategica-bolzano.html",
+          "linkLabel": "Psicoterapia a Bolzano",
+          "visible": true,
+          "order": 1
+        },
+        {
+          "marker": "yellow",
+          "title": "Coaching professionale",
+          "text": "Un percorso strategico per professionisti, manager e persone che vogliono migliorare comunicazione, decisioni, performance e gestione delle pressioni.",
+          "href": "servizi/coaching-professionale-strategico.html",
+          "linkLabel": "Coaching strategico",
+          "visible": true,
+          "order": 2
+        },
+        {
+          "marker": "red",
+          "title": "Psicologia del lavoro e aziende",
+          "text": "Sportelli psicologici, consulenza HR, interventi per benessere organizzativo, prevenzione del disagio e supporto alle persone nei contesti professionali.",
+          "href": "servizi/psicologia-del-lavoro-sportello-aziendale.html",
+          "linkLabel": "Sportello aziendale",
+          "visible": true,
+          "order": 3
+        }
+      ]
+    },
+    "method": {
+      "eyebrow": "Metodo breve strategico",
+      "title": "Il modello breve strategico di Giorgio Nardone, orientato al cambiamento concreto.",
+      "text": "Il lavoro clinico si ispira alla Psicoterapia Breve Strategica sviluppata da Giorgio Nardone e alla formazione presso il Centro di Terapia Strategica di Arezzo. L'obiettivo non è restare fermi alla spiegazione del problema, ma capire come si mantiene nel presente e costruire esperienze capaci di sbloccarlo.",
+      "steps": [
+        {
+          "number": "01",
+          "title": "Osservare il blocco",
+          "text": "Si ricostruisce il funzionamento della difficoltà: quando appare, cosa la alimenta e quali soluzioni tentate non stanno aiutando."
+        },
+        {
+          "number": "02",
+          "title": "Cambiare prospettiva",
+          "text": "Si introduce una lettura strategica del problema, con obiettivi chiari e nuove possibilità di risposta."
+        },
+        {
+          "number": "03",
+          "title": "Salire un gradino",
+          "text": "Si sperimentano azioni concrete tra un incontro e l'altro, verificando passo dopo passo cosa cambia nella vita reale."
+        }
+      ]
+    },
+    "gallery": [
+      {
+        "src": "assets/studio-scrivania.jpg",
+        "alt": "Studio della Dott.ssa Laura Rossin con sedute e tavolo per colloqui"
+      }
+    ],
+    "initiative": {
+      "eyebrow": "Iniziative",
+      "title": "Progetti psicologici per promuovere benessere, consapevolezza e relazioni più sane.",
+      "label": "Laboratori di crescita personale",
+      "name": "Mente Adolescente",
+      "text": "Un percorso psico-educativo per ragazze e ragazzi tra i 14 e i 18 anni, dedicato a emozioni, pensieri, consapevolezza di sé e strumenti per prendersi cura del proprio benessere.",
+      "buttonLabel": "Approfondisci il progetto",
+      "href": "iniziative/mente-adolescente.html"
+    },
+    "topics": {
+      "eyebrow": "Risorse e temi",
+      "title": "Argomenti utili per chi cerca una psicologa, uno psicologo a Bolzano o un supporto nel lavoro.",
+      "items": [
+        {
+          "label": "Ansia, panico e blocchi personali",
+          "href": "servizi/psicoterapia-breve-strategica-bolzano.html"
+        },
+        {
+          "label": "Psicoterapia breve strategica a Bolzano",
+          "href": "servizi/psicoterapia-breve-strategica-bolzano.html"
+        },
+        {
+          "label": "Psicologo a Bolzano: quando iniziare un percorso",
+          "href": "servizi/psicoterapia-breve-strategica-bolzano.html"
+        },
+        {
+          "label": "Coaching per manager e professionisti",
+          "href": "servizi/coaching-professionale-strategico.html"
+        },
+        {
+          "label": "Sportello psicologico aziendale",
+          "href": "servizi/psicologia-del-lavoro-sportello-aziendale.html"
+        },
+        {
+          "label": "Benessere psicologico adolescenti",
+          "href": "iniziative/mente-adolescente.html"
+        },
+        {
+          "label": "Domande frequenti sulla psicoterapia",
+          "href": "#faq"
+        }
+      ]
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Domande frequenti",
+      "items": [
+        {
+          "question": "Quando può essere utile iniziare un percorso psicologico?",
+          "answer": "Quando una difficoltà personale, relazionale o professionale diventa ricorrente, limita la serenità o consuma molte energie. Il primo colloquio aiuta a capire se e come impostare un percorso."
+        },
+        {
+          "question": "Che differenza c'è tra psicoterapia e coaching?",
+          "answer": "La psicoterapia lavora su sofferenze, sintomi e blocchi emotivi o relazionali. Il coaching strategico è più orientato a obiettivi professionali, decisioni, comunicazione e performance."
+        },
+        {
+          "question": "E possibile attivare uno sportello psicologico in azienda?",
+          "answer": "Sì. Lo sportello può essere progettato con l'organizzazione per offrire ascolto, prevenzione e supporto alle persone, integrandosi con obiettivi HR e benessere organizzativo."
+        }
+      ]
+    },
+    "contact": {
+      "eyebrow": "Contatti",
+      "title": "Per fissare un primo colloquio o valutare un progetto.",
+      "text": "Scrivi indicando il motivo della richiesta. Per aziende, scuole o iniziative formative è utile aggiungere contesto, obiettivi e periodo desiderato.",
+      "email": "psi.laurarossin@gmail.com",
+      "phone": "+39 346 6009503",
+      "phoneHref": "+393466009503",
+      "cities": "Bolzano",
+      "vat": "Partita IVA 03119240219"
+    },
+    "footer": {
+      "line1": "Dott.ssa Laura Rossin - Psicologa e psicoterapeuta",
+      "line2": "Albo Psicologi Provincia di Bolzano, Sez. A n. 1006"
+    }
+  },
+  "pages": {
+    "psicoterapia": {
+      "published": true,
+      "title": "Psicoterapia breve strategica",
+      "slug": "servizi/psicoterapia-breve-strategica-bolzano.html",
+      "socialImage": "assets/og-laura-rossin.jpg",
+      "seo": {
+        "title": "Psicoterapia breve strategica a Bolzano | Laura Rossin",
+        "description": "Per chi cerca uno psicologo a Bolzano: percorsi con la Dott.ssa Laura Rossin, psicologa e psicoterapeuta breve strategica per ansia, panico e blocchi."
+      },
+      "hero": {
+        "eyebrow": "Psicoterapia a Bolzano",
+        "title": "Psicoterapia breve strategica per superare blocchi, sintomi e schemi che si ripetono.",
+        "text": "Un percorso orientato al cambiamento, per capire come il problema si mantiene nel presente e introdurre strategie concrete nella vita quotidiana.",
+        "buttonLabel": "Richiedi informazioni",
+        "buttonHref": "mailto:psi.laurarossin@gmail.com?subject=Richiesta%20psicoterapia",
+        "image": "assets/laura-rossin-primo-piano.jpg",
+        "imageAlt": "Dott.ssa Laura Rossin psicologa e psicoterapeuta a Bolzano"
+      },
+      "sideNoteTitle": "Aree di supporto",
+      "sideNotes": ["ansia e panico", "relazioni", "blocchi personali", "cambiamento"],
+      "sections": [
+        {
+          "title": "Quando può essere utile",
+          "text": "La psicoterapia può sostenere momenti in cui ansia, paura, tristezza, tensione relazionale o difficoltà decisionali limitano la libertà personale. Può essere utile anche quando si ha la sensazione di aver già provato molte soluzioni senza ottenere un cambiamento stabile.",
+          "items": []
+        },
+        {
+          "title": "Come lavora l'approccio breve strategico",
+          "text": "L'attenzione si concentra sul funzionamento attuale della difficoltà: cosa accade, quali reazioni la alimentano e quali tentativi di soluzione rischiano di mantenerla. Da qui si definiscono obiettivi concreti e si costruiscono esperienze di cambiamento verificabili tra un incontro e l'altro.",
+          "items": []
+        },
+        {
+          "title": "Ambiti frequenti",
+          "text": "",
+          "items": [
+            "Ansia, panico, evitamento e paura di perdere il controllo.",
+            "Blocchi nelle relazioni, nella scelta o nei passaggi di vita.",
+            "Difficoltà emotive, senso di inefficacia e pensieri ricorrenti.",
+            "Comunicazione, autostima e gestione dei conflitti."
+          ]
+        }
+      ]
+    },
+    "coaching": {
+      "published": true,
+      "title": "Coaching professionale",
+      "slug": "servizi/coaching-professionale-strategico.html",
+      "socialImage": "assets/og-laura-rossin.jpg",
+      "seo": {
+        "title": "Coaching professionale strategico | Laura Rossin",
+        "description": "Coaching strategico per professionisti, manager e liberi professionisti: comunicazione, decisioni, performance, gestione dello stress e obiettivi di lavoro."
+      },
+      "hero": {
+        "eyebrow": "Coaching strategico",
+        "title": "Un percorso per trasformare obiettivi professionali in azioni sostenibili.",
+        "text": "Il coaching professionale aiuta a migliorare decisioni, comunicazione, gestione delle pressioni e performance, mantenendo un lavoro concreto sugli obiettivi.",
+        "buttonLabel": "Richiedi informazioni",
+        "buttonHref": "mailto:psi.laurarossin@gmail.com?subject=Richiesta%20coaching%20professionale",
+        "image": "assets/laura-rossin-ritratto.jpg",
+        "imageAlt": "Laura Rossin psicologa del lavoro e coach strategica"
+      },
+      "sideNoteTitle": "Per chi",
+      "sideNotes": ["manager", "liberi professionisti", "team leader", "persone in transizione"],
+      "sections": [
+        {
+          "title": "Quando sceglierlo",
+          "text": "Il coaching è indicato quando l'obiettivo è professionale: gestire un ruolo nuovo, comunicare meglio, affrontare una decisione complessa, sostenere una performance o ritrovare direzione in una fase di cambiamento.",
+          "items": []
+        },
+        {
+          "title": "Su cosa si lavora",
+          "text": "",
+          "items": [
+            "Chiarezza di obiettivi, priorità e criteri decisionali.",
+            "Comunicazione efficace con colleghi, clienti, responsabili e team.",
+            "Gestione di stress, pressione, conflitti e aspettative elevate.",
+            "Problem solving strategico e piano d'azione misurabile."
+          ]
+        },
+        {
+          "title": "Una differenza importante",
+          "text": "Il coaching non sostituisce la psicoterapia. È un percorso orientato al ruolo, agli obiettivi professionali e alle competenze che aiutano la persona a muoversi con più lucidità nel proprio contesto di lavoro.",
+          "items": []
+        }
+      ]
+    },
+    "lavoro": {
+      "published": true,
+      "title": "Psicologia del lavoro",
+      "slug": "servizi/psicologia-del-lavoro-sportello-aziendale.html",
+      "socialImage": "assets/og-laura-rossin.jpg",
+      "seo": {
+        "title": "Psicologa del lavoro e sportello aziendale | Laura Rossin",
+        "description": "Psicologia del lavoro, sportello psicologico aziendale e consulenza HR per benessere organizzativo, prevenzione e supporto alle persone."
+      },
+      "hero": {
+        "eyebrow": "Psicologia del lavoro",
+        "title": "Sportello psicologico aziendale e interventi per il benessere organizzativo.",
+        "text": "Progetti pensati per aziende, HR e contesti professionali che vogliono offrire ascolto qualificato, prevenzione e strumenti concreti alle persone.",
+        "buttonLabel": "Parla del progetto",
+        "buttonHref": "mailto:psi.laurarossin@gmail.com?subject=Richiesta%20progetto%20aziendale",
+        "image": "assets/studio-scrivania.jpg",
+        "imageAlt": "Spazio di colloquio per sportello psicologico aziendale"
+      },
+      "sideNoteTitle": "Ambiti",
+      "sideNotes": ["sportello psicologico", "consulenza HR", "benessere organizzativo", "formazione"],
+      "sections": [
+        {
+          "title": "Perche attivare uno sportello",
+          "text": "Uno spazio psicologico in azienda permette di intercettare difficoltà prima che diventino più pesanti, sostenere le persone nei momenti critici e rafforzare una cultura organizzativa più attenta al benessere.",
+          "items": []
+        },
+        {
+          "title": "Cosa può includere",
+          "text": "",
+          "items": [
+            "Colloqui individuali riservati per collaboratrici e collaboratori.",
+            "Supporto a HR e management nella lettura dei bisogni organizzativi.",
+            "Interventi su comunicazione, conflitti, stress e cambiamento.",
+            "Report sintetici e anonimi per osservare aree di bisogno ricorrenti."
+          ]
+        },
+        {
+          "title": "Progetti su misura",
+          "text": "Ogni contesto ha bisogni diversi. Per questo lo sportello viene progettato in base a dimensione aziendale, obiettivi, modalità di accesso, riservatezza e integrazione con le iniziative HR già presenti.",
+          "items": []
+        }
+      ]
+    },
+    "mente": {
+      "published": true,
+      "title": "Mente Adolescente",
+      "slug": "iniziative/mente-adolescente.html",
+      "socialImage": "assets/og-laura-rossin.jpg",
+      "seo": {
+        "title": "Mente Adolescente | Laboratori di crescita personale",
+        "description": "Mente Adolescente: laboratori di crescita personale per ragazze e ragazzi tra 14 e 18 anni, con strumenti per emozioni, pensieri e consapevolezza."
+      },
+      "hero": {
+        "eyebrow": "Laboratori 14-18 anni",
+        "title": "Mente Adolescente: l'arte di prendersi cura di sé.",
+        "text": "Un percorso psico-educativo a cadenza mensile per dare parole, strumenti e spazio alle emozioni, ai pensieri e alla crescita personale.",
+        "buttonLabel": "Richiedi informazioni",
+        "buttonHref": "mailto:psi.laurarossin@gmail.com?subject=Informazioni%20Mente%20Adolescente",
+        "image": "assets/pattern-banner.jpg",
+        "imageAlt": "Illustrazione geometrica coordinata del progetto Laura Rossin"
+      },
+      "sideNoteTitle": "Struttura",
+      "sideNotes": ["14-18 anni", "incontri mensili", "gruppo psico-educativo", "schede e strumenti"],
+      "sections": [
+        {
+          "title": "Il progetto",
+          "text": "Mente Adolescente nasce per aiutare ragazze e ragazzi a comprendere meglio il proprio mondo interiore. Gli incontri offrono uno spazio sicuro per sperimentare, confrontarsi e allenare consapevolezza emotiva, relazione con sé e relazione con gli altri.",
+          "items": []
+        },
+        {
+          "title": "Obiettivi del percorso",
+          "text": "",
+          "items": [
+            "Riconoscere e nominare emozioni, pensieri e comportamenti.",
+            "Sviluppare strumenti per gestire emozioni intense e momenti difficili.",
+            "Aumentare la capacita di osservare prospettive diverse dalla propria.",
+            "Coltivare consapevolezza, auto-osservazione e cura di sé."
+          ]
+        },
+        {
+          "title": "Programma di lavoro",
+          "text": "Il percorso prevede un incontro conoscitivo e cinque incontri tematici. Le aree principali riguardano mente e pensieri, rabbia, paura, dolore e piacere, con momenti di respirazione, confronto guidato, strumenti pratici e materiali di supporto.",
+          "items": []
+        }
+      ]
+    },
+    "privacy": {
+      "published": true,
+      "title": "Privacy policy",
+      "slug": "privacy-policy.html",
+      "socialImage": "assets/og-laura-rossin.jpg",
+      "seo": {
+        "title": "Privacy policy | Laura Rossin",
+        "description": "Informativa privacy provvisoria del sito Laura Rossin. Testo segnaposto da validare con un professionista."
+      },
+      "hero": {
+        "eyebrow": "Informative",
+        "title": "Privacy policy",
+        "text": "Questa pagina contiene un testo segnaposto. Prima della pubblicazione definitiva, integrare e validare l informativa con un professionista.",
+        "buttonLabel": "Torna al sito",
+        "buttonHref": "index.html",
+        "image": "",
+        "imageAlt": ""
+      },
+      "sideNoteTitle": "Da completare",
+      "sideNotes": ["titolare del trattamento", "base giuridica", "tempi di conservazione", "diritti dell interessato"],
+      "sections": [
+        {
+          "title": "Informativa provvisoria",
+          "text": "Il presente testo e un segnaposto operativo. Descrivere qui chi e il titolare del trattamento, quali dati vengono raccolti, per quali finalita, su quali basi giuridiche e per quanto tempo vengono conservati.",
+          "items": []
+        },
+        {
+          "title": "Dati inviati tramite il form di prenotazione",
+          "text": "I dati inseriti nel form di prenotazione vengono usati per gestire la richiesta di contatto e l appuntamento. Specificare eventuali strumenti terzi, misure di sicurezza e modalita di cancellazione.",
+          "items": []
+        },
+        {
+          "title": "Diritti della persona interessata",
+          "text": "Indicare le modalita per esercitare i diritti di accesso, rettifica, cancellazione, limitazione, opposizione e reclamo presso l autorita competente.",
+          "items": []
+        }
+      ]
+    },
+    "cookie": {
+      "published": true,
+      "title": "Cookie policy",
+      "slug": "cookie-policy.html",
+      "socialImage": "assets/og-laura-rossin.jpg",
+      "seo": {
+        "title": "Cookie policy | Laura Rossin",
+        "description": "Informativa cookie provvisoria del sito Laura Rossin. Testo segnaposto da validare con un professionista."
+      },
+      "hero": {
+        "eyebrow": "Informative",
+        "title": "Cookie policy",
+        "text": "Questa pagina contiene un testo segnaposto. Prima della pubblicazione definitiva, integrare e validare l informativa con un professionista.",
+        "buttonLabel": "Torna al sito",
+        "buttonHref": "index.html",
+        "image": "",
+        "imageAlt": ""
+      },
+      "sideNoteTitle": "Da completare",
+      "sideNotes": ["cookie tecnici", "strumenti statistici", "terze parti", "gestione consenso"],
+      "sections": [
+        {
+          "title": "Uso dei cookie",
+          "text": "Il presente testo e un segnaposto operativo. Indicare quali cookie tecnici, statistici o di terze parti vengono usati dal sito e con quali finalita.",
+          "items": []
+        },
+        {
+          "title": "Gestione del consenso",
+          "text": "Descrivere come la persona puo accettare, rifiutare o modificare le preferenze sui cookie, se vengono usati strumenti che richiedono consenso.",
+          "items": []
+        }
+      ]
+    }
+  }
+}
