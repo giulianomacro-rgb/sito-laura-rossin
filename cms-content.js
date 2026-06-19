@@ -27,6 +27,13 @@
     if (typeof alt === "string") el.setAttribute("alt", alt);
   };
 
+  const cssUrl = (src) => (src ? `url("${rootPath(src).replace(/"/g, "%22")}")` : "");
+
+  const setCssImage = (name, src) => {
+    if (!src) return;
+    document.documentElement.style.setProperty(name, cssUrl(src));
+  };
+
   const setMeta = (name, value) => {
     if (!value) return;
     const el = document.querySelector(`meta[name="${name}"]`);
@@ -60,8 +67,70 @@
     return fragment;
   };
 
+  const applyAssets = (assets = {}) => {
+    setCssImage("--pattern-image", assets.patternImage);
+    setCssImage("--services-image", assets.servicesIllustration || assets.patternImage);
+    setCssImage("--method-image", assets.methodIllustration || assets.patternImage);
+    setCssImage("--initiative-image", assets.initiativeIllustration || assets.patternImage);
+    setCssImage("--page-image", assets.pageIllustration || assets.patternImage);
+    setCssImage("--article-image", assets.articleIllustration || assets.patternImage);
+  };
+
+  const renderFooter = (home = {}, assets = {}) => {
+    setImage(".site-footer .footer-logo", assets.logo, "Laura Rossin");
+
+    const footerLines = document.querySelectorAll(".site-footer .footer-copy p");
+    if (footerLines[0] && home.footer?.line1) footerLines[0].textContent = home.footer.line1;
+    if (footerLines[1] && home.footer?.line2) footerLines[1].textContent = home.footer.line2;
+
+    const powered = document.querySelector(".powered-by");
+    if (powered) {
+      const data = home.footer?.poweredBy || {};
+      const label = data.label || "Powered by Archimpresa";
+      const logo = data.logo || assets.archimpresaLogo;
+      powered.hidden = !label && !logo;
+      if (data.href) powered.href = rootPath(data.href);
+      else powered.removeAttribute("href");
+      const text = powered.querySelector("span");
+      const img = powered.querySelector("img");
+      if (text) text.textContent = label;
+      if (img && logo) {
+        img.src = rootPath(logo);
+        img.alt = label;
+      }
+    }
+  };
+
+  const renderRichSections = (container, sections = []) => {
+    if (!container) return;
+    container.innerHTML = "";
+    sections.forEach((section) => {
+      const h2 = document.createElement("h2");
+      h2.textContent = section.title || "";
+      container.appendChild(h2);
+      container.appendChild(paragraphs(section.text || ""));
+      if (Array.isArray(section.items) && section.items.length) {
+        const ul = document.createElement("ul");
+        ul.className = "check-list";
+        section.items.forEach((item) => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          ul.appendChild(li);
+        });
+        container.appendChild(ul);
+      }
+    });
+  };
+
+  const topicHref = (item) => {
+    if (item.href) return item.href;
+    if (item.slug) return `articolo.html?slug=${encodeURIComponent(item.slug)}`;
+    return "#";
+  };
+
   const pageKey = () => {
     const path = window.location.pathname;
+    if (path.includes("articolo.html")) return "article";
     if (path.includes("psicoterapia-breve-strategica")) return "psicoterapia";
     if (path.includes("coaching-professionale")) return "coaching";
     if (path.includes("psicologia-del-lavoro")) return "lavoro";
@@ -74,6 +143,7 @@
   const renderHome = (site) => {
     const home = site.home || {};
     const assets = site.assets || {};
+    applyAssets(assets);
 
     if (home.seo?.title) document.title = home.seo.title;
     setMeta("description", home.seo?.description);
@@ -82,7 +152,6 @@
     setProperty("og:image", assets.ogImage ? new URL(rootPath(assets.ogImage), window.location.href).href : "");
 
     setImage(".brand img", assets.logo, "Laura Rossin");
-    setImage(".site-footer img", assets.logo, "Laura Rossin");
     setImage(".hero-media img", assets.heroImage, "");
 
     setText(".hero .eyebrow", home.hero?.eyebrow);
@@ -128,9 +197,6 @@
       sortedVisible(home.services.items).forEach((item) => {
         const article = document.createElement("article");
         article.className = "service-card";
-        const marker = document.createElement("div");
-        marker.className = `service-marker marker-${item.marker || "blue"}`;
-        marker.setAttribute("aria-hidden", "true");
         const title = document.createElement("h3");
         title.textContent = item.title || "";
         const p = document.createElement("p");
@@ -138,7 +204,7 @@
         const a = document.createElement("a");
         a.href = rootPath(item.href || "#");
         a.textContent = item.linkLabel || "Approfondisci";
-        article.append(marker, title, p, a);
+        article.append(title, p, a);
         serviceGrid.appendChild(article);
       });
     }
@@ -165,7 +231,10 @@
     const imageGrid = document.querySelector(".image-grid");
     if (imageGrid && Array.isArray(home.gallery)) {
       imageGrid.innerHTML = "";
-      home.gallery.forEach((item) => {
+      const visibleImages = home.gallery.filter((item) => isVisible(item.visible) && item.src);
+      const band = imageGrid.closest(".image-band");
+      if (band) band.hidden = visibleImages.length === 0;
+      visibleImages.forEach((item) => {
         const img = document.createElement("img");
         img.src = rootPath(item.src);
         img.alt = item.alt || "";
@@ -187,10 +256,10 @@
     const topicList = document.querySelector(".topic-list");
     if (topicList && Array.isArray(home.topics?.items)) {
       topicList.innerHTML = "";
-      home.topics.items.forEach((item) => {
+      sortedVisible(home.topics.items).forEach((item) => {
         const li = document.createElement("li");
         const a = document.createElement("a");
-        a.href = rootPath(item.href || "#");
+        a.href = rootPath(topicHref(item));
         a.textContent = item.label || "";
         li.appendChild(a);
         topicList.appendChild(li);
@@ -233,15 +302,14 @@
       contactCard.append(email, phone, cities, vat);
     }
 
-    const footerLines = document.querySelectorAll(".site-footer p");
-    if (footerLines[0] && home.footer?.line1) footerLines[0].textContent = home.footer.line1;
-    if (footerLines[1] && home.footer?.line2) footerLines[1].textContent = home.footer.line2;
+    renderFooter(home, assets);
   };
 
   const renderPage = (site, key) => {
     const page = site.pages?.[key];
     const assets = site.assets || {};
     const home = site.home || {};
+    applyAssets(assets);
     if (!page) return;
 
     if (!isVisible(page.published)) {
@@ -267,7 +335,6 @@
     setProperty("og:description", page.seo?.description);
     setProperty("og:image", page.socialImage ? new URL(rootPath(page.socialImage), window.location.href).href : "");
     setImage(".brand img", assets.logo, "Laura Rossin");
-    setImage(".site-footer img", assets.logo, "Laura Rossin");
 
     setText(".page-hero .eyebrow", page.hero?.eyebrow);
     setText(".page-hero h1", page.hero?.title);
@@ -291,28 +358,50 @@
 
     const rich = document.querySelector(".rich-content");
     if (rich && Array.isArray(page.sections)) {
-      rich.innerHTML = "";
-      page.sections.forEach((section) => {
-        const h2 = document.createElement("h2");
-        h2.textContent = section.title || "";
-        rich.appendChild(h2);
-        rich.appendChild(paragraphs(section.text || ""));
-        if (Array.isArray(section.items) && section.items.length) {
-          const ul = document.createElement("ul");
-          ul.className = "check-list";
-          section.items.forEach((item) => {
-            const li = document.createElement("li");
-            li.textContent = item;
-            ul.appendChild(li);
-          });
-          rich.appendChild(ul);
-        }
-      });
+      renderRichSections(rich, page.sections);
     }
 
-    const footerLines = document.querySelectorAll(".site-footer p");
-    if (footerLines[0] && home.footer?.line1) footerLines[0].textContent = home.footer.line1;
-    if (footerLines[1] && home.footer?.line2) footerLines[1].textContent = home.footer.line2;
+    renderFooter(home, assets);
+  };
+
+  const renderArticle = (site) => {
+    const home = site.home || {};
+    const assets = site.assets || {};
+    applyAssets(assets);
+
+    const slug = new URLSearchParams(window.location.search).get("slug") || "";
+    const article = (home.topics?.items || []).find((item) => item.slug === slug && isVisible(item.visible));
+    setImage(".brand img", assets.logo, "Laura Rossin");
+    renderFooter(home, assets);
+
+    if (!article) {
+      setMeta("robots", "noindex, nofollow");
+      const main = document.querySelector("main");
+      if (main) {
+        main.innerHTML = `
+          <section class="section legal-section">
+            <div class="container rich-content">
+              <p class="eyebrow">Articolo non disponibile</p>
+              <h1>Questo articolo non è pubblicato.</h1>
+              <p>Può essere stato nascosto o rimosso dal CMS.</p>
+              <a class="button button-primary" href="index.html#risorse-title">Torna agli argomenti</a>
+            </div>
+          </section>`;
+      }
+      return;
+    }
+
+    document.title = `${article.title || article.label} | Laura Rossin`;
+    setMeta("description", article.excerpt);
+    setProperty("og:title", article.title || article.label);
+    setProperty("og:description", article.excerpt);
+    setProperty("og:image", article.socialImage ? new URL(rootPath(article.socialImage), window.location.href).href : "");
+    setText(".article-hero .eyebrow", home.topics?.eyebrow || "Argomenti utili");
+    setText(".article-hero h1", article.title || article.label);
+    const lead = document.querySelector(".article-hero .article-lead");
+    if (lead) lead.textContent = article.excerpt || "";
+    setImage(".article-hero img", article.heroImage || assets.articleIllustration || assets.patternImage, "");
+    renderRichSections(document.querySelector(".article-content"), article.sections || []);
   };
 
   const highlightNav = () => {
@@ -357,6 +446,7 @@
       if (!site) return;
       const key = pageKey();
       if (key === "home") renderHome(site);
+      else if (key === "article") renderArticle(site);
       else renderPage(site, key);
     })
     .catch(() => {});

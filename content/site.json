@@ -5,7 +5,13 @@
     "portraitImage": "assets/laura-rossin-primo-piano.jpg",
     "patternImage": "assets/pattern-banner.jpg",
     "studioDeskImage": "assets/studio-scrivania.jpg",
-    "ogImage": "assets/og-laura-rossin.jpg"
+    "ogImage": "assets/og-laura-rossin.jpg",
+    "servicesIllustration": "assets/pattern-banner.jpg",
+    "methodIllustration": "assets/pattern-banner.jpg",
+    "initiativeIllustration": "assets/pattern-banner.jpg",
+    "pageIllustration": "assets/pattern-banner.jpg",
+    "articleIllustration": "assets/pattern-banner.jpg",
+    "archimpresaLogo": "assets/archimpresa-logo.svg"
   },
   "home": {
     "seo": {
@@ -27,7 +33,7 @@
       {
         "title": "Albo",
         "text": "Psicologi Provincia di Bolzano, Sez. A n. 1006",
-        "href": "https://www.psy.it/albo-psicologi"
+        "href": "https://areariservata.psy.it/albo/iscritto/laura_rossin_187418"
       },
       {
         "title": "Approccio",
@@ -103,7 +109,8 @@
     "gallery": [
       {
         "src": "assets/studio-scrivania.jpg",
-        "alt": "Studio della Dott.ssa Laura Rossin con sedute e tavolo per colloqui"
+        "alt": "Studio della Dott.ssa Laura Rossin con sedute e tavolo per colloqui",
+        "visible": true
       }
     ],
     "initiative": {
@@ -120,32 +127,230 @@
       "title": "Argomenti utili per chi cerca una psicologa, uno psicologo a Bolzano o un supporto nel lavoro.",
       "items": [
         {
+          "visible": true,
+          "order": 1,
           "label": "Ansia, panico e blocchi personali",
-          "href": "servizi/psicoterapia-breve-strategica-bolzano.html"
+          "slug": "ansia-panico-blocchi-personali",
+          "href": "articolo.html?slug=ansia-panico-blocchi-personali",
+          "title": "Ansia, panico e blocchi personali",
+          "excerpt": "Quando il corpo si allarma o la mente resta bloccata, il primo passo è capire cosa mantiene il circolo in funzione.",
+          "socialImage": "assets/og-laura-rossin.jpg",
+          "heroImage": "assets/pattern-banner.jpg",
+          "sections": [
+            {
+              "title": "Quando il problema prende spazio",
+              "text": "Ansia e panico possono portare a evitare luoghi, decisioni o situazioni importanti. Spesso la persona prova a controllare tutto, a rassicurarsi o a evitare, ma proprio questi tentativi finiscono per tenere vivo il problema.",
+              "items": []
+            },
+            {
+              "title": "Il lavoro strategico",
+              "text": "Un percorso breve strategico osserva come il blocco funziona nel presente: cosa lo attiva, cosa lo alimenta e quali azioni, pur nate per aiutare, lo rendono più forte. Da qui si costruiscono esperienze concrete per interrompere il circolo.",
+              "items": []
+            },
+            {
+              "title": "Segnali da non ignorare",
+              "text": "",
+              "items": [
+                "Paura ricorrente di perdere il controllo.",
+                "Evitamento di situazioni quotidiane o lavorative.",
+                "Pensieri che tornano in modo insistente.",
+                "Sensazione di essere fermi anche quando si vorrebbe cambiare."
+              ]
+            }
+          ]
         },
         {
+          "visible": true,
+          "order": 2,
           "label": "Psicoterapia breve strategica a Bolzano",
-          "href": "servizi/psicoterapia-breve-strategica-bolzano.html"
+          "slug": "psicoterapia-breve-strategica-bolzano",
+          "href": "articolo.html?slug=psicoterapia-breve-strategica-bolzano",
+          "title": "Psicoterapia breve strategica a Bolzano",
+          "excerpt": "Un approccio orientato al cambiamento concreto, utile quando il problema continua a ripetersi nonostante gli sforzi.",
+          "socialImage": "assets/og-laura-rossin.jpg",
+          "heroImage": "assets/pattern-banner.jpg",
+          "sections": [
+            {
+              "title": "Cosa significa breve strategica",
+              "text": "Breve non significa superficiale: significa lavorare con obiettivi chiari, attenzione al funzionamento attuale del problema e verifiche frequenti di ciò che cambia nella vita quotidiana.",
+              "items": []
+            },
+            {
+              "title": "Come si imposta il percorso",
+              "text": "Il primo colloquio aiuta a definire la richiesta, osservare le soluzioni già tentate e individuare una direzione di lavoro. Gli incontri successivi introducono strumenti e azioni da sperimentare tra una seduta e l’altra.",
+              "items": []
+            },
+            {
+              "title": "Per quali difficoltà",
+              "text": "",
+              "items": [
+                "Ansia, panico ed evitamento.",
+                "Difficoltà relazionali e comunicative.",
+                "Blocchi decisionali o passaggi di vita.",
+                "Schemi ricorrenti che sembrano non cambiare."
+              ]
+            }
+          ]
         },
         {
+          "visible": true,
+          "order": 3,
           "label": "Psicologo a Bolzano: quando iniziare un percorso",
-          "href": "servizi/psicoterapia-breve-strategica-bolzano.html"
+          "slug": "psicologo-bolzano-quando-iniziare",
+          "href": "articolo.html?slug=psicologo-bolzano-quando-iniziare",
+          "title": "Psicologo a Bolzano: quando iniziare un percorso",
+          "excerpt": "Non serve aspettare che una difficoltà diventi ingestibile: spesso è utile chiedere aiuto quando il problema comincia a restringere le possibilità.",
+          "socialImage": "assets/og-laura-rossin.jpg",
+          "heroImage": "assets/pattern-banner.jpg",
+          "sections": [
+            {
+              "title": "Un criterio semplice",
+              "text": "Può essere il momento di iniziare quando una difficoltà occupa troppo spazio, consuma energie o porta a rinunciare a parti importanti della propria vita. Il disagio non deve essere grave per meritare attenzione.",
+              "items": []
+            },
+            {
+              "title": "Il primo colloquio",
+              "text": "Il primo incontro serve a capire la situazione, dare un nome alla richiesta e valutare il tipo di percorso più adatto. È anche uno spazio per fare domande e orientarsi senza sentirsi obbligati a decidere tutto subito.",
+              "items": []
+            },
+            {
+              "title": "Situazioni frequenti",
+              "text": "",
+              "items": [
+                "Ansia o tensione che si ripetono.",
+                "Difficoltà nelle relazioni o nel lavoro.",
+                "Momenti di scelta, cambiamento o crisi.",
+                "Sensazione di non riconoscersi più nei propri modi di reagire."
+              ]
+            }
+          ]
         },
         {
+          "visible": true,
+          "order": 4,
           "label": "Coaching per manager e professionisti",
-          "href": "servizi/coaching-professionale-strategico.html"
+          "slug": "coaching-manager-professionisti",
+          "href": "articolo.html?slug=coaching-manager-professionisti",
+          "title": "Coaching per manager e professionisti",
+          "excerpt": "Uno spazio concreto per lavorare su decisioni, comunicazione, pressione e obiettivi professionali.",
+          "socialImage": "assets/og-laura-rossin.jpg",
+          "heroImage": "assets/pattern-banner.jpg",
+          "sections": [
+            {
+              "title": "Quando può servire",
+              "text": "Il coaching è utile quando la richiesta riguarda il ruolo professionale: guidare un team, gestire conversazioni difficili, affrontare una transizione, comunicare meglio o ritrovare priorità in una fase carica di pressione.",
+              "items": []
+            },
+            {
+              "title": "Un percorso orientato alle azioni",
+              "text": "Il lavoro parte dall’obiettivo e dal contesto reale. Si osservano automatismi, ostacoli e risorse, poi si costruiscono azioni piccole ma verificabili per modificare il modo di muoversi nel ruolo.",
+              "items": []
+            },
+            {
+              "title": "Aree di lavoro",
+              "text": "",
+              "items": [
+                "Leadership e comunicazione.",
+                "Decisioni complesse e gestione delle priorità.",
+                "Stress, performance e confini professionali.",
+                "Passaggi di ruolo o cambiamenti organizzativi."
+              ]
+            }
+          ]
         },
         {
+          "visible": true,
+          "order": 5,
           "label": "Sportello psicologico aziendale",
-          "href": "servizi/psicologia-del-lavoro-sportello-aziendale.html"
+          "slug": "sportello-psicologico-aziendale",
+          "href": "articolo.html?slug=sportello-psicologico-aziendale",
+          "title": "Sportello psicologico aziendale",
+          "excerpt": "Uno strumento di prevenzione e supporto per le persone, integrato con bisogni e cultura dell’organizzazione.",
+          "socialImage": "assets/og-laura-rossin.jpg",
+          "heroImage": "assets/pattern-banner.jpg",
+          "sections": [
+            {
+              "title": "Perché attivarlo",
+              "text": "Uno sportello psicologico offre uno spazio riservato in cui collaboratrici e collaboratori possono portare difficoltà personali o lavorative prima che diventino più pesanti. Per l’azienda è anche un segnale concreto di cura e responsabilità.",
+              "items": []
+            },
+            {
+              "title": "Come si struttura",
+              "text": "Il progetto viene costruito con HR o direzione: modalità di accesso, tutela della privacy, comunicazione interna, numero di colloqui e restituzioni anonime sui bisogni emersi.",
+              "items": []
+            },
+            {
+              "title": "Benefici possibili",
+              "text": "",
+              "items": [
+                "Prevenzione del disagio e ascolto qualificato.",
+                "Supporto nei momenti di stress o cambiamento.",
+                "Miglior lettura dei bisogni organizzativi.",
+                "Cultura del benessere più concreta e credibile."
+              ]
+            }
+          ]
         },
         {
+          "visible": true,
+          "order": 6,
           "label": "Benessere psicologico adolescenti",
-          "href": "iniziative/mente-adolescente.html"
+          "slug": "benessere-psicologico-adolescenti",
+          "href": "articolo.html?slug=benessere-psicologico-adolescenti",
+          "title": "Benessere psicologico adolescenti",
+          "excerpt": "L’adolescenza è un passaggio delicato: lavorare su emozioni, pensieri e relazioni aiuta a costruire strumenti che restano.",
+          "socialImage": "assets/og-laura-rossin.jpg",
+          "heroImage": "assets/pattern-banner.jpg",
+          "sections": [
+            {
+              "title": "Un’età di trasformazione",
+              "text": "Durante l’adolescenza cambiano corpo, identità, relazioni e aspettative. A volte questo movimento porta confusione, chiusura, rabbia, ansia o difficoltà nel raccontare cosa sta succedendo.",
+              "items": []
+            },
+            {
+              "title": "Dare strumenti, non etichette",
+              "text": "Il lavoro psicologico e psico-educativo aiuta ragazze e ragazzi a riconoscere emozioni, pensieri e comportamenti, senza ridurli a un problema. L’obiettivo è aumentare consapevolezza e possibilità di scelta.",
+              "items": []
+            },
+            {
+              "title": "Temi frequenti",
+              "text": "",
+              "items": [
+                "Gestione delle emozioni intense.",
+                "Relazione con sé, famiglia e pari.",
+                "Paura del giudizio e autostima.",
+                "Orientamento, motivazione e crescita personale."
+              ]
+            }
+          ]
         },
         {
+          "visible": true,
+          "order": 7,
           "label": "Domande frequenti sulla psicoterapia",
-          "href": "#faq"
+          "slug": "domande-frequenti-psicoterapia",
+          "href": "articolo.html?slug=domande-frequenti-psicoterapia",
+          "title": "Domande frequenti sulla psicoterapia",
+          "excerpt": "Alcune risposte semplici per orientarsi prima di iniziare un percorso psicologico o psicoterapeutico.",
+          "socialImage": "assets/og-laura-rossin.jpg",
+          "heroImage": "assets/pattern-banner.jpg",
+          "sections": [
+            {
+              "title": "Devo sapere già cosa dire?",
+              "text": "No. Spesso si arriva al primo colloquio con confusione, stanchezza o frammenti. Il lavoro iniziale serve proprio a mettere ordine e capire quale richiesta ha senso formulare.",
+              "items": []
+            },
+            {
+              "title": "Quanto dura un percorso?",
+              "text": "Dipende dalla situazione, dagli obiettivi e dalla risposta al lavoro svolto. L’approccio breve strategico verifica frequentemente ciò che cambia, così il percorso resta orientato e non diventa un contenitore indefinito.",
+              "items": []
+            },
+            {
+              "title": "Cosa succede tra un incontro e l’altro?",
+              "text": "Spesso vengono proposte osservazioni, compiti o piccole esperienze da sperimentare nella vita quotidiana. Sono parte del lavoro, perché il cambiamento non resta confinato alla stanza del colloquio.",
+              "items": []
+            }
+          ]
         }
       ]
     },
@@ -164,6 +369,18 @@
         {
           "question": "E possibile attivare uno sportello psicologico in azienda?",
           "answer": "Sì. Lo sportello può essere progettato con l'organizzazione per offrire ascolto, prevenzione e supporto alle persone, integrandosi con obiettivi HR e benessere organizzativo."
+        },
+        {
+          "question": "Quanto ci metto a migliorare?",
+          "answer": "Dipende dal tipo di difficoltà, da quanto è radicata e dagli obiettivi del percorso. L’approccio breve strategico lavora con verifiche frequenti: già dopo i primi incontri dovrebbe essere più chiaro cosa si muove e in quale direzione."
+        },
+        {
+          "question": "Ho qualcuno che vorrei aiutare, come mi devo comportare?",
+          "answer": "Puoi offrire ascolto senza forzare. È utile parlare in modo concreto di ciò che osservi, evitare diagnosi o pressioni, e proporre un primo contatto solo se la persona è disponibile. Se la situazione è urgente o c’è rischio per sé o per altri, è importante rivolgersi ai servizi di emergenza."
+        },
+        {
+          "question": "A cosa serve uno psicologo in azienda?",
+          "answer": "Serve a offrire uno spazio qualificato di ascolto e prevenzione, sostenere persone e team nei momenti di stress o cambiamento, e aiutare l’organizzazione a leggere bisogni ricorrenti in modo rispettoso della privacy."
         }
       ]
     },
@@ -179,7 +396,12 @@
     },
     "footer": {
       "line1": "Dott.ssa Laura Rossin - Psicologa e psicoterapeuta",
-      "line2": "Albo Psicologi Provincia di Bolzano, Sez. A n. 1006"
+      "line2": "Albo Psicologi Provincia di Bolzano, Sez. A n. 1006",
+      "poweredBy": {
+        "label": "Powered by Archimpresa",
+        "logo": "assets/archimpresa-logo.svg",
+        "href": ""
+      }
     }
   },
   "pages": {
@@ -202,7 +424,12 @@
         "imageAlt": "Dott.ssa Laura Rossin psicologa e psicoterapeuta a Bolzano"
       },
       "sideNoteTitle": "Aree di supporto",
-      "sideNotes": ["ansia e panico", "relazioni", "blocchi personali", "cambiamento"],
+      "sideNotes": [
+        "ansia e panico",
+        "relazioni",
+        "blocchi personali",
+        "cambiamento"
+      ],
       "sections": [
         {
           "title": "Quando può essere utile",
@@ -245,7 +472,12 @@
         "imageAlt": "Laura Rossin psicologa del lavoro e coach strategica"
       },
       "sideNoteTitle": "Per chi",
-      "sideNotes": ["manager", "liberi professionisti", "team leader", "persone in transizione"],
+      "sideNotes": [
+        "manager",
+        "liberi professionisti",
+        "team leader",
+        "persone in transizione"
+      ],
       "sections": [
         {
           "title": "Quando sceglierlo",
@@ -288,7 +520,12 @@
         "imageAlt": "Spazio di colloquio per sportello psicologico aziendale"
       },
       "sideNoteTitle": "Ambiti",
-      "sideNotes": ["sportello psicologico", "consulenza HR", "benessere organizzativo", "formazione"],
+      "sideNotes": [
+        "sportello psicologico",
+        "consulenza HR",
+        "benessere organizzativo",
+        "formazione"
+      ],
       "sections": [
         {
           "title": "Perche attivare uno sportello",
@@ -331,7 +568,12 @@
         "imageAlt": "Illustrazione geometrica coordinata del progetto Laura Rossin"
       },
       "sideNoteTitle": "Struttura",
-      "sideNotes": ["14-18 anni", "incontri mensili", "gruppo psico-educativo", "schede e strumenti"],
+      "sideNotes": [
+        "14-18 anni",
+        "incontri mensili",
+        "gruppo psico-educativo",
+        "schede e strumenti"
+      ],
       "sections": [
         {
           "title": "Il progetto",
@@ -374,7 +616,12 @@
         "imageAlt": ""
       },
       "sideNoteTitle": "Da completare",
-      "sideNotes": ["titolare del trattamento", "base giuridica", "tempi di conservazione", "diritti dell interessato"],
+      "sideNotes": [
+        "titolare del trattamento",
+        "base giuridica",
+        "tempi di conservazione",
+        "diritti dell interessato"
+      ],
       "sections": [
         {
           "title": "Informativa provvisoria",
@@ -412,7 +659,12 @@
         "imageAlt": ""
       },
       "sideNoteTitle": "Da completare",
-      "sideNotes": ["cookie tecnici", "strumenti statistici", "terze parti", "gestione consenso"],
+      "sideNotes": [
+        "cookie tecnici",
+        "strumenti statistici",
+        "terze parti",
+        "gestione consenso"
+      ],
       "sections": [
         {
           "title": "Uso dei cookie",

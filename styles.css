@@ -36,6 +36,12 @@
   --line: #d8cab4;
   --radius: 8px;
   --max: 1180px;
+  --pattern-image: url("assets/pattern-banner.jpg");
+  --services-image: var(--pattern-image);
+  --method-image: var(--pattern-image);
+  --initiative-image: var(--pattern-image);
+  --page-image: var(--pattern-image);
+  --article-image: var(--pattern-image);
 }
 
 * {
@@ -225,10 +231,10 @@ h3 {
 .hero {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(20px, 1fr) minmax(0, 620px) clamp(1.5rem, 3vw, 4rem) minmax(320px, 560px) minmax(20px, 1fr);
-  grid-template-rows: auto 112px;
-  align-items: center;
-  min-height: 82svh;
+  grid-template-columns: minmax(24px, 1fr) minmax(0, 620px) clamp(1.5rem, 3vw, 4rem) minmax(360px, 620px) minmax(24px, 1fr);
+  grid-template-rows: minmax(560px, calc(100svh - 150px)) 72px;
+  align-items: start;
+  min-height: auto;
   overflow: hidden;
   background: var(--paper);
 }
@@ -239,7 +245,7 @@ h3 {
   grid-column: 1 / -1;
   grid-row: 2;
   align-self: stretch;
-  background: url("assets/pattern-banner.jpg") center / cover no-repeat;
+  background: var(--pattern-image) center / cover no-repeat;
   border-top: 1px solid var(--line);
 }
 
@@ -248,7 +254,7 @@ h3 {
   grid-column: 4 / 6;
   grid-row: 1;
   align-self: stretch;
-  min-height: 640px;
+  min-height: 560px;
   pointer-events: none;
 }
 
@@ -266,7 +272,7 @@ h3 {
   grid-row: 1;
   width: auto;
   margin: 0;
-  padding: 5.4rem 0;
+  padding: clamp(3.8rem, 11vh, 7rem) 0 3rem;
 }
 
 .hero h1 {
@@ -295,7 +301,7 @@ h3 {
   align-items: center;
   flex-wrap: wrap;
   gap: 0.8rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.35rem;
 }
 
 .button {
@@ -333,6 +339,8 @@ h3 {
   gap: 0.8rem;
   width: min(100%, 860px);
   margin: 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
 }
 
 .trust-item {
@@ -430,7 +438,7 @@ h3 {
   position: absolute;
   inset: 0 0 auto 0;
   height: 88px;
-  background: url("assets/pattern-banner.jpg") center / cover no-repeat;
+  background: var(--services-image) center / cover no-repeat;
 }
 
 .service-card::after {
@@ -475,6 +483,10 @@ h3 {
   background: var(--paper-warm);
 }
 
+.method-section .eyebrow {
+  color: var(--red);
+}
+
 .steps-list {
   position: relative;
   display: grid;
@@ -514,7 +526,7 @@ h3 {
   position: absolute;
   inset: 0 0 auto 0;
   width: auto;
-  height: 28px;
+  height: 10px;
   background: var(--yellow);
 }
 
@@ -572,7 +584,7 @@ h3 {
   position: absolute;
   inset: 0 0 auto 0;
   height: 86px;
-  background: url("assets/pattern-banner.jpg") center / cover no-repeat;
+  background: var(--initiative-image) center / cover no-repeat;
 }
 
 .initiative-panel::after {
@@ -789,14 +801,43 @@ details p {
   align-items: center;
 }
 
-.footer-grid img {
+.footer-logo {
   width: 180px;
 }
 
-.footer-grid p {
+.footer-copy {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.footer-copy p {
   margin: 0.1rem 0;
   color: var(--muted);
   font-size: 0.9rem;
+}
+
+.powered-by {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: fit-content;
+  margin-top: 0.35rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.powered-by img {
+  width: 116px;
+  max-height: 24px;
+  object-fit: contain;
+}
+
+.powered-by:hover span,
+.powered-by:focus-visible span {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
 }
 
 .footer-links {
@@ -818,7 +859,15 @@ details p {
   position: absolute;
   inset: 0 0 auto 0;
   height: 92px;
-  background: url("assets/pattern-banner.jpg") center / cover no-repeat;
+  background: var(--page-image) center / cover no-repeat;
+}
+
+.article-hero::before {
+  background: var(--article-image) center / cover no-repeat;
+}
+
+.article-section {
+  background: var(--paper-warm);
 }
 
 .booking-hero::before,
