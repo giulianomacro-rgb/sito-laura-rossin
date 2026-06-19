@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Prenotazioni | Laura Rossin</title>
+    <meta name="description" content="Prenota un colloquio con la Dott.ssa Laura Rossin a Bolzano scegliendo uno slot disponibile dal calendario.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://www.laurarossin.it/prenotazioni.html">
+    <link rel="icon" href="assets/logo-laura-rossin.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#contenuto">Salta al contenuto</a>
+    <header class="site-header" aria-label="Intestazione sito">
+      <a class="brand" href="index.html" aria-label="Laura Rossin homepage">
+        <img src="assets/logo-laura-rossin.svg" alt="Laura Rossin">
+      </a>
+      <nav class="site-nav" aria-label="Navigazione principale">
+        <a href="index.html#servizi">Servizi</a>
+        <a href="index.html#metodo">Metodo</a>
+        <a href="index.html#iniziative">Iniziative</a>
+        <a href="index.html#contatti">Contatti</a>
+      </nav>
+      <a class="header-cta" href="prenotazioni.html" aria-current="page">Prenota</a>
+    </header>
+
+    <main id="contenuto">
+      <section class="page-hero booking-hero">
+        <div class="container page-hero-grid booking-hero-grid">
+          <div>
+            <p class="eyebrow">Prenotazioni</p>
+            <h1>Scegli un giorno e un orario disponibili per il primo contatto.</h1>
+            <p>
+              Gli slot mostrati sono quelli resi disponibili da Laura nel proprio Google Calendar.
+              Dopo la conferma, l'orario viene bloccato automaticamente.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#booking-title">Vai agli orari</a>
+              <a class="button button-secondary" href="mailto:psi.laurarossin@gmail.com">Scrivi una email</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section booking-section compact-booking" aria-labelledby="booking-title">
+        <div class="container booking-grid">
+          <aside class="booking-contact">
+            <p class="eyebrow">Contatti</p>
+            <h2 id="booking-title">Dott.ssa Laura Rossin</h2>
+            <a href="tel:+393466009503">+39 346 6009503</a>
+            <a href="mailto:psi.laurarossin@gmail.com">psi.laurarossin@gmail.com</a>
+            <p>Bolzano</p>
+          </aside>
+
+          <div class="booking-widget" data-booking>
+            <div class="booking-status" role="status" aria-live="polite">Caricamento disponibilità...</div>
+
+            <div class="booking-calendar" hidden>
+              <div>
+                <h2>Giorni disponibili</h2>
+                <div class="booking-days" aria-label="Giorni disponibili"></div>
+              </div>
+              <div>
+                <h2>Orari</h2>
+                <div class="booking-slots" aria-label="Orari disponibili"></div>
+              </div>
+            </div>
+
+            <form class="booking-form" hidden>
+              <input type="hidden" name="eventId">
+              <p class="selected-slot"></p>
+              <div class="form-grid">
+                <label>Nome<input name="nome" autocomplete="given-name" required></label>
+                <label>Cognome<input name="cognome" autocomplete="family-name" required></label>
+                <label>Telefono<input name="telefono" autocomplete="tel" required></label>
+                <label>Email<input type="email" name="email" autocomplete="email" required></label>
+                <label>Età<input type="number" name="eta" min="1" max="120" required></label>
+                <label>Sesso
+                  <select name="sesso" required>
+                    <option value="">Seleziona</option>
+                    <option value="Femmina">Femmina</option>
+                    <option value="Maschio">Maschio</option>
+                    <option value="Altro / preferisco non indicarlo">Altro / preferisco non indicarlo</option>
+                  </select>
+                </label>
+                <label class="full">Breve sintesi della problematica<textarea name="sintesi" rows="5" required></textarea></label>
+              </div>
+              <label class="privacy-check">
+                <input type="checkbox" name="privacy" value="1" required>
+                <span>Ho letto l'<a href="privacy-policy.html" target="_blank" rel="noopener">informativa privacy</a> e acconsento all'invio dei dati per la gestione della prenotazione.</span>
+              </label>
+              <button class="button button-primary" type="submit">Conferma prenotazione</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <img src="assets/logo-laura-rossin.svg" alt="Laura Rossin">
+        <div>
+          <p>Dott.ssa Laura Rossin - Psicologa e psicoterapeuta</p>
+          <p>Albo Psicologi Provincia di Bolzano, Sez. A n. 1006</p>
+        </div>
+        <div class="footer-links">
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="cookie-policy.html">Cookie Policy</a>
+          <a href="index.html">Home</a>
+        </div>
+      </div>
+    </footer>
+    <script src="prenotazioni.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+admin/config.php
+admin/google-calendar-config.php
+admin/.login-attempts.json
+content/backups/
+assets/uploads/
+.DS_Store
+Thumbs.db
