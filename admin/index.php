@@ -253,16 +253,6 @@ function toggle_field(string $label, string $name, bool $checked, string $helper
     echo '</span></label>';
 }
 
-function marker_select(string $name, string $value = 'blue'): void
-{
-    $options = ['blue' => 'Blu', 'yellow' => 'Giallo', 'red' => 'Rosso'];
-    echo '<label class="field"><span>Colore</span><select name="' . e($name) . '">';
-    foreach ($options as $key => $label) {
-        echo '<option value="' . e($key) . '"' . ($key === $value ? ' selected' : '') . '>' . e($label) . '</option>';
-    }
-    echo '</select><small>Usato per il segno grafico della card.</small></label>';
-}
-
 function lines_to_array(string $text): array
 {
     $rows = preg_split('/\R/u', $text) ?: [];
@@ -471,14 +461,102 @@ function normalize_services(array $rows): array
     return $clean;
 }
 
+function slug_from_title(string $value): string
+{
+    $value = strtolower(trim($value));
+    if (function_exists('iconv')) {
+        $value = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $value) ?: $value;
+    }
+    $value = preg_replace('/[^a-z0-9]+/', '-', $value) ?: '';
+    return trim($value, '-') ?: 'articolo';
+}
+
+function normalize_gallery(array $rows): array
+{
+    $clean = [];
+    foreach ($rows as $row) {
+        if (!is_array($row)) {
+            continue;
+        }
+
+        $src = trim((string) ($row['src'] ?? ''));
+        $alt = trim((string) ($row['alt'] ?? ''));
+        if ($src === '' && $alt === '') {
+            continue;
+        }
+
+        $clean[] = [
+            'src' => $src,
+            'alt' => $alt,
+            'visible' => truthy($row['visible'] ?? '1'),
+        ];
+    }
+    return $clean;
+}
+
+function normalize_topics(array $rows): array
+{
+    $clean = [];
+    foreach ($rows as $index => $row) {
+        if (!is_array($row)) {
+            continue;
+        }
+
+        $label = trim((string) ($row['label'] ?? ''));
+        $title = trim((string) ($row['title'] ?? $label));
+        $slug = trim((string) ($row['slug'] ?? ''));
+        if ($slug === '') {
+            $slug = slug_from_title($title !== '' ? $title : $label);
+        }
+
+        $sections = [];
+        foreach (($row['sections'] ?? []) as $section) {
+            if (!is_array($section)) {
+                continue;
+            }
+            $sectionTitle = trim((string) ($section['title'] ?? ''));
+            $sectionText = trim((string) ($section['text'] ?? ''));
+            $items = lines_to_array((string) ($section['itemsText'] ?? array_to_lines($section['items'] ?? [])));
+            if ($sectionTitle !== '' || $sectionText !== '' || $items !== []) {
+                $sections[] = [
+                    'title' => $sectionTitle,
+                    'text' => $sectionText,
+                    'items' => $items,
+                ];
+            }
+        }
+
+        if ($label !== '' || $title !== '' || $sections !== []) {
+            $clean[] = [
+                'visible' => truthy($row['visible'] ?? '1'),
+                'order' => max(1, (int) ($row['order'] ?? ($index + 1))),
+                'label' => $label !== '' ? $label : $title,
+                'slug' => $slug,
+                'href' => 'articolo.html?slug=' . $slug,
+                'title' => $title !== '' ? $title : $label,
+                'excerpt' => trim((string) ($row['excerpt'] ?? '')),
+                'socialImage' => trim((string) ($row['socialImage'] ?? '')),
+                'heroImage' => trim((string) ($row['heroImage'] ?? '')),
+                'sections' => $sections,
+            ];
+        }
+    }
+
+    usort($clean, static fn ($a, $b) => ($a['order'] <=> $b['order']));
+    foreach ($clean as $index => $item) {
+        $clean[$index]['order'] = $index + 1;
+    }
+    return $clean;
+}
+
 function normalize_site(array $site): array
 {
     $site = ensure_site_defaults($site);
     $site['home']['trust'] = clean_rows($site['home']['trust'] ?? [], ['title', 'text', 'href']);
     $site['home']['services']['items'] = normalize_services($site['home']['services']['items'] ?? []);
     $site['home']['method']['steps'] = clean_rows($site['home']['method']['steps'] ?? [], ['number', 'title', 'text']);
-    $site['home']['gallery'] = clean_rows($site['home']['gallery'] ?? [], ['src', 'alt']);
-    $site['home']['topics']['items'] = clean_rows($site['home']['topics']['items'] ?? [], ['label', 'href']);
+    $site['home']['gallery'] = normalize_gallery($site['home']['gallery'] ?? []);
+    $site['home']['topics']['items'] = normalize_topics($site['home']['topics']['items'] ?? []);
     $site['home']['faq']['items'] = clean_rows($site['home']['faq']['items'] ?? [], ['question', 'answer']);
 
     foreach (($site['pages'] ?? []) as $key => $page) {
@@ -752,7 +830,6 @@ function render_service_item(array $item, $index): void
       </div>
       <div class="grid four">
         <?php field('Ordine', $base . '[order]', (string) ($item['order'] ?? ((int) $index + 1)), 'number', 'Numero più basso = prima posizione.', ['min' => '1']); ?>
-        <?php marker_select($base . '[marker]', (string) ($item['marker'] ?? 'blue')); ?>
         <?php toggle_field('Visibile sul sito', $base . '[visible]', $visible, 'Disattiva per nasconderlo senza eliminarlo.'); ?>
       </div>
       <div class="grid two">
@@ -760,6 +837,51 @@ function render_service_item(array $item, $index): void
         <?php field('Testo link', $base . '[linkLabel]', (string) ($item['linkLabel'] ?? '')); ?>
         <?php area('Descrizione', $base . '[text]', (string) ($item['text'] ?? ''), 4); ?>
         <?php field('Link di approfondimento', $base . '[href]', (string) ($item['href'] ?? ''), 'text', 'Esempio: servizi/psicoterapia-breve-strategica-bolzano.html'); ?>
+      </div>
+    </div>
+    <?php
+}
+
+function render_topic_item(array $item, $index): void
+{
+    $base = 'site[home][topics][items][' . $index . ']';
+    $visible = array_key_exists('visible', $item) ? truthy($item['visible']) : true;
+    $sections = array_merge($item['sections'] ?? [], [['title' => '', 'text' => '', 'items' => []]]);
+    ?>
+    <div class="service-editor-row" data-topic-row>
+      <div class="row-head">
+        <strong>Articolo</strong>
+        <div class="row-actions">
+          <button type="button" class="button secondary" data-move-topic="-1">Su</button>
+          <button type="button" class="button secondary" data-move-topic="1">Giù</button>
+          <button type="button" class="button secondary" data-duplicate-topic>Duplica</button>
+          <button type="button" class="button danger" data-delete-topic>Elimina</button>
+        </div>
+      </div>
+      <div class="grid four">
+        <?php field('Ordine', $base . '[order]', (string) ($item['order'] ?? ((int) $index + 1)), 'number', 'Numero più basso = prima posizione.', ['min' => '1']); ?>
+        <?php toggle_field('Visibile sul sito', $base . '[visible]', $visible, 'Disattiva per nasconderlo senza eliminarlo.'); ?>
+      </div>
+      <div class="grid two">
+        <?php field('Titolo nella lista', $base . '[label]', (string) ($item['label'] ?? '')); ?>
+        <?php field('Slug articolo', $base . '[slug]', (string) ($item['slug'] ?? ''), 'text', 'Esempio: ansia-panico-blocchi-personali'); ?>
+        <?php field('Titolo pagina articolo', $base . '[title]', (string) ($item['title'] ?? '')); ?>
+        <?php field('Immagine social', $base . '[socialImage]', (string) ($item['socialImage'] ?? ''), 'text', 'Consigliato: 1200 x 630 px.'); ?>
+        <?php field('Immagine hero articolo', $base . '[heroImage]', (string) ($item['heroImage'] ?? '')); ?>
+        <?php area('Riassunto breve', $base . '[excerpt]', (string) ($item['excerpt'] ?? ''), 3); ?>
+      </div>
+      <div class="subsection">
+        <h3>Contenuto articolo</h3>
+        <?php foreach ($sections as $i => $section): ?>
+          <div class="mini-card">
+            <p class="row-title">Blocco <?= (int) $i + 1 ?></p>
+            <div class="grid two">
+              <?php field('Titolo blocco', $base . '[sections][' . $i . '][title]', (string) ($section['title'] ?? '')); ?>
+              <?php area('Testo blocco', $base . '[sections][' . $i . '][text]', (string) ($section['text'] ?? ''), 5); ?>
+              <?php area('Elenco puntato, una voce per riga', $base . '[sections][' . $i . '][itemsText]', array_to_lines($section['items'] ?? []), 4); ?>
+            </div>
+          </div>
+        <?php endforeach; ?>
       </div>
     </div>
     <?php
@@ -794,9 +916,33 @@ $assetDefinitions = [
         'label' => 'Pattern grafico',
         'recommended' => 'JPG/WebP orizzontale, almeno 1600 x 600 px.',
     ],
+    'servicesIllustration' => [
+        'label' => 'Illustrazione schede servizi',
+        'recommended' => 'JPG/WebP orizzontale, almeno 1600 x 600 px.',
+    ],
+    'methodIllustration' => [
+        'label' => 'Illustrazione metodo',
+        'recommended' => 'JPG/WebP orizzontale, almeno 1600 x 600 px.',
+    ],
+    'initiativeIllustration' => [
+        'label' => 'Illustrazione iniziative',
+        'recommended' => 'JPG/WebP orizzontale, almeno 1600 x 600 px.',
+    ],
+    'pageIllustration' => [
+        'label' => 'Illustrazione pagine interne',
+        'recommended' => 'JPG/WebP orizzontale, almeno 1600 x 600 px.',
+    ],
+    'articleIllustration' => [
+        'label' => 'Illustrazione articoli',
+        'recommended' => 'JPG/WebP orizzontale, almeno 1600 x 600 px.',
+    ],
     'studioDeskImage' => [
         'label' => 'Foto studio / ambiente',
         'recommended' => 'JPG/WebP orizzontale, almeno 1600 x 1000 px.',
+    ],
+    'archimpresaLogo' => [
+        'label' => 'Logo Archimpresa',
+        'recommended' => 'SVG o PNG trasparente, larghezza 400 px.',
     ],
     'ogImage' => [
         'label' => 'Immagine social',
@@ -1240,6 +1386,7 @@ $backupList = backup_files($backupDir);
                   <?php $gallery = array_merge($site['home']['gallery'] ?? [], [['src' => '', 'alt' => '']]); ?>
                   <?php foreach ($gallery as $i => $item): ?>
                     <div class="mini-card">
+                      <?php toggle_field('Mostra questa immagine', 'site[home][gallery][' . $i . '][visible]', array_key_exists('visible', $item) ? truthy($item['visible']) : true, 'Utile se vuoi nascondere la foto dello studio senza cancellarla.'); ?>
                       <?php field('Immagine studio', 'site[home][gallery][' . $i . '][src]', (string) ($item['src'] ?? '')); ?>
                       <?php field('Testo alternativo', 'site[home][gallery][' . $i . '][alt]', (string) ($item['alt'] ?? '')); ?>
                     </div>
@@ -1267,6 +1414,58 @@ $backupList = backup_files($backupDir);
               </details>
 
               <details class="editor-card">
+                <summary>Iniziative</summary>
+                <div class="grid two">
+                  <?php field('Etichetta sezione', 'site[home][initiative][eyebrow]', value($site, ['home', 'initiative', 'eyebrow'])); ?>
+                  <?php field('Titolo sezione', 'site[home][initiative][title]', value($site, ['home', 'initiative', 'title'])); ?>
+                  <?php field('Etichetta card', 'site[home][initiative][label]', value($site, ['home', 'initiative', 'label'])); ?>
+                  <?php field('Nome iniziativa', 'site[home][initiative][name]', value($site, ['home', 'initiative', 'name'])); ?>
+                  <?php area('Testo iniziativa', 'site[home][initiative][text]', value($site, ['home', 'initiative', 'text']), 4); ?>
+                  <div class="grid">
+                    <?php field('Testo pulsante', 'site[home][initiative][buttonLabel]', value($site, ['home', 'initiative', 'buttonLabel'])); ?>
+                    <?php field('Link pulsante', 'site[home][initiative][href]', value($site, ['home', 'initiative', 'href'])); ?>
+                  </div>
+                </div>
+              </details>
+
+              <details class="editor-card" data-topic-editor>
+                <summary>Argomenti utili / articoli</summary>
+                <div class="grid two">
+                  <?php field('Etichetta sezione', 'site[home][topics][eyebrow]', value($site, ['home', 'topics', 'eyebrow'])); ?>
+                  <?php field('Titolo sezione', 'site[home][topics][title]', value($site, ['home', 'topics', 'title'])); ?>
+                </div>
+                <div class="section-title compact">
+                  <p class="hint">Gli argomenti visibili diventano link a pagine articolo. Puoi crearne, nasconderne o eliminarne uno senza toccare i servizi.</p>
+                  <button type="button" class="button secondary" data-add-topic>Aggiungi articolo</button>
+                </div>
+                <div data-topic-list>
+                  <?php foreach (($site['home']['topics']['items'] ?? []) as $i => $item): ?>
+                    <?php render_topic_item($item, $i); ?>
+                  <?php endforeach; ?>
+                </div>
+                <template data-topic-template>
+                  <?php render_topic_item(['visible' => true, 'order' => 1, 'label' => '', 'slug' => '', 'title' => '', 'excerpt' => '', 'socialImage' => value($site, ['assets', 'ogImage']), 'heroImage' => value($site, ['assets', 'articleIllustration']), 'sections' => []], '__INDEX__'); ?>
+                </template>
+              </details>
+
+              <details class="editor-card">
+                <summary>FAQ</summary>
+                <div class="grid two">
+                  <?php field('Etichetta sezione', 'site[home][faq][eyebrow]', value($site, ['home', 'faq', 'eyebrow'])); ?>
+                  <?php field('Titolo sezione', 'site[home][faq][title]', value($site, ['home', 'faq', 'title'])); ?>
+                </div>
+                <?php $faqItems = array_merge($site['home']['faq']['items'] ?? [], [['question' => '', 'answer' => '']]); ?>
+                <?php foreach ($faqItems as $i => $item): ?>
+                  <div class="mini-card">
+                    <div class="grid two">
+                      <?php field('Domanda', 'site[home][faq][items][' . $i . '][question]', (string) ($item['question'] ?? '')); ?>
+                      <?php area('Risposta', 'site[home][faq][items][' . $i . '][answer]', (string) ($item['answer'] ?? ''), 4); ?>
+                    </div>
+                  </div>
+                <?php endforeach; ?>
+              </details>
+
+              <details class="editor-card">
                 <summary>Call to action</summary>
                 <div class="grid two">
                   <?php field('Etichetta contatti', 'site[home][contact][eyebrow]', value($site, ['home', 'contact', 'eyebrow'])); ?>
@@ -1287,6 +1486,9 @@ $backupList = backup_files($backupDir);
                 <div class="grid two">
                   <?php field('Footer riga 1', 'site[home][footer][line1]', value($site, ['home', 'footer', 'line1'])); ?>
                   <?php field('Footer riga 2', 'site[home][footer][line2]', value($site, ['home', 'footer', 'line2'])); ?>
+                  <?php field('Testo powered by', 'site[home][footer][poweredBy][label]', value($site, ['home', 'footer', 'poweredBy', 'label'], 'Powered by Archimpresa')); ?>
+                  <?php field('Logo powered by', 'site[home][footer][poweredBy][logo]', value($site, ['home', 'footer', 'poweredBy', 'logo'], 'assets/archimpresa-logo.svg')); ?>
+                  <?php field('Link powered by', 'site[home][footer][poweredBy][href]', value($site, ['home', 'footer', 'poweredBy', 'href']), 'text', 'Facoltativo. Lascia vuoto se non deve essere cliccabile.'); ?>
                 </div>
               </details>
               <div class="form-actions">
@@ -1315,7 +1517,7 @@ $backupList = backup_files($backupDir);
                 <?php endforeach; ?>
               </div>
               <template data-service-template>
-                <?php render_service_item(['marker' => 'blue', 'visible' => true, 'order' => 1, 'title' => '', 'text' => '', 'href' => '', 'linkLabel' => ''], '__INDEX__'); ?>
+                <?php render_service_item(['visible' => true, 'order' => 1, 'title' => '', 'text' => '', 'href' => '', 'linkLabel' => ''], '__INDEX__'); ?>
               </template>
               <div class="form-actions">
                 <button type="submit">Salva servizi</button>
@@ -1398,7 +1600,7 @@ $backupList = backup_files($backupDir);
             <div class="section-title">
               <div>
                 <h2>Prenotazioni</h2>
-                <p class="hint">Il sito mostra come prenotabili solo gli eventi del calendario che contengono il tag #disp.</p>
+                <p class="hint">Il sito mostra come prenotabili gli eventi del calendario lasciati senza titolo e senza descrizione. Quando una persona prenota, l evento viene compilato e sparisce dagli slot disponibili.</p>
               </div>
               <a class="button secondary" href="../prenotazioni.html" target="_blank" rel="noopener">Apri pagina prenotazioni</a>
             </div>
@@ -1621,6 +1823,61 @@ $backupList = backup_files($backupDir);
 
             if (row && button.matches("[data-move-service]")) {
               const direction = Number(button.dataset.moveService || 0);
+              if (direction < 0 && row.previousElementSibling) {
+                list.insertBefore(row, row.previousElementSibling);
+              }
+              if (direction > 0 && row.nextElementSibling) {
+                list.insertBefore(row.nextElementSibling, row);
+              }
+              reindex();
+              setDirty(true);
+            }
+          });
+        }
+
+        const topicEditor = document.querySelector("[data-topic-editor]");
+        if (topicEditor) {
+          const list = topicEditor.querySelector("[data-topic-list]");
+          const template = topicEditor.querySelector("[data-topic-template]");
+          const reindex = () => {
+            Array.from(list.querySelectorAll("[data-topic-row]")).forEach((row, index) => {
+              row.querySelectorAll("[name]").forEach((field) => {
+                field.name = field.name.replace(/\[items\]\[[^\]]+\]/, "[items][" + index + "]");
+              });
+              const order = row.querySelector('[name$="[order]"]');
+              if (order && !order.matches(":focus")) order.value = String(index + 1);
+            });
+          };
+
+          topicEditor.addEventListener("click", (event) => {
+            const button = event.target.closest("button");
+            if (!button) return;
+            const row = button.closest("[data-topic-row]");
+
+            if (button.matches("[data-add-topic]") && template) {
+              const html = template.innerHTML.replaceAll("__INDEX__", String(list.children.length));
+              list.insertAdjacentHTML("beforeend", html);
+              reindex();
+              setDirty(true);
+            }
+
+            if (row && button.matches("[data-duplicate-topic]")) {
+              const clone = row.cloneNode(true);
+              row.after(clone);
+              reindex();
+              setDirty(true);
+            }
+
+            if (row && button.matches("[data-delete-topic]")) {
+              if (confirm("Eliminare questo articolo? L azione sarà definitiva dopo il salvataggio.")) {
+                row.remove();
+                reindex();
+                setDirty(true);
+              }
+            }
+
+            if (row && button.matches("[data-move-topic]")) {
+              const direction = Number(button.dataset.moveTopic || 0);
               if (direction < 0 && row.previousElementSibling) {
                 list.insertBefore(row, row.previousElementSibling);
               }

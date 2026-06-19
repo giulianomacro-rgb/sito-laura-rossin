@@ -565,9 +565,18 @@ select:focus {
 .editor-card > .grid,
 .editor-card > .mini-card,
 .editor-card > p,
+.editor-card > .section-title,
+.editor-card > [data-topic-list],
 .page-card > .grid,
 .page-card > .subsection {
   margin: 1rem;
+}
+
+.section-title.compact {
+  margin-top: 0;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 
 .mini-card,

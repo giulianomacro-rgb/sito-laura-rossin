@@ -153,10 +153,15 @@ function calendar_event_url(string $calendarId, string $eventId = ''): string
     return $eventId === '' ? $base : $base . '/' . rawurlencode($eventId);
 }
 
-function event_has_availability_tag(array $event): bool
+function event_is_available_slot(array $event): bool
 {
-    $text = (string) ($event['summary'] ?? '') . "\n" . (string) ($event['description'] ?? '');
-    return stripos($text, '#disp') !== false;
+    if (($event['status'] ?? '') === 'cancelled') {
+        return false;
+    }
+
+    $summary = trim((string) ($event['summary'] ?? ''));
+    $description = trim((string) ($event['description'] ?? ''));
+    return $summary === '' && $description === '';
 }
 
 function list_slots(array $config): array
@@ -181,7 +186,7 @@ function list_slots(array $config): array
 
     $slots = [];
     foreach (($response['data']['items'] ?? []) as $event) {
-        if (!is_array($event) || !event_has_availability_tag($event)) {
+        if (!is_array($event) || !event_is_available_slot($event)) {
             continue;
         }
 
@@ -268,7 +273,7 @@ function book_slot(array $config, array $payload): array
     }
 
     $event = $eventResponse['data'];
-    if (!event_has_availability_tag($event)) {
+    if (!event_is_available_slot($event)) {
         respond(['ok' => false, 'message' => 'Questo orario non è più disponibile. Scegli un altro slot.'], 409);
     }
 
