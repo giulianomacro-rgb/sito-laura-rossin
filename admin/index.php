@@ -607,46 +607,65 @@ function normalize_site(array $site): array
     return $site;
 }
 
+function upload_image_file(array $file, string $uploadDir, string $uploadBase, string $nameSeed, string $label): array
+{
+    $error = (int) ($file['error'] ?? UPLOAD_ERR_NO_FILE);
+    if ($error !== UPLOAD_ERR_OK) {
+        return ['ok' => false, 'message' => 'Upload non riuscito per "' . $label . '". Riprova con un altro file.'];
+    }
+
+    $size = (int) ($file['size'] ?? 0);
+    if ($size > 5 * 1024 * 1024) {
+        return ['ok' => false, 'message' => '"' . $label . '" supera il limite di 5 MB.'];
+    }
+
+    $original = (string) ($file['name'] ?? '');
+    $extension = strtolower(pathinfo($original, PATHINFO_EXTENSION));
+    $allowed = ['jpg', 'jpeg', 'png', 'webp', 'svg'];
+    if (!in_array($extension, $allowed, true)) {
+        return ['ok' => false, 'message' => 'Formato non valido per "' . $label . '". Usa JPG, PNG, WebP o SVG.'];
+    }
+
+    if (!is_dir($uploadDir) && !mkdir($uploadDir, 0775, true)) {
+        return ['ok' => false, 'message' => 'Non riesco a creare la cartella assets/uploads. Verifica i permessi.'];
+    }
+
+    $safeSeed = trim((string) preg_replace('/[^a-z0-9-]+/i', '-', $nameSeed), '-');
+    $safeSeed = $safeSeed !== '' ? strtolower($safeSeed) : 'immagine';
+    $filename = $safeSeed . '-' . date('YmdHis') . '.' . $extension;
+    $target = $uploadDir . DIRECTORY_SEPARATOR . $filename;
+    if (!move_uploaded_file((string) ($file['tmp_name'] ?? ''), $target)) {
+        return ['ok' => false, 'message' => 'Non riesco a salvare "' . $label . '". Verifica i permessi della cartella uploads.'];
+    }
+
+    return ['ok' => true, 'path' => $uploadBase . $filename];
+}
+
 function handle_uploads(array &$site, string $uploadDir, string $uploadBase, array &$errors, array $assetDefinitions): void
 {
     if (empty($_FILES['uploads']) || !is_array($_FILES['uploads']['name'])) {
         return;
     }
 
-    $allowed = ['jpg', 'jpeg', 'png', 'webp', 'svg'];
     foreach ($assetDefinitions as $assetKey => $definition) {
         if (empty($_FILES['uploads']['name'][$assetKey])) {
             continue;
         }
 
         $label = (string) ($definition['label'] ?? $assetKey);
-        $error = (int) $_FILES['uploads']['error'][$assetKey];
-        if ($error !== UPLOAD_ERR_OK) {
-            $errors[] = 'Upload non riuscito per "' . $label . '". Riprova con un altro file.';
+        $result = upload_image_file([
+            'name' => $_FILES['uploads']['name'][$assetKey] ?? '',
+            'type' => $_FILES['uploads']['type'][$assetKey] ?? '',
+            'tmp_name' => $_FILES['uploads']['tmp_name'][$assetKey] ?? '',
+            'error' => $_FILES['uploads']['error'][$assetKey] ?? UPLOAD_ERR_NO_FILE,
+            'size' => $_FILES['uploads']['size'][$assetKey] ?? 0,
+        ], $uploadDir, $uploadBase, $assetKey, $label);
+        if (empty($result['ok'])) {
+            $errors[] = (string) ($result['message'] ?? 'Upload non riuscito.');
             continue;
         }
 
-        $size = (int) $_FILES['uploads']['size'][$assetKey];
-        if ($size > 5 * 1024 * 1024) {
-            $errors[] = '"' . $label . '" supera il limite di 5 MB.';
-            continue;
-        }
-
-        $original = (string) $_FILES['uploads']['name'][$assetKey];
-        $extension = strtolower(pathinfo($original, PATHINFO_EXTENSION));
-        if (!in_array($extension, $allowed, true)) {
-            $errors[] = 'Formato non valido per "' . $label . '". Usa JPG, PNG, WebP o SVG.';
-            continue;
-        }
-
-        $filename = preg_replace('/[^a-z0-9-]+/i', '-', $assetKey) . '-' . date('YmdHis') . '.' . $extension;
-        $target = $uploadDir . DIRECTORY_SEPARATOR . $filename;
-        if (!move_uploaded_file((string) $_FILES['uploads']['tmp_name'][$assetKey], $target)) {
-            $errors[] = 'Non riesco a salvare "' . $label . '". Verifica i permessi della cartella uploads.';
-            continue;
-        }
-
-        $site['assets'][$assetKey] = $uploadBase . $filename;
+        $site['assets'][$assetKey] = (string) $result['path'];
     }
 }
 
@@ -1016,6 +1035,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         destroy_session_and_redirect();
     }
 
+    if (is_logged_in() && $action === 'upload_visual_image') {
+        if (!verify_csrf()) {
+            json_response(['ok' => false, 'message' => 'Sessione scaduta. Ricarica il CMS e riprova.'], 403);
+        }
+
+        $path = trim((string) ($_POST['path'] ?? 'immagine'));
+        $file = $_FILES['visual_image'] ?? null;
+        if (!is_array($file)) {
+            json_response(['ok' => false, 'message' => 'Seleziona un file immagine da caricare.'], 422);
+        }
+
+        $label = trim((string) ($_POST['label'] ?? 'immagine'));
+        $result = upload_image_file($file, $uploadDir, $uploadBase, $path, $label !== '' ? $label : 'immagine');
+        if (empty($result['ok'])) {
+            json_response(['ok' => false, 'message' => (string) ($result['message'] ?? 'Upload non riuscito.')], 422);
+        }
+
+        json_response(['ok' => true, 'path' => (string) $result['path'], 'message' => 'Immagine caricata. Salva le modifiche per pubblicarla nel contenuto.']);
+    }
+
     if (is_logged_in() && $action === 'save_visual_content') {
         if (!verify_csrf()) {
             json_response(['ok' => false, 'message' => 'Sessione scaduta. Ricarica il CMS e riprova.'], 403);
@@ -1361,11 +1400,31 @@ $backupList = backup_files($backupDir);
                   <input type="text" data-visual-link>
                   <small>Usato per pulsanti, card e collegamenti selezionati.</small>
                 </label>
+                <div class="visual-image-editor" data-visual-image-wrap hidden>
+                  <img src="" alt="" data-visual-image-preview>
+                  <p class="hint" data-visual-image-help>JPG, PNG, WebP o SVG. Max 5 MB.</p>
+                  <label class="field">
+                    <span>Carica nuova immagine</span>
+                    <input type="file" accept=".jpg,.jpeg,.png,.webp,.svg" data-visual-image-file>
+                    <small>L'anteprima cambia subito; usa Salva modifiche per confermare nel contenuto.</small>
+                  </label>
+                  <label class="field">
+                    <span>Percorso immagine</span>
+                    <input type="text" data-visual-image-path>
+                    <small>Opzione avanzata: modifica manuale del path se serve.</small>
+                  </label>
+                  <label class="field" data-visual-image-alt-wrap hidden>
+                    <span>Testo alternativo</span>
+                    <input type="text" data-visual-image-alt>
+                    <small>Descrive l'immagine per accessibilita e SEO.</small>
+                  </label>
+                </div>
               </aside>
             </div>
           </section>
 
           <script type="application/json" id="visual-site-data"><?= json_encode($site, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?></script>
+          <script type="application/json" id="visual-asset-data"><?= json_encode($assetDefinitions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?></script>
         <?php endif; ?>
 
         <?php if ($active === 'media'): ?>
@@ -1991,7 +2050,15 @@ $backupList = backup_files($backupDir);
           const textInput = visualEditor.querySelector("[data-visual-text]");
           const linkWrap = visualEditor.querySelector("[data-visual-link-wrap]");
           const linkInput = visualEditor.querySelector("[data-visual-link]");
+          const imageWrap = visualEditor.querySelector("[data-visual-image-wrap]");
+          const imagePreview = visualEditor.querySelector("[data-visual-image-preview]");
+          const imageHelp = visualEditor.querySelector("[data-visual-image-help]");
+          const imageFile = visualEditor.querySelector("[data-visual-image-file]");
+          const imagePathInput = visualEditor.querySelector("[data-visual-image-path]");
+          const imageAltWrap = visualEditor.querySelector("[data-visual-image-alt-wrap]");
+          const imageAltInput = visualEditor.querySelector("[data-visual-image-alt]");
           const csrf = visualEditor.querySelector("[data-visual-csrf]")?.value || "";
+          const visualAssetDefinitions = JSON.parse(document.getElementById("visual-asset-data")?.textContent || "{}");
           let selected = null;
 
           const setVisualStatus = (message, type = "") => {
@@ -2028,6 +2095,27 @@ $backupList = backup_files($backupDir);
             return "../" + href;
           };
 
+          const previewAssetHref = (src) => {
+            if (!src) return "";
+            if (/^(https?:|data:|blob:|\/)/.test(src)) return src;
+            const url = pageSelect.selectedOptions[0]?.dataset.url || "../index.html";
+            const nested = url.includes("../servizi/") || url.includes("../iniziative/");
+            return nested ? "../" + src : src;
+          };
+
+          const cssImageUrl = (src) => {
+            const href = previewAssetHref(src);
+            return href ? `url("${href.replace(/"/g, "%22")}")` : "";
+          };
+
+          const imageHelpFor = (path, fallback = "") => {
+            const parts = toParts(path);
+            if (parts[0] === "assets" && visualAssetDefinitions[parts[1]]?.recommended) {
+              return visualAssetDefinitions[parts[1]].recommended;
+            }
+            return fallback || "JPG, PNG, WebP o SVG. Max 5 MB.";
+          };
+
           const addTopicOptions = () => {
             if (!pageSelect || pageSelect.dataset.topicsAdded) return;
             (visualSite.home?.topics?.items || []).forEach((topic, index) => {
@@ -2046,8 +2134,25 @@ $backupList = backup_files($backupDir);
             items.push({ el, path, label: itemLabel, linkPath });
           };
 
+          const pushImage = (items, el, path, itemLabel, altPath = "", recommended = "", cssVar = "") => {
+            if (!el || getPath(visualSite, path) === undefined) return;
+            items.push({ type: "image", el, path, label: itemLabel, altPath, recommended, cssVar });
+          };
+
+          const addSharedImages = (items, doc) => {
+            pushImage(items, doc.querySelector(".brand img"), "assets.logo", "Logo intestazione");
+            pushImage(items, doc.querySelector(".footer-logo"), "assets.logo", "Logo footer");
+            pushImage(items, doc.querySelector(".powered-by img"), "home.footer.poweredBy.logo", "Footer: logo Archimpresa");
+          };
+
           const mapHome = (doc) => {
             const items = [];
+            addSharedImages(items, doc);
+            pushImage(items, doc.querySelector(".hero-media img"), "assets.heroImage", "Hero: foto principale");
+            pushImage(items, doc.querySelector(".hero"), "assets.patternImage", "Hero: banda grafica", "", "", "--pattern-image");
+            pushImage(items, doc.querySelector(".service-card"), "assets.servicesIllustration", "Servizi: illustrazione card", "", "", "--services-image");
+            pushImage(items, doc.querySelector(".initiative-panel"), "assets.initiativeIllustration", "Iniziative: illustrazione card", "", "", "--initiative-image");
+            pushImage(items, doc.querySelector(".image-grid img"), "home.gallery.0.src", "Studio: immagine", "home.gallery.0.alt");
             pushEditable(items, doc.querySelector(".hero .eyebrow"), "home.hero.eyebrow", "Hero: etichetta");
             pushEditable(items, doc.querySelector("#hero-title"), "home.hero.title", "Hero: titolo");
             pushEditable(items, doc.querySelector(".hero-lead"), "home.hero.lead", "Hero: testo introduttivo");
@@ -2138,6 +2243,9 @@ $backupList = backup_files($backupDir);
           const mapPage = (doc, key) => {
             const items = [];
             const base = `pages.${key}`;
+            addSharedImages(items, doc);
+            pushImage(items, doc.querySelector(".page-hero"), "assets.pageIllustration", "Pagina: banda grafica", "", "", "--page-image");
+            pushImage(items, doc.querySelector(".page-hero img"), `${base}.hero.image`, "Hero pagina: immagine", `${base}.hero.imageAlt`);
             pushEditable(items, doc.querySelector(".page-hero .eyebrow"), `${base}.hero.eyebrow`, "Hero pagina: etichetta");
             pushEditable(items, doc.querySelector(".page-hero h1"), `${base}.hero.title`, "Hero pagina: titolo");
             pushEditable(items, doc.querySelector(".page-hero p:not(.eyebrow)"), `${base}.hero.text`, "Hero pagina: testo");
@@ -2153,6 +2261,9 @@ $backupList = backup_files($backupDir);
           const mapTopic = (doc, index) => {
             const items = [];
             const base = `home.topics.items.${index}`;
+            addSharedImages(items, doc);
+            pushImage(items, doc.querySelector(".article-hero"), "assets.articleIllustration", "Articolo: banda grafica", "", "", "--article-image");
+            pushImage(items, doc.querySelector(".article-hero img"), `${base}.heroImage`, "Articolo: immagine hero");
             pushEditable(items, doc.querySelector(".article-hero h1"), `${base}.title`, "Articolo: titolo");
             pushEditable(items, doc.querySelector(".article-hero .article-lead"), `${base}.excerpt`, "Articolo: riassunto");
             mapRichContent(items, doc, base, "Articolo");
@@ -2181,12 +2292,65 @@ $backupList = backup_files($backupDir);
               linkWrap.hidden = true;
               linkInput.value = "";
             }
+            imageWrap.hidden = true;
+            if (imageFile) imageFile.value = "";
           };
 
           const writeDescriptor = (descriptor, value) => {
             setPath(visualSite, descriptor.path, value);
             descriptor.el.textContent = value;
             if (selected === descriptor) textInput.value = value;
+            setDirty(true);
+            setVisualStatus("Modifiche non salvate.", "dirty");
+          };
+
+          const applyImageDescriptor = (descriptor, value) => {
+            const doc = frame.contentDocument;
+            if (descriptor.cssVar && doc?.documentElement) {
+              doc.documentElement.style.setProperty(descriptor.cssVar, cssImageUrl(value));
+            }
+            if (descriptor.el.tagName === "IMG") {
+              descriptor.el.setAttribute("src", previewAssetHref(value));
+              if (descriptor.altPath) {
+                descriptor.el.setAttribute("alt", getPath(visualSite, descriptor.altPath) || "");
+              }
+            }
+          };
+
+          const selectImage = (descriptor) => {
+            selected?.el.classList.remove("visual-selected");
+            selected = descriptor;
+            descriptor.el.classList.add("visual-selected");
+            const currentValue = getPath(visualSite, descriptor.path) || "";
+            label.textContent = descriptor.label;
+            pathLabel.textContent = descriptor.path;
+            textInput.disabled = true;
+            textInput.value = "";
+            linkWrap.hidden = true;
+            linkInput.value = "";
+            imageWrap.hidden = false;
+            imagePreview.src = previewAssetHref(currentValue);
+            imagePreview.hidden = currentValue === "";
+            imageHelp.textContent = imageHelpFor(descriptor.path, descriptor.recommended);
+            imagePathInput.value = currentValue;
+            if (imageFile) imageFile.value = "";
+            if (descriptor.altPath) {
+              imageAltWrap.hidden = false;
+              imageAltInput.value = getPath(visualSite, descriptor.altPath) || "";
+            } else {
+              imageAltWrap.hidden = true;
+              imageAltInput.value = "";
+            }
+          };
+
+          const writeImagePath = (descriptor, value) => {
+            setPath(visualSite, descriptor.path, value);
+            applyImageDescriptor(descriptor, value);
+            if (selected === descriptor) {
+              imagePathInput.value = value;
+              imagePreview.src = previewAssetHref(value);
+              imagePreview.hidden = value === "";
+            }
             setDirty(true);
             setVisualStatus("Modifiche non salvate.", "dirty");
           };
@@ -2201,6 +2365,8 @@ $backupList = backup_files($backupDir);
               style.textContent = `
                 [data-visual-editable] { outline: 2px dashed rgba(35,125,143,.55); outline-offset: 4px; cursor: text; }
                 [data-visual-editable]:hover { outline-color: #e4452e; background: rgba(255,255,255,.18); }
+                [data-visual-image-editable] { outline: 2px solid rgba(246,167,35,.72); outline-offset: 5px; cursor: pointer; }
+                [data-visual-image-editable]:hover { outline-color: #e4452e; }
                 .visual-selected { outline: 3px solid #e4452e !important; background: rgba(228,69,46,.09) !important; }
               `;
               doc.head.appendChild(style);
@@ -2210,11 +2376,26 @@ $backupList = backup_files($backupDir);
             textInput.disabled = true;
             textInput.value = "";
             linkWrap.hidden = true;
+            imageWrap.hidden = true;
+            imagePreview.hidden = true;
+            if (imageFile) imageFile.value = "";
             label.textContent = "Nessun testo selezionato";
             pathLabel.textContent = "Clicca un testo evidenziato nell'anteprima.";
 
             const descriptors = descriptorList(doc);
             descriptors.forEach((descriptor) => {
+              if (descriptor.type === "image") {
+                const currentValue = getPath(visualSite, descriptor.path);
+                if (currentValue !== undefined) applyImageDescriptor(descriptor, currentValue);
+                descriptor.el.dataset.visualImageEditable = "1";
+                descriptor.el.addEventListener("click", (event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  selectImage(descriptor);
+                });
+                return;
+              }
+
               const currentValue = getPath(visualSite, descriptor.path);
               if (currentValue !== undefined) descriptor.el.textContent = currentValue;
               descriptor.el.dataset.visualEditable = "1";
@@ -2257,7 +2438,7 @@ $backupList = backup_files($backupDir);
           });
 
           textInput.addEventListener("input", () => {
-            if (!selected) return;
+            if (!selected || selected.type === "image") return;
             writeDescriptor(selected, textInput.value);
           });
 
@@ -2268,6 +2449,71 @@ $backupList = backup_files($backupDir);
             if (link.tagName === "A") link.setAttribute("href", absolutePreviewHref(linkInput.value));
             setDirty(true);
             setVisualStatus("Modifiche non salvate.", "dirty");
+          });
+
+          imagePathInput.addEventListener("input", () => {
+            if (!selected || selected.type !== "image") return;
+            writeImagePath(selected, imagePathInput.value);
+          });
+
+          imageAltInput.addEventListener("input", () => {
+            if (!selected?.altPath) return;
+            setPath(visualSite, selected.altPath, imageAltInput.value);
+            if (selected.el.tagName === "IMG") selected.el.setAttribute("alt", imageAltInput.value);
+            setDirty(true);
+            setVisualStatus("Modifiche non salvate.", "dirty");
+          });
+
+          imageFile.addEventListener("change", async () => {
+            if (!selected || selected.type !== "image") return;
+            const descriptor = selected;
+            const file = imageFile.files?.[0];
+            if (!file) return;
+
+            const extension = (file.name.split(".").pop() || "").toLowerCase();
+            if (!["jpg", "jpeg", "png", "webp", "svg"].includes(extension)) {
+              setVisualStatus("Formato non valido. Usa JPG, PNG, WebP o SVG.", "error");
+              imageFile.value = "";
+              return;
+            }
+            if (file.size > 5 * 1024 * 1024) {
+              setVisualStatus("Il file supera il limite di 5 MB.", "error");
+              imageFile.value = "";
+              return;
+            }
+
+            const previousValue = getPath(visualSite, descriptor.path) || "";
+            const temporaryUrl = URL.createObjectURL(file);
+            applyImageDescriptor(descriptor, temporaryUrl);
+            if (selected === descriptor) {
+              imagePreview.src = temporaryUrl;
+              imagePreview.hidden = false;
+            }
+            setVisualStatus("Caricamento immagine...");
+
+            const body = new FormData();
+            body.set("csrf", csrf);
+            body.set("action", "upload_visual_image");
+            body.set("path", descriptor.path);
+            body.set("label", descriptor.label);
+            body.set("visual_image", file);
+
+            try {
+              const response = await fetch("index.php?section=visual", { method: "POST", body });
+              const data = await response.json();
+              if (!response.ok || !data.ok) throw new Error(data.message || "Upload non riuscito.");
+              writeImagePath(descriptor, data.path);
+              setVisualStatus(data.message || "Immagine caricata. Salva le modifiche.", "dirty");
+            } catch (error) {
+              applyImageDescriptor(descriptor, previousValue);
+              if (selected === descriptor) {
+                imagePreview.src = previewAssetHref(previousValue);
+                imagePreview.hidden = previousValue === "";
+              }
+              setVisualStatus(error.message || "Errore durante l'upload.", "error");
+            } finally {
+              URL.revokeObjectURL(temporaryUrl);
+            }
           });
 
           saveButton.addEventListener("click", async () => {

@@ -480,6 +480,31 @@ small {
   font-size: 1.15rem;
 }
 
+.visual-image-editor {
+  display: grid;
+  gap: 0.8rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--line);
+}
+
+.visual-image-editor[hidden] {
+  display: none;
+}
+
+.visual-image-editor img {
+  width: 100%;
+  max-height: 220px;
+  object-fit: contain;
+  padding: 0.6rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.visual-image-editor img[hidden] {
+  display: none;
+}
+
 .grid {
   display: grid;
   gap: 1rem;
