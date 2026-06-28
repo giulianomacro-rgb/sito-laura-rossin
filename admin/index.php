@@ -154,6 +154,14 @@ function redirect_section(string $section): void
     exit;
 }
 
+function json_response(array $payload, int $status = 200): void
+{
+    http_response_code($status);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
 function read_site(string $file): array
 {
     if (!is_file($file)) {
@@ -889,6 +897,7 @@ function render_topic_item(array $item, $index): void
 
 $sections = [
     'dashboard' => 'Dashboard',
+    'visual' => 'Editor visuale',
     'media' => 'Media',
     'homepage' => 'Homepage',
     'servizi' => 'Servizi',
@@ -1005,6 +1014,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($action === 'logout') {
         destroy_session_and_redirect();
+    }
+
+    if (is_logged_in() && $action === 'save_visual_content') {
+        if (!verify_csrf()) {
+            json_response(['ok' => false, 'message' => 'Sessione scaduta. Ricarica il CMS e riprova.'], 403);
+        }
+
+        $incoming = json_decode((string) ($_POST['site_json'] ?? ''), true);
+        if (!is_array($incoming)) {
+            json_response(['ok' => false, 'message' => 'Dati non validi. Ricarica la pagina e riprova.'], 422);
+        }
+
+        $site = normalize_site($incoming);
+        if (!backup_site_file($contentFile, $backupDir)) {
+            json_response(['ok' => false, 'message' => 'Non riesco a creare il backup automatico. Salvataggio annullato.'], 500);
+        }
+
+        if (!write_site($contentFile, $site)) {
+            json_response(['ok' => false, 'message' => 'Impossibile salvare content/site.json. Verifica i permessi del file.'], 500);
+        }
+
+        update_html_seo($root, $site);
+        json_response(['ok' => true, 'message' => 'Salvato correttamente.', 'savedAt' => format_time(time())]);
     }
 
     if (is_logged_in() && $action === 'save_content') {
@@ -1270,6 +1302,7 @@ $backupList = backup_files($backupDir);
               </div>
             </div>
             <div class="shortcut-grid">
+              <a href="index.php?section=visual">Editor visuale<span>Clicca i testi del sito e modificali in anteprima</span></a>
               <a href="index.php?section=media">Aggiorna immagini<span>Logo, foto e social preview</span></a>
               <a href="index.php?section=homepage">Modifica homepage<span>Hero, introduzione, CTA e footer</span></a>
               <a href="index.php?section=servizi">Gestisci servizi<span>Ordine, visibilità e duplicazione</span></a>
@@ -1278,6 +1311,61 @@ $backupList = backup_files($backupDir);
               <a href="index.php?section=account">Account<span>Password e sessioni</span></a>
             </div>
           </section>
+        <?php endif; ?>
+
+        <?php if ($active === 'visual'): ?>
+          <section class="panel visual-panel" data-visual-editor>
+            <input type="hidden" data-visual-csrf value="<?= e($_SESSION['csrf']) ?>">
+            <div class="section-title">
+              <div>
+                <h2>Editor visuale</h2>
+                <p class="hint">Scegli una pagina, clicca un testo nell'anteprima e modificalo direttamente. Il salvataggio aggiorna content/site.json e crea un backup automatico.</p>
+              </div>
+              <div class="visual-actions">
+                <button type="button" class="button secondary" data-visual-reload>Ricarica anteprima</button>
+                <button type="button" data-visual-save>Salva modifiche</button>
+              </div>
+            </div>
+
+            <div class="visual-toolbar">
+              <label class="field">
+                <span>Pagina da modificare</span>
+                <select data-visual-page>
+                  <option value="home" data-url="../index.html">Homepage</option>
+                  <option value="psicoterapia" data-url="../servizi/psicoterapia-breve-strategica-bolzano.html">Psicoterapia</option>
+                  <option value="coaching" data-url="../servizi/coaching-professionale-strategico.html">Coaching</option>
+                  <option value="lavoro" data-url="../servizi/psicologia-del-lavoro-sportello-aziendale.html">Psicologia del lavoro</option>
+                  <option value="mente" data-url="../iniziative/mente-adolescente.html">Mente Adolescente</option>
+                  <option value="privacy" data-url="../privacy-policy.html">Privacy policy</option>
+                  <option value="cookie" data-url="../cookie-policy.html">Cookie policy</option>
+                </select>
+              </label>
+              <div class="visual-status" data-visual-status role="status">Anteprima pronta.</div>
+            </div>
+
+            <div class="visual-layout">
+              <div class="visual-frame-wrap">
+                <iframe title="Anteprima modificabile del sito" src="../index.html?cmsPreview=1" data-visual-frame></iframe>
+              </div>
+              <aside class="visual-inspector">
+                <p class="eyebrow">Testo selezionato</p>
+                <h3 data-visual-label>Nessun testo selezionato</h3>
+                <p class="hint" data-visual-path>Clicca un testo evidenziato nell'anteprima.</p>
+                <label class="field">
+                  <span>Modifica testo</span>
+                  <textarea rows="9" data-visual-text disabled></textarea>
+                  <small>Puoi scrivere qui oppure direttamente dentro l'anteprima.</small>
+                </label>
+                <label class="field" data-visual-link-wrap hidden>
+                  <span>Link collegato</span>
+                  <input type="text" data-visual-link>
+                  <small>Usato per pulsanti, card e collegamenti selezionati.</small>
+                </label>
+              </aside>
+            </div>
+          </section>
+
+          <script type="application/json" id="visual-site-data"><?= json_encode($site, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?></script>
         <?php endif; ?>
 
         <?php if ($active === 'media'): ?>
@@ -1886,6 +1974,320 @@ $backupList = backup_files($backupDir);
               }
               reindex();
               setDirty(true);
+            }
+          });
+        }
+
+        const visualEditor = document.querySelector("[data-visual-editor]");
+        if (visualEditor) {
+          let visualSite = JSON.parse(document.getElementById("visual-site-data").textContent || "{}");
+          const frame = visualEditor.querySelector("[data-visual-frame]");
+          const pageSelect = visualEditor.querySelector("[data-visual-page]");
+          const saveButton = visualEditor.querySelector("[data-visual-save]");
+          const reloadButton = visualEditor.querySelector("[data-visual-reload]");
+          const status = visualEditor.querySelector("[data-visual-status]");
+          const label = visualEditor.querySelector("[data-visual-label]");
+          const pathLabel = visualEditor.querySelector("[data-visual-path]");
+          const textInput = visualEditor.querySelector("[data-visual-text]");
+          const linkWrap = visualEditor.querySelector("[data-visual-link-wrap]");
+          const linkInput = visualEditor.querySelector("[data-visual-link]");
+          const csrf = visualEditor.querySelector("[data-visual-csrf]")?.value || "";
+          let selected = null;
+
+          const setVisualStatus = (message, type = "") => {
+            if (!status) return;
+            status.textContent = message;
+            status.dataset.type = type;
+          };
+
+          const toParts = (path) => String(path).split(".").filter(Boolean);
+
+          const getPath = (source, path) => {
+            return toParts(path).reduce((current, part) => {
+              if (current === undefined || current === null) return undefined;
+              return current[part];
+            }, source);
+          };
+
+          const setPath = (source, path, value) => {
+            const parts = toParts(path);
+            const last = parts.pop();
+            const parent = parts.reduce((current, part, index) => {
+              if (current[part] === undefined || current[part] === null) {
+                const nextPart = parts[index + 1] ?? last;
+                current[part] = /^\d+$/.test(String(nextPart)) ? [] : {};
+              }
+              return current[part];
+            }, source);
+            parent[last] = value;
+          };
+
+          const absolutePreviewHref = (href) => {
+            if (!href) return "#";
+            if (/^(https?:|mailto:|tel:|#|\/)/.test(href)) return href;
+            return "../" + href;
+          };
+
+          const addTopicOptions = () => {
+            if (!pageSelect || pageSelect.dataset.topicsAdded) return;
+            (visualSite.home?.topics?.items || []).forEach((topic, index) => {
+              if (!topic.slug) return;
+              const option = document.createElement("option");
+              option.value = "topic:" + index;
+              option.dataset.url = "../articolo.html?slug=" + encodeURIComponent(topic.slug);
+              option.textContent = "Articolo: " + (topic.label || topic.title || topic.slug);
+              pageSelect.appendChild(option);
+            });
+            pageSelect.dataset.topicsAdded = "1";
+          };
+
+          const pushEditable = (items, el, path, itemLabel, linkPath = "") => {
+            if (!el || getPath(visualSite, path) === undefined) return;
+            items.push({ el, path, label: itemLabel, linkPath });
+          };
+
+          const mapHome = (doc) => {
+            const items = [];
+            pushEditable(items, doc.querySelector(".hero .eyebrow"), "home.hero.eyebrow", "Hero: etichetta");
+            pushEditable(items, doc.querySelector("#hero-title"), "home.hero.title", "Hero: titolo");
+            pushEditable(items, doc.querySelector(".hero-lead"), "home.hero.lead", "Hero: testo introduttivo");
+            pushEditable(items, doc.querySelector(".hero-actions .button-primary"), "home.hero.primaryLabel", "Hero: pulsante principale", "home.hero.primaryHref");
+            pushEditable(items, doc.querySelector(".hero-actions .button-secondary"), "home.hero.secondaryLabel", "Hero: pulsante secondario", "home.hero.secondaryHref");
+            doc.querySelectorAll(".trust-list .trust-item").forEach((el, index) => {
+              pushEditable(items, el.querySelector(".trust-title"), `home.trust.${index}.title`, `Chi sono ${index + 1}: titolo`, `home.trust.${index}.href`);
+              pushEditable(items, el.querySelector(".trust-text"), `home.trust.${index}.text`, `Chi sono ${index + 1}: testo`, `home.trust.${index}.href`);
+            });
+            pushEditable(items, doc.querySelector(".intro-band .eyebrow"), "home.intro.eyebrow", "Introduzione: etichetta");
+            pushEditable(items, doc.querySelector(".intro-band h2"), "home.intro.title", "Introduzione: titolo");
+            pushEditable(items, doc.querySelector(".intro-band .intro-grid > p"), "home.intro.text", "Introduzione: testo");
+            pushEditable(items, doc.querySelector("#servizi .section-heading .eyebrow"), "home.services.eyebrow", "Servizi: etichetta");
+            pushEditable(items, doc.querySelector("#servizi-title"), "home.services.title", "Servizi: titolo");
+            doc.querySelectorAll(".service-grid .service-card").forEach((el, index) => {
+              pushEditable(items, el.querySelector("h3"), `home.services.items.${index}.title`, `Servizio ${index + 1}: titolo`);
+              pushEditable(items, el.querySelector("p"), `home.services.items.${index}.text`, `Servizio ${index + 1}: descrizione`);
+              pushEditable(items, el.querySelector("a"), `home.services.items.${index}.linkLabel`, `Servizio ${index + 1}: link`, `home.services.items.${index}.href`);
+            });
+            pushEditable(items, doc.querySelector(".method-section .eyebrow"), "home.method.eyebrow", "Metodo: etichetta");
+            pushEditable(items, doc.querySelector("#metodo-title"), "home.method.title", "Metodo: titolo");
+            pushEditable(items, doc.querySelector(".method-section .method-grid > div p:not(.eyebrow)"), "home.method.text", "Metodo: testo");
+            doc.querySelectorAll(".steps-list li").forEach((el, index) => {
+              pushEditable(items, el.querySelector("strong"), `home.method.steps.${index}.title`, `Metodo step ${index + 1}: titolo`);
+              let textNode = el.querySelector(".visual-step-text");
+              if (!textNode) {
+                textNode = doc.createElement("span");
+                textNode.className = "visual-step-text";
+                Array.from(el.childNodes).forEach((node) => {
+                  if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) node.remove();
+                });
+                el.appendChild(textNode);
+              }
+              pushEditable(items, textNode, `home.method.steps.${index}.text`, `Metodo step ${index + 1}: testo`);
+            });
+            pushEditable(items, doc.querySelector(".initiatives-section .eyebrow"), "home.initiative.eyebrow", "Iniziative: etichetta");
+            pushEditable(items, doc.querySelector("#iniziative-title"), "home.initiative.title", "Iniziative: titolo");
+            pushEditable(items, doc.querySelector(".initiative-panel .initiative-label"), "home.initiative.label", "Iniziativa: etichetta");
+            pushEditable(items, doc.querySelector(".initiative-panel h3"), "home.initiative.name", "Iniziativa: nome");
+            pushEditable(items, doc.querySelector(".initiative-panel p:not(.initiative-label)"), "home.initiative.text", "Iniziativa: testo");
+            pushEditable(items, doc.querySelector(".initiative-panel .button"), "home.initiative.buttonLabel", "Iniziativa: pulsante", "home.initiative.href");
+            pushEditable(items, doc.querySelector(".resources-section .eyebrow"), "home.topics.eyebrow", "Argomenti: etichetta");
+            pushEditable(items, doc.querySelector("#risorse-title"), "home.topics.title", "Argomenti: titolo");
+            doc.querySelectorAll(".topic-list a").forEach((el, index) => {
+              pushEditable(items, el, `home.topics.items.${index}.label`, `Argomento ${index + 1}`, `home.topics.items.${index}.href`);
+            });
+            pushEditable(items, doc.querySelector(".faq-section .eyebrow"), "home.faq.eyebrow", "FAQ: etichetta");
+            pushEditable(items, doc.querySelector("#faq-title"), "home.faq.title", "FAQ: titolo");
+            doc.querySelectorAll(".faq-list details").forEach((el, index) => {
+              pushEditable(items, el.querySelector("summary"), `home.faq.items.${index}.question`, `FAQ ${index + 1}: domanda`);
+              pushEditable(items, el.querySelector("p"), `home.faq.items.${index}.answer`, `FAQ ${index + 1}: risposta`);
+            });
+            pushEditable(items, doc.querySelector(".contact-section .eyebrow"), "home.contact.eyebrow", "Contatti: etichetta");
+            pushEditable(items, doc.querySelector("#contatti-title"), "home.contact.title", "Contatti: titolo");
+            pushEditable(items, doc.querySelector(".contact-section .contact-grid > div p:not(.eyebrow)"), "home.contact.text", "Contatti: testo");
+            const contactItems = doc.querySelectorAll(".contact-card a, .contact-card span");
+            pushEditable(items, contactItems[0], "home.contact.email", "Contatti: email");
+            pushEditable(items, contactItems[1], "home.contact.phone", "Contatti: telefono", "home.contact.phoneHref");
+            pushEditable(items, contactItems[2], "home.contact.cities", "Contatti: città");
+            pushEditable(items, contactItems[3], "home.contact.vat", "Contatti: partita IVA");
+            pushEditable(items, doc.querySelector(".footer-copy p:nth-child(1)"), "home.footer.line1", "Footer: riga 1");
+            pushEditable(items, doc.querySelector(".footer-copy p:nth-child(2)"), "home.footer.line2", "Footer: riga 2");
+            pushEditable(items, doc.querySelector(".powered-by span"), "home.footer.poweredBy.label", "Footer: powered by", "home.footer.poweredBy.href");
+            return items;
+          };
+
+          const mapRichContent = (items, doc, prefixPath, labelPrefix) => {
+            const rich = doc.querySelector(".rich-content");
+            if (!rich) return;
+            let sectionIndex = -1;
+            let itemIndex = 0;
+            Array.from(rich.children).forEach((el) => {
+              if (el.tagName === "H2") {
+                sectionIndex += 1;
+                itemIndex = 0;
+                pushEditable(items, el, `${prefixPath}.sections.${sectionIndex}.title`, `${labelPrefix}: sezione ${sectionIndex + 1} titolo`);
+              } else if (el.tagName === "P" && sectionIndex >= 0) {
+                pushEditable(items, el, `${prefixPath}.sections.${sectionIndex}.text`, `${labelPrefix}: sezione ${sectionIndex + 1} testo`);
+              } else if (el.tagName === "UL" && sectionIndex >= 0) {
+                el.querySelectorAll("li").forEach((li) => {
+                  pushEditable(items, li, `${prefixPath}.sections.${sectionIndex}.items.${itemIndex}`, `${labelPrefix}: sezione ${sectionIndex + 1} elenco`);
+                  itemIndex += 1;
+                });
+              }
+            });
+          };
+
+          const mapPage = (doc, key) => {
+            const items = [];
+            const base = `pages.${key}`;
+            pushEditable(items, doc.querySelector(".page-hero .eyebrow"), `${base}.hero.eyebrow`, "Hero pagina: etichetta");
+            pushEditable(items, doc.querySelector(".page-hero h1"), `${base}.hero.title`, "Hero pagina: titolo");
+            pushEditable(items, doc.querySelector(".page-hero p:not(.eyebrow)"), `${base}.hero.text`, "Hero pagina: testo");
+            pushEditable(items, doc.querySelector(".page-hero .button"), `${base}.hero.buttonLabel`, "Hero pagina: pulsante", `${base}.hero.buttonHref`);
+            pushEditable(items, doc.querySelector(".side-note strong"), `${base}.sideNoteTitle`, "Nota laterale: titolo");
+            doc.querySelectorAll(".side-note span").forEach((el, index) => {
+              pushEditable(items, el, `${base}.sideNotes.${index}`, `Nota laterale ${index + 1}`);
+            });
+            mapRichContent(items, doc, base, "Pagina");
+            return items;
+          };
+
+          const mapTopic = (doc, index) => {
+            const items = [];
+            const base = `home.topics.items.${index}`;
+            pushEditable(items, doc.querySelector(".article-hero h1"), `${base}.title`, "Articolo: titolo");
+            pushEditable(items, doc.querySelector(".article-hero .article-lead"), `${base}.excerpt`, "Articolo: riassunto");
+            mapRichContent(items, doc, base, "Articolo");
+            return items;
+          };
+
+          const descriptorList = (doc) => {
+            const value = pageSelect.value;
+            if (value === "home") return mapHome(doc);
+            if (value.startsWith("topic:")) return mapTopic(doc, Number(value.split(":")[1] || 0));
+            return mapPage(doc, value);
+          };
+
+          const selectEditable = (descriptor) => {
+            selected?.el.classList.remove("visual-selected");
+            selected = descriptor;
+            descriptor.el.classList.add("visual-selected");
+            label.textContent = descriptor.label;
+            pathLabel.textContent = descriptor.path;
+            textInput.disabled = false;
+            textInput.value = getPath(visualSite, descriptor.path) ?? descriptor.el.textContent.trim();
+            if (descriptor.linkPath) {
+              linkWrap.hidden = false;
+              linkInput.value = getPath(visualSite, descriptor.linkPath) ?? "";
+            } else {
+              linkWrap.hidden = true;
+              linkInput.value = "";
+            }
+          };
+
+          const writeDescriptor = (descriptor, value) => {
+            setPath(visualSite, descriptor.path, value);
+            descriptor.el.textContent = value;
+            if (selected === descriptor) textInput.value = value;
+            setDirty(true);
+            setVisualStatus("Modifiche non salvate.", "dirty");
+          };
+
+          const bindPreview = () => {
+            const doc = frame.contentDocument;
+            if (!doc) return;
+            let style = doc.getElementById("visual-editor-style");
+            if (!style) {
+              style = doc.createElement("style");
+              style.id = "visual-editor-style";
+              style.textContent = `
+                [data-visual-editable] { outline: 2px dashed rgba(35,125,143,.55); outline-offset: 4px; cursor: text; }
+                [data-visual-editable]:hover { outline-color: #e4452e; background: rgba(255,255,255,.18); }
+                .visual-selected { outline: 3px solid #e4452e !important; background: rgba(228,69,46,.09) !important; }
+              `;
+              doc.head.appendChild(style);
+            }
+
+            selected = null;
+            textInput.disabled = true;
+            textInput.value = "";
+            linkWrap.hidden = true;
+            label.textContent = "Nessun testo selezionato";
+            pathLabel.textContent = "Clicca un testo evidenziato nell'anteprima.";
+
+            const descriptors = descriptorList(doc);
+            descriptors.forEach((descriptor) => {
+              const currentValue = getPath(visualSite, descriptor.path);
+              if (currentValue !== undefined) descriptor.el.textContent = currentValue;
+              descriptor.el.dataset.visualEditable = "1";
+              descriptor.el.contentEditable = "true";
+              descriptor.el.spellcheck = true;
+              descriptor.el.addEventListener("click", (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                selectEditable(descriptor);
+              });
+              descriptor.el.addEventListener("input", () => {
+                setPath(visualSite, descriptor.path, descriptor.el.textContent);
+                if (selected === descriptor) textInput.value = descriptor.el.textContent;
+                setDirty(true);
+                setVisualStatus("Modifiche non salvate.", "dirty");
+              });
+              if (descriptor.linkPath) {
+                const link = descriptor.el.closest("a") || descriptor.el;
+                link.addEventListener("click", (event) => event.preventDefault());
+                const href = getPath(visualSite, descriptor.linkPath);
+                if (href && link.tagName === "A") link.setAttribute("href", absolutePreviewHref(href));
+              }
+            });
+            setVisualStatus("Clicca un testo evidenziato per modificarlo.", "");
+          };
+
+          const loadPreview = () => {
+            const option = pageSelect.selectedOptions[0];
+            const url = option?.dataset.url || "../index.html";
+            const separator = url.includes("?") ? "&" : "?";
+            frame.src = url + separator + "cmsPreview=" + Date.now();
+            setVisualStatus("Caricamento anteprima...");
+          };
+
+          addTopicOptions();
+          pageSelect.addEventListener("change", loadPreview);
+          reloadButton.addEventListener("click", loadPreview);
+          frame.addEventListener("load", () => {
+            setTimeout(bindPreview, 450);
+          });
+
+          textInput.addEventListener("input", () => {
+            if (!selected) return;
+            writeDescriptor(selected, textInput.value);
+          });
+
+          linkInput.addEventListener("input", () => {
+            if (!selected?.linkPath) return;
+            setPath(visualSite, selected.linkPath, linkInput.value);
+            const link = selected.el.closest("a") || selected.el;
+            if (link.tagName === "A") link.setAttribute("href", absolutePreviewHref(linkInput.value));
+            setDirty(true);
+            setVisualStatus("Modifiche non salvate.", "dirty");
+          });
+
+          saveButton.addEventListener("click", async () => {
+            saveButton.disabled = true;
+            setVisualStatus("Salvataggio in corso...");
+            const body = new FormData();
+            body.set("csrf", csrf);
+            body.set("action", "save_visual_content");
+            body.set("site_json", JSON.stringify(visualSite));
+            try {
+              const response = await fetch("index.php?section=visual", { method: "POST", body });
+              const data = await response.json();
+              if (!response.ok || !data.ok) throw new Error(data.message || "Salvataggio non riuscito.");
+              setDirty(false);
+              setVisualStatus(data.message || "Salvato correttamente.", "ok");
+              if (saveState && data.savedAt) saveState.textContent = "Ultimo salvataggio: " + data.savedAt;
+            } catch (error) {
+              setVisualStatus(error.message || "Errore durante il salvataggio.", "error");
+            } finally {
+              saveButton.disabled = false;
             }
           });
         }
