@@ -78,7 +78,7 @@ a {
 }
 
 :focus-visible {
-  outline: 3px solid currentColor;
+  outline: 3px solid var(--blue-ink);
   outline-offset: 4px;
 }
 
@@ -1069,6 +1069,7 @@ details p {
   color: var(--blue-ink);
 }
 .contact-strip .button:hover { background: var(--soft); }
+.contact-strip :focus-visible { outline-color: var(--paper-warm); }
 
 .strip-grid {
   grid-template-columns: 1fr auto;
