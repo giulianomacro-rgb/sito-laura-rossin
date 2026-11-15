@@ -15,6 +15,12 @@ foreach (public_pages() as $path => $key) {
     check($doc->documentElement->getAttribute('data-server-rendered') === 'true', "SSR: $path");
     check($doc->querySelectorAll('script[type="application/ld+json"]')->length === 1, "No duplicate schema: $path");
     json_decode($doc->querySelector('script[type="application/ld+json"]')->textContent, true, 512, JSON_THROW_ON_ERROR);
+    if ($key === 'home') {
+        $links = $doc->querySelectorAll('.initiative-panel .button');
+        check($links->item(0)->getAttribute('href') === $site['home']['initiative']['href'], 'CMS initiative link');
+        check($links->item(1)->getAttribute('href') === 'servizi/psicologia-del-lavoro-sportello-aziendale.html', 'Work initiative link preserved');
+        check($links->item(2)->getAttribute('href') === 'servizi/coaching-professionale-strategico.html', 'Coaching initiative link preserved');
+    }
     if ($article) {
         check(str_contains($doc->querySelector('link[rel="canonical"]')->getAttribute('href'), '?slug=' . $article['slug']), 'Article canonical');
         check(str_contains($doc->body->textContent, $article['sections'][0]['text']), 'Article readable without JS');

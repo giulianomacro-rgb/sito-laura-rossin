@@ -75,9 +75,9 @@ function render_site_page(string $html, array $site, string $path, ?array $artic
     $assets = $site['assets'] ?? [];
     $page = $site['pages'][$key] ?? [];
     $url = static fn ($v): string => safe_site_url($v, $prefix);
-    $link = static function ($selector, $label, $href) use ($text, $attr, $url): void {
+    $link = static function ($selector, $label, $href) use ($text, $doc, $url): void {
         $text($selector, $label);
-        $attr($selector, 'href', $url($href));
+        if ($el = $doc->querySelector($selector)) $el->setAttribute('href', $url($href));
     };
     $image = static function ($selector, $src, $alt) use ($attr, $url): void {
         if (!$src) return;

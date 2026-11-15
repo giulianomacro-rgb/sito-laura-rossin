@@ -25,6 +25,12 @@ assert.match(homeHtml, /data-server-rendered="true"/);
 assert.equal((homeHtml.match(/<h1\b/g) || []).length, 1);
 const schema = JSON.parse(homeHtml.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)[1]);
 assert.ok(schema['@graph'].some(item => item['@type'] === 'Person'));
+if (base.protocol === 'https:') {
+  assert.match(homepage.headers.get('x-robots-tag') || '', /noindex/, 'Preview stays unindexed');
+  for (const path of ['/admin/config.php', '/admin/google-calendar-config.php', '/lib/runtime.php', '/data/site.json', '/.git/config']) {
+    assert.ok([403, 404].includes((await request(path)).status), `Private path protected: ${path}`);
+  }
+}
 const content = await (await request('/content/site.json')).json();
 const routes = ['/prenotazioni.html', '/sitemap.xml', '/robots.txt', '/healthz'];
 for (const item of content.home.services.items) routes.push(`/${item.href}`);
@@ -38,7 +44,13 @@ console.log(`OK: homepage SSR, schema, ${routes.length} public routes, 404, book
 if (process.env.CMS_TEST_CREDENTIALS) {
   const credentials = JSON.parse((await readFile(process.env.CMS_TEST_CREDENTIALS, 'utf8')).replace(/^\uFEFF/, ''));
   if (!['localhost', '127.0.0.1'].includes(base.hostname)) assert.equal(new URL(credentials.url).origin, base.origin, 'Credential destination');
-  let html = await (await request('/admin/')).text();
+  const entry = await request('/admin/');
+  assert.match(entry.headers.get('cache-control') || '', /no-store/);
+  const sessionCookie = entry.headers.getSetCookie().find(value => value.startsWith('PHPSESSID='));
+  assert.match(sessionCookie || '', /HttpOnly/i);
+  assert.match(sessionCookie || '', /SameSite=Lax/i);
+  if (base.protocol === 'https:') assert.match(sessionCookie || '', /Secure/i);
+  let html = await entry.text();
   assert.match(html, /name="password"/);
   const login = await request('/admin/', {
     method: 'POST', body: new URLSearchParams({action: 'login', csrf: csrf(html), username: credentials.username, password: credentials.password}),
@@ -71,6 +83,7 @@ if (process.env.CMS_TEST_CREDENTIALS) {
     const image = await (await request('/admin/', {method: 'POST', body: upload})).json();
     assert.equal(image.ok, true, 'CMS image upload');
     assert.equal((await request(`/${image.path}`)).status, 200, 'Uploaded image readable');
+    console.log(`Uploaded test image: ${image.path}`);
     console.log('OK: unchanged-content save and readback, valid JPEG upload, SVG rejected');
   }
   const logout = await request('/admin/', {method: 'POST', body: new URLSearchParams({action: 'logout', csrf: token})});

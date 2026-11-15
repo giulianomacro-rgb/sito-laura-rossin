@@ -2132,6 +2132,14 @@ $backupList = backup_files($backupDir);
             return href ? `url("${href.replace(/"/g, "%22")}")` : "";
           };
 
+          const inspectorAssetHref = (src) => src ? new URL(previewAssetHref(src), frame.src).href : "";
+
+          const visibleIndexes = (rows = []) => rows
+            .map((item, index) => ({ item, index }))
+            .filter(({ item }) => ![false, 0, "0"].includes(item.visible))
+            .sort((a, b) => Number(a.item.order || 0) - Number(b.item.order || 0))
+            .map(({ index }) => index);
+
           const imageHelpFor = (path, fallback = "") => {
             const parts = toParts(path);
             if (parts[0] === "assets" && visualAssetDefinitions[parts[1]]?.recommended) {
@@ -2176,7 +2184,8 @@ $backupList = backup_files($backupDir);
             pushImage(items, doc.querySelector(".hero"), "assets.patternImage", "Hero: banda grafica", "", "", "--pattern-image");
             pushImage(items, doc.querySelector(".service-card"), "assets.servicesIllustration", "Servizi: illustrazione card", "", "", "--services-image");
             pushImage(items, doc.querySelector(".initiative-panel"), "assets.initiativeIllustration", "Iniziative: illustrazione card", "", "", "--initiative-image");
-            pushImage(items, doc.querySelector(".image-grid img"), "home.gallery.0.src", "Studio: immagine", "home.gallery.0.alt");
+            const galleryIndex = (visualSite.home?.gallery || []).findIndex(item => ![false, 0, "0"].includes(item.visible) && item.src);
+            if (galleryIndex >= 0) pushImage(items, doc.querySelector(".image-grid img"), `home.gallery.${galleryIndex}.src`, "Studio: immagine", `home.gallery.${galleryIndex}.alt`);
             pushEditable(items, doc.querySelector(".hero .eyebrow"), "home.hero.eyebrow", "Hero: etichetta");
             pushEditable(items, doc.querySelector("#hero-title"), "home.hero.title", "Hero: titolo");
             pushEditable(items, doc.querySelector(".hero-lead"), "home.hero.lead", "Hero: testo introduttivo");
@@ -2191,7 +2200,10 @@ $backupList = backup_files($backupDir);
             pushEditable(items, doc.querySelector(".intro-band .intro-grid > p"), "home.intro.text", "Introduzione: testo");
             pushEditable(items, doc.querySelector("#servizi .section-heading .eyebrow"), "home.services.eyebrow", "Servizi: etichetta");
             pushEditable(items, doc.querySelector("#servizi-title"), "home.services.title", "Servizi: titolo");
-            doc.querySelectorAll(".service-grid .service-card").forEach((el, index) => {
+            const serviceIndexes = visibleIndexes(visualSite.home?.services?.items);
+            doc.querySelectorAll(".service-grid .service-card").forEach((el, renderedIndex) => {
+              const index = serviceIndexes[renderedIndex];
+              if (index === undefined) return;
               pushEditable(items, el.querySelector("h3"), `home.services.items.${index}.title`, `Servizio ${index + 1}: titolo`);
               pushEditable(items, el.querySelector("p"), `home.services.items.${index}.text`, `Servizio ${index + 1}: descrizione`);
               pushEditable(items, el.querySelector("a"), `home.services.items.${index}.linkLabel`, `Servizio ${index + 1}: link`, `home.services.items.${index}.href`);
@@ -2220,7 +2232,10 @@ $backupList = backup_files($backupDir);
             pushEditable(items, doc.querySelector(".initiative-panel .button"), "home.initiative.buttonLabel", "Iniziativa: pulsante", "home.initiative.href");
             pushEditable(items, doc.querySelector(".resources-section .eyebrow"), "home.topics.eyebrow", "Argomenti: etichetta");
             pushEditable(items, doc.querySelector("#risorse-title"), "home.topics.title", "Argomenti: titolo");
-            doc.querySelectorAll(".topic-list a").forEach((el, index) => {
+            const topicIndexes = visibleIndexes(visualSite.home?.topics?.items);
+            doc.querySelectorAll(".topic-list a").forEach((el, renderedIndex) => {
+              const index = topicIndexes[renderedIndex];
+              if (index === undefined) return;
               pushEditable(items, el, `home.topics.items.${index}.label`, `Argomento ${index + 1}`, `home.topics.items.${index}.href`);
             });
             pushEditable(items, doc.querySelector(".faq-section .eyebrow"), "home.faq.eyebrow", "FAQ: etichetta");
@@ -2248,13 +2263,21 @@ $backupList = backup_files($backupDir);
             if (!rich) return;
             let sectionIndex = -1;
             let itemIndex = 0;
+            let hasSectionText = false;
             Array.from(rich.children).forEach((el) => {
               if (el.tagName === "H2") {
                 sectionIndex += 1;
                 itemIndex = 0;
+                hasSectionText = false;
                 pushEditable(items, el, `${prefixPath}.sections.${sectionIndex}.title`, `${labelPrefix}: sezione ${sectionIndex + 1} titolo`);
               } else if (el.tagName === "P" && sectionIndex >= 0) {
-                pushEditable(items, el, `${prefixPath}.sections.${sectionIndex}.text`, `${labelPrefix}: sezione ${sectionIndex + 1} testo`);
+                if (hasSectionText) {
+                  el.remove();
+                } else {
+                  el.classList.add("visual-section-text");
+                  pushEditable(items, el, `${prefixPath}.sections.${sectionIndex}.text`, `${labelPrefix}: sezione ${sectionIndex + 1} testo`);
+                  hasSectionText = true;
+                }
               } else if (el.tagName === "UL" && sectionIndex >= 0) {
                 el.querySelectorAll("li").forEach((li) => {
                   pushEditable(items, li, `${prefixPath}.sections.${sectionIndex}.items.${itemIndex}`, `${labelPrefix}: sezione ${sectionIndex + 1} elenco`);
@@ -2353,7 +2376,7 @@ $backupList = backup_files($backupDir);
             linkWrap.hidden = true;
             linkInput.value = "";
             imageWrap.hidden = false;
-            imagePreview.src = previewAssetHref(currentValue);
+            imagePreview.src = inspectorAssetHref(currentValue);
             imagePreview.hidden = currentValue === "";
             imageHelp.textContent = imageHelpFor(descriptor.path, descriptor.recommended);
             imagePathInput.value = currentValue;
@@ -2372,7 +2395,7 @@ $backupList = backup_files($backupDir);
             applyImageDescriptor(descriptor, value);
             if (selected === descriptor) {
               imagePathInput.value = value;
-              imagePreview.src = previewAssetHref(value);
+              imagePreview.src = inspectorAssetHref(value);
               imagePreview.hidden = value === "";
             }
             setDirty(true);
@@ -2388,6 +2411,8 @@ $backupList = backup_files($backupDir);
               style.id = "visual-editor-style";
               style.textContent = `
                 [data-visual-editable] { outline: 2px dashed rgba(35,125,143,.55); outline-offset: 4px; cursor: text; }
+                .steps-list .visual-step-text { display: block; }
+                .visual-section-text { white-space: pre-line; }
                 [data-visual-editable]:hover { outline-color: #e4452e; background: rgba(255,255,255,.18); }
                 [data-visual-image-editable] { outline: 2px solid rgba(246,167,35,.72); outline-offset: 5px; cursor: pointer; }
                 [data-visual-image-editable]:hover { outline-color: #e4452e; }
@@ -2495,7 +2520,7 @@ $backupList = backup_files($backupDir);
             if (!file) return;
 
             const extension = (file.name.split(".").pop() || "").toLowerCase();
-            if (!["jpg", "jpeg", "png", "webp", "svg"].includes(extension)) {
+            if (!["jpg", "jpeg", "png", "webp"].includes(extension)) {
               setVisualStatus("Formato non valido. Usa JPG, PNG o WebP.", "error");
               imageFile.value = "";
               return;
@@ -2531,7 +2556,7 @@ $backupList = backup_files($backupDir);
             } catch (error) {
               applyImageDescriptor(descriptor, previousValue);
               if (selected === descriptor) {
-                imagePreview.src = previewAssetHref(previousValue);
+                imagePreview.src = inspectorAssetHref(previousValue);
                 imagePreview.hidden = previousValue === "";
               }
               setVisualStatus(error.message || "Errore durante l'upload.", "error");

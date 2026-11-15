@@ -232,7 +232,7 @@ h3 {
   position: relative;
   display: grid;
   grid-template-columns: minmax(24px, 1fr) minmax(0, 620px) clamp(1.5rem, 3vw, 4rem) minmax(360px, 620px) minmax(24px, 1fr);
-  grid-template-rows: minmax(560px, calc(100svh - 150px)) 72px;
+  grid-template-rows: minmax(max(560px, calc(100svh - 150px)), auto) 72px;
   align-items: start;
   min-height: auto;
   overflow: hidden;
@@ -259,6 +259,8 @@ h3 {
 }
 
 .hero-media img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
