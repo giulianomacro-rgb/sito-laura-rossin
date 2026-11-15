@@ -13,6 +13,12 @@ foreach (public_pages() as $path => $key) {
     $doc = Dom\HTMLDocument::createFromString($html, LIBXML_NOERROR, 'UTF-8');
     check($doc->querySelectorAll('h1')->length === 1, "One h1: $path");
     check($doc->documentElement->getAttribute('data-server-rendered') === 'true', "SSR: $path");
+    $stylesheet = $doc->querySelector('link[rel="stylesheet"]')->getAttribute('href');
+    check(str_ends_with($stylesheet, '?v=' . substr(hash_file('sha256', $root . '/styles.css'), 0, 12)), 'Stylesheet tracks release: ' . $path);
+    foreach ($doc->querySelectorAll('script[src]') as $script) {
+        $file = basename(parse_url($script->getAttribute('src'), PHP_URL_PATH));
+        if (in_array($file, ['cms-content.js', 'prenotazioni.js'], true)) check(str_contains($script->getAttribute('src'), '?v='), 'Client script tracks release');
+    }
     check($doc->querySelectorAll('script[type="application/ld+json"]')->length === 1, "No duplicate schema: $path");
     json_decode($doc->querySelector('script[type="application/ld+json"]')->textContent, true, 512, JSON_THROW_ON_ERROR);
     foreach ($doc->querySelectorAll('.site-nav a') as $nav) {

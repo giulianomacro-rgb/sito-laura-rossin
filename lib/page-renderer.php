@@ -188,6 +188,16 @@ function render_site_page(string $html, array $site, string $path, ?array $artic
         $link('.booking-contact a[href^="tel:"]', $c['phone'], 'tel:' . $c['phoneHref']);
         $attr('.hero-actions a[href^="mailto:"]', 'href', $url('mailto:' . $c['email']));
     }
+    // New releases must not reuse a browser's cached stylesheet or client script.
+    foreach (['styles.css' => 'href', 'cms-content.js' => 'src', 'prenotazioni.js' => 'src'] as $file => $attribute) {
+        $version = substr(hash_file('sha256', dirname(__DIR__) . '/' . $file), 0, 12);
+        $selector = $attribute === 'href' ? 'link[rel="stylesheet"]' : 'script[src]';
+        foreach ($doc->querySelectorAll($selector) as $element) {
+            if (parse_url($element->getAttribute($attribute), PHP_URL_PATH) === $prefix . $file) {
+                $element->setAttribute($attribute, $prefix . $file . '?v=' . $version);
+            }
+        }
+    }
     $doc->documentElement->setAttribute('data-server-rendered', 'true');
     foreach ($doc->querySelectorAll('script[type="application/ld+json"]') as $script) $script->remove();
     $base = 'https://www.laurarossin.it';
