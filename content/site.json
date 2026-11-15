@@ -4,7 +4,7 @@
     "heroImage": "assets/laura-rossin-ritratto.jpg",
     "portraitImage": "assets/laura-rossin-primo-piano.jpg",
     "patternImage": "assets/pattern-banner.jpg",
-    "studioDeskImage": "assets/studio-scrivania.jpg",
+    "studioDeskImage": "assets/greg-rosenke-luce.jpg",
     "ogImage": "assets/og-laura-rossin.jpg",
     "servicesIllustration": "assets/pattern-banner.jpg",
     "methodIllustration": "assets/illustrazione-percorsi.png",
@@ -108,8 +108,10 @@
     },
     "gallery": [
       {
-        "src": "assets/studio-scrivania.jpg",
-        "alt": "Studio della Dott.ssa Laura Rossin con sedute e tavolo per colloqui",
+        "src": "assets/greg-rosenke-luce.jpg",
+        "alt": "Foglie illuminate dalla luce naturale vicino a una finestra",
+        "credit": "Greg Rosenke / Unsplash",
+        "creditUrl": "https://unsplash.com/photos/green-weeping-fig-U-DSAzb9BoI",
         "visible": true
       }
     ],

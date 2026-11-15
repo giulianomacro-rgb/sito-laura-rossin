@@ -106,14 +106,14 @@ function render_site_page(string $html, array $site, string $path, ?array $artic
     if ($key === 'home' || in_array($key, ['servizi','metodo','iniziative','contatti'], true)) {
         $mapping = [
             '.hero .eyebrow' => ['hero','eyebrow'], '#hero-title' => ['hero','title'], '.hero-lead' => ['hero','lead'],
-            '.intro-band .eyebrow' => ['intro','eyebrow'], '.intro-band h2' => ['intro','title'], '.intro-grid > p' => ['intro','text'],
+            '.intro-band h2' => ['intro','title'],
             '#servizi .eyebrow' => ['services','eyebrow'], '#servizi-title' => ['services','title'],
             '.method-section .eyebrow' => ['method','eyebrow'], '#metodo-title' => ['method','title'], '.method-grid > div p:not(.eyebrow)' => ['method','text'],
             '.initiatives-section .eyebrow' => ['initiative','eyebrow'], '#iniziative-title' => ['initiative','title'],
             '.initiative-label' => ['initiative','label'], '.initiative-panel h3' => ['initiative','name'], '.initiative-panel p:not(.initiative-label)' => ['initiative','text'],
             '.resources-section .eyebrow' => ['topics','eyebrow'], '#risorse-title' => ['topics','title'],
             '.faq-section .eyebrow' => ['faq','eyebrow'], '#faq-title' => ['faq','title'],
-            '.contact-section .eyebrow' => ['contact','eyebrow'], '#contatti-title' => ['contact','title'], '.contact-grid > div p:not(.eyebrow)' => ['contact','text'],
+            '.contact-details .eyebrow' => ['contact','eyebrow'], '#contatti-title' => ['contact','title'], '.contact-grid > div p:not(.eyebrow)' => ['contact','text'],
         ];
         foreach ($mapping as $selector => [$section,$field]) $text($selector, $home[$section][$field] ?? null);
         $image('.hero-media img', $assets['heroImage'] ?? '', 'Laura Rossin, psicologa e psicoterapeuta a Bolzano');
@@ -139,7 +139,16 @@ function render_site_page(string $html, array $site, string $path, ?array $artic
         foreach ($home['method']['steps'] ?? [] as $item) $steps .= '<li><span>' . html_text($item['number']) . '</span><strong>' . html_text($item['title']) . '</strong>' . html_text($item['text']) . '</li>';
         $replace('.steps-list', $steps);
         $gallery = '';
-        foreach ($home['gallery'] ?? [] as $item) if (visible_content($item['visible'] ?? true)) $gallery .= '<img src="' . html_text($url($item['src'])) . '" alt="' . html_text($item['alt']) . '" loading="lazy" decoding="async">';
+        foreach ($home['gallery'] ?? [] as $item) {
+            if (!visible_content($item['visible'] ?? true) || empty($item['src'])) continue;
+            $gallery .= '<figure><img src="' . html_text($url($item['src'])) . '" alt="' . html_text($item['alt'] ?? '') . '" loading="lazy" decoding="async">';
+            if (!empty($item['credit'])) {
+                $credit = html_text($item['credit']);
+                $creditUrl = $url($item['creditUrl'] ?? '');
+                $gallery .= '<figcaption>Foto di ' . ($creditUrl ? '<a href="' . html_text($creditUrl) . '" rel="noopener noreferrer">' . $credit . '</a>' : $credit) . '</figcaption>';
+            }
+            $gallery .= '</figure>';
+        }
         $replace('.image-grid', $gallery);
         if (!$gallery) $attr('.image-band', 'hidden', '');
         $topics = '';

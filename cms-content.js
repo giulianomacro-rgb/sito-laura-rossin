@@ -189,10 +189,7 @@
       });
     }
 
-    setText(".intro-band .eyebrow", home.intro?.eyebrow);
     setText(".intro-band h2", home.intro?.title);
-    const introText = document.querySelector(".intro-band .intro-grid > p");
-    if (introText && home.intro?.text) introText.textContent = home.intro.text;
 
     setText("#servizi .section-heading .eyebrow", home.services?.eyebrow);
     setText("#servizi-title", home.services?.title);
@@ -246,11 +243,25 @@
       const band = imageGrid.closest(".image-band");
       if (band) band.hidden = visibleImages.length === 0;
       visibleImages.forEach((item) => {
+        const figure = document.createElement("figure");
         const img = document.createElement("img");
         img.src = rootPath(item.src);
         img.alt = item.alt || "";
         img.loading = "lazy";
-        imageGrid.appendChild(img);
+        img.decoding = "async";
+        figure.appendChild(img);
+        if (item.credit) {
+          const caption = document.createElement("figcaption");
+          caption.textContent = "Foto di ";
+          const credit = document.createElement("a");
+          credit.textContent = item.credit;
+          const creditUrl = rootPath(item.creditUrl || "");
+          if (creditUrl) credit.href = creditUrl;
+          credit.rel = "noopener noreferrer";
+          caption.appendChild(credit);
+          figure.appendChild(caption);
+        }
+        imageGrid.appendChild(figure);
       });
     }
 
@@ -293,9 +304,9 @@
       });
     }
 
-    setText(".contact-section .eyebrow", home.contact?.eyebrow);
+    setText(".contact-details .eyebrow", home.contact?.eyebrow);
     setText("#contatti-title", home.contact?.title);
-    const contactText = document.querySelector(".contact-section .contact-grid > div p:not(.eyebrow)");
+    const contactText = document.querySelector(".contact-details .contact-grid > div p:not(.eyebrow)");
     if (contactText && home.contact?.text) contactText.textContent = home.contact.text;
     const contactCard = document.querySelector(".contact-card");
     if (contactCard && home.contact) {

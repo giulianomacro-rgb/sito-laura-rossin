@@ -435,6 +435,8 @@ function normalize_gallery(array $rows): array
         $clean[] = [
             'src' => $src,
             'alt' => $alt,
+            'credit' => trim((string) ($row['credit'] ?? '')),
+            'creditUrl' => trim((string) ($row['creditUrl'] ?? '')),
             'visible' => truthy($row['visible'] ?? '1'),
         ];
     }
@@ -1494,9 +1496,9 @@ $backupList = backup_files($backupDir);
               <details class="editor-card">
                 <summary>Introduzione</summary>
                 <div class="grid two">
-                  <?php field('Etichetta', 'site[home][intro][eyebrow]', value($site, ['home', 'intro', 'eyebrow'])); ?>
+                  <?php field('Etichetta archiviata (non visibile nella fascia)', 'site[home][intro][eyebrow]', value($site, ['home', 'intro', 'eyebrow'])); ?>
                   <?php field('Titolo', 'site[home][intro][title]', value($site, ['home', 'intro', 'title'])); ?>
-                  <?php area('Testo', 'site[home][intro][text]', value($site, ['home', 'intro', 'text']), 6); ?>
+                  <?php area('Testo archiviato (non visibile nella fascia)', 'site[home][intro][text]', value($site, ['home', 'intro', 'text']), 6); ?>
                 </div>
               </details>
 
@@ -1525,9 +1527,11 @@ $backupList = backup_files($backupDir);
                   <?php $gallery = array_merge($site['home']['gallery'] ?? [], [['src' => '', 'alt' => '']]); ?>
                   <?php foreach ($gallery as $i => $item): ?>
                     <div class="mini-card">
-                      <?php toggle_field('Mostra questa immagine', 'site[home][gallery][' . $i . '][visible]', array_key_exists('visible', $item) ? truthy($item['visible']) : true, 'Utile se vuoi nascondere la foto dello studio senza cancellarla.'); ?>
-                      <?php field('Immagine studio', 'site[home][gallery][' . $i . '][src]', (string) ($item['src'] ?? '')); ?>
+                      <?php toggle_field('Mostra questa immagine', 'site[home][gallery][' . $i . '][visible]', array_key_exists('visible', $item) ? truthy($item['visible']) : true, 'Nasconde la fotografia senza cancellarla.'); ?>
+                      <?php field('Fotografia di ambiente', 'site[home][gallery][' . $i . '][src]', (string) ($item['src'] ?? '')); ?>
                       <?php field('Testo alternativo', 'site[home][gallery][' . $i . '][alt]', (string) ($item['alt'] ?? '')); ?>
+                      <?php field('Credito fotografico', 'site[home][gallery][' . $i . '][credit]', (string) ($item['credit'] ?? '')); ?>
+                      <?php field('Link alla fonte', 'site[home][gallery][' . $i . '][creditUrl]', (string) ($item['creditUrl'] ?? '')); ?>
                     </div>
                   <?php endforeach; ?>
                 </div>
@@ -2165,10 +2169,9 @@ $backupList = backup_files($backupDir);
             const items = [];
             addSharedImages(items, doc);
             pushImage(items, doc.querySelector(".hero-media img"), "assets.heroImage", "Hero: foto principale");
-            pushImage(items, doc.querySelector(".hero"), "assets.patternImage", "Hero: banda grafica", "", "", "--pattern-image");
             pushImage(items, doc.querySelector(".initiative-panel"), "assets.initiativeIllustration", "Iniziative: illustrazione card", "", "", "--initiative-image");
             const galleryIndex = (visualSite.home?.gallery || []).findIndex(item => ![false, 0, "0"].includes(item.visible) && item.src);
-            if (galleryIndex >= 0) pushImage(items, doc.querySelector(".image-grid img"), `home.gallery.${galleryIndex}.src`, "Studio: immagine", `home.gallery.${galleryIndex}.alt`);
+            if (galleryIndex >= 0) pushImage(items, doc.querySelector(".image-grid img"), `home.gallery.${galleryIndex}.src`, "Ambiente: immagine", `home.gallery.${galleryIndex}.alt`);
             pushEditable(items, doc.querySelector(".hero .eyebrow"), "home.hero.eyebrow", "Hero: etichetta");
             pushEditable(items, doc.querySelector("#hero-title"), "home.hero.title", "Hero: titolo");
             pushEditable(items, doc.querySelector(".hero-lead"), "home.hero.lead", "Hero: testo introduttivo");
@@ -2178,9 +2181,7 @@ $backupList = backup_files($backupDir);
               pushEditable(items, el.querySelector(".trust-title"), `home.trust.${index}.title`, `Chi sono ${index + 1}: titolo`, `home.trust.${index}.href`);
               pushEditable(items, el.querySelector(".trust-text"), `home.trust.${index}.text`, `Chi sono ${index + 1}: testo`, `home.trust.${index}.href`);
             });
-            pushEditable(items, doc.querySelector(".intro-band .eyebrow"), "home.intro.eyebrow", "Introduzione: etichetta");
             pushEditable(items, doc.querySelector(".intro-band h2"), "home.intro.title", "Introduzione: titolo");
-            pushEditable(items, doc.querySelector(".intro-band .intro-grid > p"), "home.intro.text", "Introduzione: testo");
             pushEditable(items, doc.querySelector("#servizi .section-heading .eyebrow"), "home.services.eyebrow", "Servizi: etichetta");
             pushEditable(items, doc.querySelector("#servizi-title"), "home.services.title", "Servizi: titolo");
             const serviceIndexes = visibleIndexes(visualSite.home?.services?.items);
@@ -2229,9 +2230,9 @@ $backupList = backup_files($backupDir);
               pushEditable(items, el.querySelector("summary"), `home.faq.items.${index}.question`, `FAQ ${index + 1}: domanda`);
               pushEditable(items, el.querySelector("p"), `home.faq.items.${index}.answer`, `FAQ ${index + 1}: risposta`);
             });
-            pushEditable(items, doc.querySelector(".contact-section .eyebrow"), "home.contact.eyebrow", "Contatti: etichetta");
+            pushEditable(items, doc.querySelector(".contact-details .eyebrow"), "home.contact.eyebrow", "Contatti: etichetta");
             pushEditable(items, doc.querySelector("#contatti-title"), "home.contact.title", "Contatti: titolo");
-            pushEditable(items, doc.querySelector(".contact-section .contact-grid > div p:not(.eyebrow)"), "home.contact.text", "Contatti: testo");
+            pushEditable(items, doc.querySelector(".contact-details .contact-grid > div p:not(.eyebrow)"), "home.contact.text", "Contatti: testo");
             const contactItems = doc.querySelectorAll(".contact-card a, .contact-card span");
             pushEditable(items, contactItems[0], "home.contact.email", "Contatti: email");
             pushEditable(items, contactItems[1], "home.contact.phone", "Contatti: telefono", "home.contact.phoneHref");
