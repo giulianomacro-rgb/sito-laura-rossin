@@ -89,5 +89,8 @@ if (process.env.CMS_TEST_CREDENTIALS) {
   const logout = await request('/admin/', {method: 'POST', body: new URLSearchParams({action: 'logout', csrf: token})});
   assert.equal(logout.status, 302);
   assert.match(await (await request('/admin/')).text(), /name="password"/);
+  const expired = await request('/admin/', {method: 'POST', body: new URLSearchParams({action: 'save_visual_content', csrf: token, site_json: '{}'})});
+  assert.equal(expired.status, 401, 'Expired session cannot save');
+  assert.equal((await expired.json()).ok, false);
   console.log('OK: CMS login, CSRF protection, logout');
 }

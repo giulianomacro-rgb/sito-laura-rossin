@@ -1004,6 +1004,9 @@ if (is_logged_in()) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = (string) ($_POST['action'] ?? '');
+    if (in_array($action, ['save_visual_content', 'upload_visual_image'], true) && !is_logged_in()) {
+        json_response(['ok' => false, 'message' => 'Sessione scaduta. Accedi di nuovo al CMS.'], 401);
+    }
     $returnSection = array_key_exists((string) ($_POST['section'] ?? ''), $sections) ? (string) $_POST['section'] : 'dashboard';
 
     if ($action === 'login') {
@@ -2134,6 +2137,13 @@ $backupList = backup_files($backupDir);
 
           const inspectorAssetHref = (src) => src ? new URL(previewAssetHref(src), frame.src).href : "";
 
+          const readCmsResponse = async (response) => {
+            if (response.redirected || !response.headers.get("content-type")?.includes("application/json")) {
+              throw new Error("Sessione scaduta. Accedi di nuovo al CMS. Le modifiche in anteprima non sono state salvate.");
+            }
+            return response.json();
+          };
+
           const visibleIndexes = (rows = []) => rows
             .map((item, index) => ({ item, index }))
             .filter(({ item }) => ![false, 0, "0"].includes(item.visible))
@@ -2549,7 +2559,7 @@ $backupList = backup_files($backupDir);
 
             try {
               const response = await fetch("index.php?section=visual", { method: "POST", body });
-              const data = await response.json();
+              const data = await readCmsResponse(response);
               if (!response.ok || !data.ok) throw new Error(data.message || "Upload non riuscito.");
               writeImagePath(descriptor, data.path);
               setVisualStatus(data.message || "Immagine caricata. Salva le modifiche.", "dirty");
@@ -2574,7 +2584,7 @@ $backupList = backup_files($backupDir);
             body.set("site_json", JSON.stringify(visualSite));
             try {
               const response = await fetch("index.php?section=visual", { method: "POST", body });
-              const data = await response.json();
+              const data = await readCmsResponse(response);
               if (!response.ok || !data.ok) throw new Error(data.message || "Salvataggio non riuscito.");
               setDirty(false);
               setVisualStatus(data.message || "Salvato correttamente.", "ok");
