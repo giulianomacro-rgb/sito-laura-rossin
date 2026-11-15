@@ -15,6 +15,18 @@ foreach (public_pages() as $path => $key) {
     check($doc->documentElement->getAttribute('data-server-rendered') === 'true', "SSR: $path");
     check($doc->querySelectorAll('script[type="application/ld+json"]')->length === 1, "No duplicate schema: $path");
     json_decode($doc->querySelector('script[type="application/ld+json"]')->textContent, true, 512, JSON_THROW_ON_ERROR);
+    foreach ($doc->querySelectorAll('.site-nav a') as $nav) {
+        check(!str_contains($nav->getAttribute('href'), '#'), 'Menu goes to pages: ' . $path);
+    }
+    if (in_array($key, ['servizi','metodo','iniziative','contatti'], true)) {
+        check($doc->querySelectorAll('.site-nav [aria-current="page"]')->length === 1, 'Current menu page: ' . $path);
+        check(str_contains($doc->body->textContent, $site['pages'][$key]['sections'][0]['text']), 'Dedicated CMS body: ' . $path);
+    }
+    if (in_array($key, ['home', 'servizi'], true)) {
+        $images = [];
+        foreach ($doc->querySelectorAll('.service-illustration') as $img) $images[] = $img->getAttribute('src');
+        check(count(array_unique($images)) === 3, 'Distinct service illustrations');
+    }
     if ($key === 'home') {
         $links = $doc->querySelectorAll('.initiative-panel .button');
         check($links->item(0)->getAttribute('href') === $site['home']['initiative']['href'], 'CMS initiative link');
@@ -34,4 +46,4 @@ check(!str_contains($html, '<script>alert(1)'), 'No script injection');
 check(safe_site_url('javascript:alert(1)') === '', 'Reject unsafe URL');
 $seo = apply_site_seo('<head><title>Old</title><meta name="description" content="old"></head>', ['title' => 'Test $1 & <script>', 'description' => 'New']);
 check(str_contains($seo, 'Test $1 &amp; &lt;script&gt;'), 'SEO escaping and literal dollar');
-echo "OK: 9 page routes, schema, article SSR, CMS escaping, metadata\n";
+echo 'OK: ' . count(public_pages()) . " page routes, navigation, illustrations, schema, article SSR, CMS escaping, metadata\n";

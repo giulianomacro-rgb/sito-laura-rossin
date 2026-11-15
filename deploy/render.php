@@ -42,17 +42,8 @@ if ($path === '/content/site.json') {
     exit;
 }
 
-$pages = [
-    '/index.html' => 'home',
-    '/servizi/psicoterapia-breve-strategica-bolzano.html' => 'psicoterapia',
-    '/servizi/coaching-professionale-strategico.html' => 'coaching',
-    '/servizi/psicologia-del-lavoro-sportello-aziendale.html' => 'lavoro',
-    '/iniziative/mente-adolescente.html' => 'mente',
-    '/privacy-policy.html' => 'privacy',
-    '/cookie-policy.html' => 'cookie',
-    '/prenotazioni.html' => null,
-    '/articolo.html' => null,
-];
+$pages = public_pages();
+$pages['/index.html'] = 'home';
 $path = $path === '/' ? '/index.html' : $path;
 if (!is_string($path) || !array_key_exists($path, $pages)) {
     http_response_code(404);

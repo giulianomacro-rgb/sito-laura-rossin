@@ -139,6 +139,9 @@
     if (path.includes("mente-adolescente")) return "mente";
     if (path.includes("privacy-policy")) return "privacy";
     if (path.includes("cookie-policy")) return "cookie";
+    for (const key of ["servizi", "metodo", "iniziative", "contatti"]) {
+      if (path.endsWith(`/${key}.html`)) return key;
+    }
     return "home";
   };
 
@@ -198,7 +201,13 @@
       serviceGrid.innerHTML = "";
       sortedVisible(home.services.items).forEach((item) => {
         const article = document.createElement("article");
-        article.className = "service-card";
+        article.className = "service-card has-illustration";
+        const servicePage = Object.values(site.pages || {}).find(page => page.slug === item.href);
+        const art = document.createElement("img");
+        art.className = "service-illustration";
+        art.src = rootPath(servicePage?.hero?.image || assets.servicesIllustration);
+        art.alt = "";
+        art.loading = "lazy";
         const title = document.createElement("h3");
         title.textContent = item.title || "";
         const p = document.createElement("p");
@@ -206,7 +215,7 @@
         const a = document.createElement("a");
         a.href = rootPath(item.href || "#");
         a.textContent = item.linkLabel || "Approfondisci";
-        article.append(title, p, a);
+        article.append(art, title, p, a);
         serviceGrid.appendChild(article);
       });
     }
@@ -344,6 +353,7 @@
     if (heroText && page.hero?.text) heroText.textContent = page.hero.text;
     setLink(".page-hero .button", page.hero?.buttonLabel, page.hero?.buttonHref);
     setImage(".page-hero img", page.hero?.image, page.hero?.imageAlt);
+    setCssImage("--page-image", page.hero?.image);
 
     const side = document.querySelector(".side-note");
     if (side) {
@@ -409,14 +419,11 @@
   const highlightNav = () => {
     const links = Array.from(document.querySelectorAll(".site-nav a"));
     const path = window.location.pathname;
-    if (path.includes("/servizi/")) {
-      links.find((link) => link.getAttribute("href")?.includes("#servizi"))?.setAttribute("aria-current", "page");
-      return;
-    }
-    if (path.includes("/iniziative/")) {
-      links.find((link) => link.getAttribute("href")?.includes("#iniziative"))?.setAttribute("aria-current", "page");
-      return;
-    }
+    const current = path.includes("/servizi/") ? "servizi.html" : path.includes("/iniziative/") ? "iniziative.html" : path.split("/").pop();
+    links.forEach(link => {
+      if (link.getAttribute("href")?.split("/").pop() === current) link.setAttribute("aria-current", "page");
+      else link.removeAttribute("aria-current");
+    });
 
     const sectionLinks = links
       .map((link) => {
@@ -460,7 +467,10 @@
       }
       if (key === "home") renderHome(site);
       else if (key === "article") renderArticle(site);
-      else renderPage(site, key);
+      else {
+        if (["servizi", "metodo", "iniziative", "contatti"].includes(key)) renderHome(site);
+        renderPage(site, key);
+      }
     })
     .catch(() => {});
 

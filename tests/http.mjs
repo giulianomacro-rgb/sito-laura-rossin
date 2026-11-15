@@ -32,7 +32,7 @@ if (base.protocol === 'https:') {
   }
 }
 const content = await (await request('/content/site.json')).json();
-const routes = ['/prenotazioni.html', '/sitemap.xml', '/robots.txt', '/healthz'];
+const routes = ['/servizi.html', '/metodo.html', '/iniziative.html', '/contatti.html', '/privacy-policy.html', '/cookie-policy.html', '/prenotazioni.html', '/sitemap.xml', '/robots.txt', '/healthz'];
 for (const item of content.home.services.items) routes.push(`/${item.href}`);
 for (const item of content.home.topics.items) routes.push(`/articolo.html?slug=${encodeURIComponent(item.slug)}`);
 for (const route of routes) assert.equal((await request(route)).status, 200, route);

@@ -2,6 +2,7 @@ admin/config.php
 admin/google-calendar-config.php
 admin/.login-attempts.json
 admin/.login-attempts.json.lock
+admin/.booking.lock
 content/backups/
 assets/uploads/
 .DS_Store

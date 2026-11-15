@@ -312,83 +312,10 @@ function clean_rows(array $rows, array $allowedKeys): array
 
 function page_defaults(): array
 {
-    return [
-        'psicoterapia' => [
-            'label' => 'Psicoterapia',
-            'slug' => 'servizi/psicoterapia-breve-strategica-bolzano.html',
-            'title' => 'Psicoterapia breve strategica',
-        ],
-        'coaching' => [
-            'label' => 'Coaching',
-            'slug' => 'servizi/coaching-professionale-strategico.html',
-            'title' => 'Coaching professionale',
-        ],
-        'lavoro' => [
-            'label' => 'Psicologia del lavoro',
-            'slug' => 'servizi/psicologia-del-lavoro-sportello-aziendale.html',
-            'title' => 'Psicologia del lavoro',
-        ],
-        'mente' => [
-            'label' => 'Mente Adolescente',
-            'slug' => 'iniziative/mente-adolescente.html',
-            'title' => 'Mente Adolescente',
-        ],
-        'privacy' => [
-            'label' => 'Privacy policy',
-            'slug' => 'privacy-policy.html',
-            'title' => 'Privacy policy',
-            'seo' => [
-                'title' => 'Privacy policy | Laura Rossin',
-                'description' => 'Informativa privacy provvisoria del sito Laura Rossin. Testo segnaposto da validare con un professionista.',
-            ],
-            'hero' => [
-                'eyebrow' => 'Informative',
-                'title' => 'Privacy policy',
-                'text' => 'Testo informativo provvisorio da verificare e completare con un professionista.',
-                'buttonLabel' => 'Torna al sito',
-                'buttonHref' => 'index.html',
-                'image' => '',
-                'imageAlt' => '',
-            ],
-            'sections' => [
-                [
-                    'title' => 'Informativa provvisoria',
-                    'text' => 'Questa pagina contiene testo segnaposto. Prima della pubblicazione definitiva, l informativa deve essere verificata e personalizzata da un professionista competente.',
-                    'items' => [],
-                ],
-                [
-                    'title' => 'Dati inviati tramite form',
-                    'text' => 'I dati inseriti nel form di prenotazione vengono utilizzati esclusivamente per gestire la richiesta di contatto e l appuntamento.',
-                    'items' => [],
-                ],
-            ],
-        ],
-        'cookie' => [
-            'label' => 'Cookie policy',
-            'slug' => 'cookie-policy.html',
-            'title' => 'Cookie policy',
-            'seo' => [
-                'title' => 'Cookie policy | Laura Rossin',
-                'description' => 'Informativa cookie provvisoria del sito Laura Rossin. Testo segnaposto da validare con un professionista.',
-            ],
-            'hero' => [
-                'eyebrow' => 'Informative',
-                'title' => 'Cookie policy',
-                'text' => 'Testo informativo provvisorio da verificare e completare con un professionista.',
-                'buttonLabel' => 'Torna al sito',
-                'buttonHref' => 'index.html',
-                'image' => '',
-                'imageAlt' => '',
-            ],
-            'sections' => [
-                [
-                    'title' => 'Uso dei cookie',
-                    'text' => 'Questa pagina contiene testo segnaposto. Indica qui quali cookie tecnici, statistici o di terze parti vengono usati dal sito.',
-                    'items' => [],
-                ],
-            ],
-        ],
-    ];
+    $bundled = json_decode((string) file_get_contents(dirname(__DIR__) . '/content/site.json'), true);
+    $pages = is_array($bundled['pages'] ?? null) ? $bundled['pages'] : [];
+    foreach ($pages as &$page) $page['label'] = $page['title'] ?? '';
+    return $pages;
 }
 
 function ensure_site_defaults(array $site): array
@@ -1190,12 +1117,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $daysAhead = max(1, min(180, (int) ($_POST['days_ahead'] ?? 60)));
         $serviceAccountJson = trim((string) ($_POST['service_account_json'] ?? ''));
         $enabled = ($_POST['booking_enabled'] ?? '') === '1';
+        $testMode = ($_POST['test_mode'] ?? '') === '1';
+        $dedicated = ($_POST['dedicated_calendar'] ?? '') === '1';
+        $privacyReady = ($_POST['privacy_ready'] ?? '') === '1';
         $serviceAccount = is_array($calendarConfig['service_account'] ?? null) ? $calendarConfig['service_account'] : [];
         $calendarErrors = [];
 
         if ($enabled && $calendarId === '') {
             $calendarErrors[] = 'Inserisci il Google Calendar ID.';
         }
+        if ($enabled && !$dedicated) $calendarErrors[] = 'Conferma che il calendario contiene solo disponibilità e appuntamenti del sito.';
+        if ($enabled && !$testMode && !$privacyReady) $calendarErrors[] = 'Per le prenotazioni pubbliche occorre completare la verifica privacy. In alternativa usa il collaudo riservato.';
         if (!in_array($timezone, DateTimeZone::listIdentifiers(DateTimeZone::ALL_WITH_BC), true)) {
             $calendarErrors[] = 'Inserisci un fuso orario valido, ad esempio Europe/Rome.';
         }
@@ -1218,6 +1150,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($calendarErrors === []) {
             $calendarConfig = [
                 'enabled' => $enabled,
+                'availability_mode' => 'calendar',
+                'dedicated_calendar' => $dedicated,
+                'test_mode' => $testMode,
+                'privacy_ready' => $privacyReady,
                 'calendar_id' => $calendarId,
                 'timezone' => $timezone,
                 'days_ahead' => $daysAhead,
@@ -1402,6 +1338,10 @@ $backupList = backup_files($backupDir);
                   <option value="lavoro" data-url="../servizi/psicologia-del-lavoro-sportello-aziendale.html">Psicologia del lavoro</option>
                   <option value="mente" data-url="../iniziative/mente-adolescente.html">Mente Adolescente</option>
                   <option value="privacy" data-url="../privacy-policy.html">Privacy policy</option>
+                  <option value="servizi" data-url="../servizi.html">Tutti i servizi</option>
+                  <option value="metodo" data-url="../metodo.html">Metodo</option>
+                  <option value="iniziative" data-url="../iniziative.html">Tutte le iniziative</option>
+                  <option value="contatti" data-url="../contatti.html">Contatti e studio</option>
                   <option value="cookie" data-url="../cookie-policy.html">Cookie policy</option>
                 </select>
               </label>
@@ -1773,7 +1713,7 @@ $backupList = backup_files($backupDir);
             <div class="section-title">
               <div>
                 <h2>Prenotazioni</h2>
-                <p class="hint">Crea un evento con orario e aggiungi #disp al titolo o alla descrizione. Dopo la conferma, lo stesso evento diventa un appuntamento e sparisce dagli slot disponibili.</p>
+                <p class="hint">Nel calendario dedicato Prenotazioni ogni evento con giorno e orario diventa una disponibilità: non serve #disp. Non inserire qui impegni personali. Gli eventi con invitati, di giornata intera, già prenotati o con titolo che inizia per Appuntamento o Occupato sono esclusi.</p>
               </div>
               <a class="button secondary" href="../prenotazioni.html" target="_blank" rel="noopener">Apri pagina prenotazioni</a>
             </div>
@@ -1787,6 +1727,9 @@ $backupList = backup_files($backupDir);
               <input type="hidden" name="action" value="save_google_calendar">
               <input type="hidden" name="section" value="prenotazioni">
               <?php toggle_field('Attiva prenotazioni online', 'booking_enabled', ($calendarConfig['enabled'] ?? false) === true, 'Attiva solo dopo aver verificato il calendario e aggiornato l informativa privacy.'); ?>
+              <?php toggle_field('Collaudo riservato al CMS', 'test_mode', ($calendarConfig['test_mode'] ?? true) === true, 'Solo chi ha effettuato accesso al CMS vede gli orari. Usa eventi e dati fittizi, poi elimina gli eventi di prova.'); ?>
+              <?php toggle_field('Calendario dedicato confermato', 'dedicated_calendar', ($calendarConfig['dedicated_calendar'] ?? false) === true, 'Confermo che questo ID identifica il calendario Prenotazioni, senza altri impegni o dati di pazienti. Gli altri calendari non vengono letti.'); ?>
+              <?php toggle_field('Verifica privacy per apertura pubblica completata', 'privacy_ready', ($calendarConfig['privacy_ready'] ?? false) === true, 'Da confermare dalla titolare: informativa definitiva, conservazione, account Google idoneo, accordi con fornitori e trasferimenti extra SEE. Non necessario per il collaudo con dati fittizi.'); ?>
               <div class="grid two">
                 <?php field('Google Calendar ID', 'calendar_id', (string) ($calendarConfig['calendar_id'] ?? ''), 'text', 'Di solito è un indirizzo email o una stringa lunga del calendario.'); ?>
                 <?php field('Fuso orario', 'timezone', (string) ($calendarConfig['timezone'] ?? 'Europe/Rome')); ?>
@@ -2192,7 +2135,6 @@ $backupList = backup_files($backupDir);
             addSharedImages(items, doc);
             pushImage(items, doc.querySelector(".hero-media img"), "assets.heroImage", "Hero: foto principale");
             pushImage(items, doc.querySelector(".hero"), "assets.patternImage", "Hero: banda grafica", "", "", "--pattern-image");
-            pushImage(items, doc.querySelector(".service-card"), "assets.servicesIllustration", "Servizi: illustrazione card", "", "", "--services-image");
             pushImage(items, doc.querySelector(".initiative-panel"), "assets.initiativeIllustration", "Iniziative: illustrazione card", "", "", "--initiative-image");
             const galleryIndex = (visualSite.home?.gallery || []).findIndex(item => ![false, 0, "0"].includes(item.visible) && item.src);
             if (galleryIndex >= 0) pushImage(items, doc.querySelector(".image-grid img"), `home.gallery.${galleryIndex}.src`, "Studio: immagine", `home.gallery.${galleryIndex}.alt`);
@@ -2214,6 +2156,8 @@ $backupList = backup_files($backupDir);
             doc.querySelectorAll(".service-grid .service-card").forEach((el, renderedIndex) => {
               const index = serviceIndexes[renderedIndex];
               if (index === undefined) return;
+              const pageEntry = Object.entries(visualSite.pages || {}).find(([, page]) => page.slug === visualSite.home.services.items[index].href);
+              if (pageEntry) pushImage(items, el.querySelector(".service-illustration"), `pages.${pageEntry[0]}.hero.image`, `Servizio ${index + 1}: immagine della scheda e della pagina`);
               pushEditable(items, el.querySelector("h3"), `home.services.items.${index}.title`, `Servizio ${index + 1}: titolo`);
               pushEditable(items, el.querySelector("p"), `home.services.items.${index}.text`, `Servizio ${index + 1}: descrizione`);
               pushEditable(items, el.querySelector("a"), `home.services.items.${index}.linkLabel`, `Servizio ${index + 1}: link`, `home.services.items.${index}.href`);
@@ -2298,10 +2242,10 @@ $backupList = backup_files($backupDir);
           };
 
           const mapPage = (doc, key) => {
-            const items = [];
+            const items = ["servizi", "metodo", "iniziative", "contatti"].includes(key) ? mapHome(doc) : [];
             const base = `pages.${key}`;
             addSharedImages(items, doc);
-            pushImage(items, doc.querySelector(".page-hero"), "assets.pageIllustration", "Pagina: banda grafica", "", "", "--page-image");
+            pushImage(items, doc.querySelector(".page-hero:not(.directory-hero)"), `${base}.hero.image`, "Pagina: illustrazione coordinata", "", "", "--page-image");
             pushImage(items, doc.querySelector(".page-hero img"), `${base}.hero.image`, "Hero pagina: immagine", `${base}.hero.imageAlt`);
             pushEditable(items, doc.querySelector(".page-hero .eyebrow"), `${base}.hero.eyebrow`, "Hero pagina: etichetta");
             pushEditable(items, doc.querySelector(".page-hero h1"), `${base}.hero.title`, "Hero pagina: titolo");

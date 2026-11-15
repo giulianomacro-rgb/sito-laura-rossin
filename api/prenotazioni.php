@@ -34,6 +34,13 @@ function load_calendar_config(): array
         throw new RuntimeException('Google Calendar non configurato.');
     }
 
+    if (($config['availability_mode'] ?? 'tag') === 'calendar' && empty($config['dedicated_calendar'])) {
+        throw new RuntimeException('Conferma il calendario dedicato nel CMS.');
+    }
+    if (empty($config['test_mode']) && empty($config['privacy_ready'])) {
+        throw new RuntimeException('Prenotazioni pubbliche non ancora abilitate.');
+    }
+
     return $config;
 }
 
@@ -155,17 +162,18 @@ function calendar_event_url(string $calendarId, string $eventId = ''): string
     return $eventId === '' ? $base : $base . '/' . rawurlencode($eventId);
 }
 
-function event_is_available_slot(array $event): bool
+function event_is_available_slot(array $event, string $mode = 'calendar'): bool
 {
     if (($event['status'] ?? '') === 'cancelled' || ($event['eventType'] ?? 'default') !== 'default'
-        || !empty($event['attendees']) || empty($event['start']['dateTime']) || empty($event['end']['dateTime'])) {
+        || !empty($event['attendees']) || !empty($event['extendedProperties']['private']['lauraBooked'])
+        || empty($event['start']['dateTime']) || empty($event['end']['dateTime'])) {
         return false;
     }
 
     $summary = trim((string) ($event['summary'] ?? ''));
     $description = trim((string) ($event['description'] ?? ''));
-    return !str_starts_with($summary, 'Appuntamento - ')
-        && preg_match('/(?<![\pL\pN_])#disp(?![\pL\pN_])/iu', $summary . "\n" . strip_tags($description)) === 1;
+    if (preg_match('/^(Appuntamento|Occupato)(?:\s|$)/iu', $summary)) return false;
+    return $mode === 'calendar' || preg_match('/(?<![\pL\pN_])#disp(?![\pL\pN_])/iu', $summary . "\n" . strip_tags($description)) === 1;
 }
 
 function calendar_events(string $calendarId, string $token, DateTimeImmutable $from, DateTimeImmutable $to): array
@@ -176,7 +184,7 @@ function calendar_events(string $calendarId, string $token, DateTimeImmutable $f
         'singleEvents' => 'true',
         'orderBy' => 'startTime',
         'maxResults' => '2500',
-        'fields' => 'nextPageToken,items(id,summary,description,status,eventType,start,end,attendees)',
+        'fields' => 'nextPageToken,items(id,summary,description,status,eventType,start,end,attendees,extendedProperties)',
     ];
     $events = [];
     for ($page = 0; $page < 8; $page++) {
@@ -193,11 +201,11 @@ function calendar_events(string $calendarId, string $token, DateTimeImmutable $f
     throw new RuntimeException('Troppi eventi per leggere il calendario completo.');
 }
 
-function busy_intervals(array $events, DateTimeZone $timezone): array
+function busy_intervals(array $events, DateTimeZone $timezone, string $mode = 'calendar'): array
 {
     $intervals = [];
     foreach ($events as $event) {
-        if (($event['status'] ?? '') === 'cancelled' || event_is_available_slot($event)) {
+        if (($event['status'] ?? '') === 'cancelled' || event_is_available_slot($event, $mode)) {
             continue;
         }
         $start = $event['start']['dateTime'] ?? $event['start']['date'] ?? '';
@@ -227,11 +235,12 @@ function list_slots(array $config): array
     $max = $now->modify('+' . $daysAhead . ' days');
     $token = google_access_token($config['service_account']);
     $events = calendar_events($config['calendar_id'], $token, $now, $max);
-    $busy = busy_intervals($events, $timezone);
+    $mode = $config['availability_mode'] ?? 'tag';
+    $busy = busy_intervals($events, $timezone, $mode);
 
     $slots = [];
     foreach ($events as $event) {
-        if (!is_array($event) || !event_is_available_slot($event)) {
+        if (!is_array($event) || !event_is_available_slot($event, $mode)) {
             continue;
         }
 
@@ -288,7 +297,7 @@ function clean_text(array $payload, string $key, int $max = 500): string
 
 function book_slot(array $config, array $payload): array
 {
-    $required = ['eventId', 'nome', 'cognome', 'telefono', 'email', 'eta', 'sesso', 'sintesi'];
+    $required = ['eventId', 'nome', 'cognome', 'telefono', 'email', 'eta', 'sesso'];
     foreach ($required as $key) {
         if (clean_text($payload, $key) === '') {
             respond(['ok' => false, 'message' => 'Compila tutti i campi obbligatori.'], 422);
@@ -298,10 +307,17 @@ function book_slot(array $config, array $payload): array
     if (($payload['privacy'] ?? false) !== true) {
         respond(['ok' => false, 'message' => 'Per prenotare è necessario il consenso privacy.'], 422);
     }
+    $privacyVersion = booking_privacy_version();
+    if (($payload['privacyVersion'] ?? '') !== $privacyVersion) {
+        respond(['ok' => false, 'message' => 'L’informativa è stata aggiornata. Ricarica la pagina e leggila prima di confermare.'], 422);
+    }
 
     $email = clean_text($payload, 'email', 160);
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         respond(['ok' => false, 'message' => 'Inserisci un indirizzo email valido.'], 422);
+    }
+    if (!empty($config['test_mode']) && (($payload['testData'] ?? false) !== true || !str_ends_with($email, '@example.invalid'))) {
+        respond(['ok' => false, 'message' => 'Nel collaudo usa solo dati inventati e una email che termina con @example.invalid.'], 422);
     }
 
     $eta = filter_var($payload['eta'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 120]]);
@@ -330,7 +346,7 @@ function book_slot(array $config, array $payload): array
     }
 
     $event = $eventResponse['data'];
-    if (!event_is_available_slot($event) || empty($event['etag'])) {
+    if (!event_is_available_slot($event, $config['availability_mode'] ?? 'tag') || empty($event['etag'])) {
         respond(['ok' => false, 'message' => 'Questo orario non è più disponibile. Scegli un altro slot.'], 409);
     }
     $timezone = new DateTimeZone((string) ($config['timezone'] ?? 'Europe/Rome'));
@@ -339,7 +355,7 @@ function book_slot(array $config, array $payload): array
     $end = new DateTimeImmutable($event['end']['dateTime']);
     $max = $now->modify('+' . max(1, min(180, (int) ($config['days_ahead'] ?? 60))) . ' days');
     if ($start <= $now || $start >= $max || $end <= $start
-        || overlaps_busy($start, $end, busy_intervals(calendar_events($config['calendar_id'], $token, $start, $end), $timezone))) {
+        || overlaps_busy($start, $end, busy_intervals(calendar_events($config['calendar_id'], $token, $start, $end), $timezone, $config['availability_mode'] ?? 'tag'))) {
         respond(['ok' => false, 'message' => 'Questo orario non è più disponibile. Scegli un altro slot.'], 409);
     }
 
@@ -350,7 +366,11 @@ function book_slot(array $config, array $payload): array
         'Email: ' . $email,
         'Età: ' . $eta,
         'Sesso: ' . $sesso,
-        'Sintesi problematica: ' . $sintesi,
+        'Sintesi problematica: ' . ($sintesi ?: 'Non indicata'),
+        'Consenso prenotazione online e dati relativi alla salute: espresso',
+        'Informativa: ' . $privacyVersion,
+        'Confermato il: ' . $now->format(DateTimeInterface::ATOM),
+        !empty($config['test_mode']) ? 'COLLAUDO: dati fittizi, non è un appuntamento reale.' : '',
     ]);
 
     $updateResponse = google_request(
@@ -363,6 +383,11 @@ function book_slot(array $config, array $payload): array
             'status' => 'confirmed',
             'visibility' => 'private',
             'transparency' => 'opaque',
+            'extendedProperties' => ['private' => array_merge($event['extendedProperties']['private'] ?? [], [
+                'lauraBooked' => '1', 'lauraPrivacy' => $privacyVersion,
+                'lauraBookedAt' => $now->format(DateTimeInterface::ATOM),
+                'lauraTest' => !empty($config['test_mode']) ? '1' : '0',
+            ])],
         ],
         ['If-Match: ' . $event['etag']]
     );
@@ -375,19 +400,56 @@ function book_slot(array $config, array $payload): array
         throw new RuntimeException('Impossibile confermare la prenotazione.');
     }
 
-    return ['ok' => true, 'message' => 'Prenotazione confermata. Riceverai eventuali dettagli da Laura.'];
+    return ['ok' => true, 'message' => !empty($config['test_mode']) ? 'Prova completata: evento aggiornato nel calendario. Non è un appuntamento reale.' : 'Prenotazione confermata. Per modifiche o chiarimenti puoi contattare Laura.'];
+}
+
+function booking_privacy_version(): string
+{
+    $site = json_decode((string) file_get_contents(site_content_file()), true);
+    return '2026-11-15-' . substr(hash('sha256', json_encode($site['pages']['privacy'] ?? [])), 0, 12);
+}
+
+function test_booking_access(): string
+{
+    // Use the CMS session without exposing credentials or locking it during Google requests.
+    ini_set('session.use_strict_mode', '1');
+    ini_set('session.use_only_cookies', '1');
+    if (empty($_COOKIE[session_name()])) throw new RuntimeException('Collaudo riservato.');
+    session_start(['read_and_close' => true]);
+    $file = storage_dir() ? storage_dir() . '/private/account.php' : dirname(__DIR__) . '/admin/config.php';
+    $auth = is_file($file) ? require $file : [];
+    $username = getenv('CMS_USERNAME') ?: ($auth['username'] ?? 'laura');
+    $hash = getenv('CMS_PASSWORD_HASH') ?: ($auth['password_hash'] ?? '');
+    $valid = !empty($_SESSION['cms_user']) && !empty($_SESSION['csrf'])
+        && (int) ($_SESSION['last_activity'] ?? 0) + max(900, (int) (getenv('CMS_SESSION_LIFETIME') ?: 3600)) >= time()
+        && (int) ($_SESSION['cms_session_version'] ?? 0) === (int) ($auth['session_version'] ?? 1)
+        && hash_equals(hash('sha256', $username . '|' . $hash), (string) ($_SESSION['cms_auth'] ?? ''));
+    if (!$valid) throw new RuntimeException('Collaudo riservato.');
+    return $_SESSION['csrf'];
+}
+
+function book_slot_locked(array $config, array $payload): array
+{
+    $dir = storage_dir() ? storage_dir() . '/private' : dirname(__DIR__) . '/admin';
+    $lock = fopen($dir . '/.booking.lock', 'c');
+    if (!$lock || !flock($lock, LOCK_EX)) throw new RuntimeException('Prenotazione momentaneamente non disponibile.');
+    try { return book_slot($config, $payload); }
+    finally { flock($lock, LOCK_UN); fclose($lock); }
 }
 
 try {
     $config = load_calendar_config();
+    $testCsrf = !empty($config['test_mode']) ? test_booking_access() : '';
     $action = (string) ($_GET['action'] ?? $_POST['action'] ?? 'slots');
 
     if ($_SERVER['REQUEST_METHOD'] === 'GET' && $action === 'slots') {
-        respond(['ok' => true, 'slots' => list_slots($config)]);
+        respond(['ok' => true, 'slots' => list_slots($config), 'testMode' => !empty($config['test_mode']), 'testCsrf' => $testCsrf, 'privacyVersion' => booking_privacy_version()]);
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && $action === 'book') {
-        respond(book_slot($config, read_payload()));
+        $payload = read_payload();
+        if ($testCsrf !== '' && !hash_equals($testCsrf, (string) ($payload['testCsrf'] ?? ''))) respond(['ok' => false, 'message' => 'Sessione scaduta. Riapri il collaudo dal CMS.'], 403);
+        respond(book_slot_locked($config, $payload));
     }
 
     respond(['ok' => false, 'message' => 'Richiesta non valida.'], 400);

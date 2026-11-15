@@ -5,6 +5,8 @@ function public_pages(): array
 {
     return [
         '/' => 'home',
+        '/servizi.html' => 'servizi', '/metodo.html' => 'metodo',
+        '/iniziative.html' => 'iniziative', '/contatti.html' => 'contatti',
         '/servizi/psicoterapia-breve-strategica-bolzano.html' => 'psicoterapia',
         '/servizi/coaching-professionale-strategico.html' => 'coaching',
         '/servizi/psicologia-del-lavoro-sportello-aziendale.html' => 'lavoro',
@@ -97,7 +99,11 @@ function render_site_page(string $html, array $site, string $path, ?array $artic
             $doc->documentElement->setAttribute('style', $style . '--' . $name . '-image:url("' . str_replace(['"', '<', '>'], ['%22', '%3C', '%3E'], $src) . '");');
         }
     }
-    if ($key === 'home') {
+    foreach ($doc->querySelectorAll('.site-nav a') as $nav) {
+        $section = basename(parse_url($nav->getAttribute('href'), PHP_URL_PATH) ?? '', '.html');
+        if ($section === $key || ($section === 'servizi' && in_array($key, ['psicoterapia','coaching','lavoro'], true)) || ($section === 'iniziative' && $key === 'mente')) $nav->setAttribute('aria-current', 'page');
+    }
+    if ($key === 'home' || in_array($key, ['servizi','metodo','iniziative','contatti'], true)) {
         $mapping = [
             '.hero .eyebrow' => ['hero','eyebrow'], '#hero-title' => ['hero','title'], '.hero-lead' => ['hero','lead'],
             '.intro-band .eyebrow' => ['intro','eyebrow'], '.intro-band h2' => ['intro','title'], '.intro-grid > p' => ['intro','text'],
@@ -124,7 +130,9 @@ function render_site_page(string $html, array $site, string $path, ?array $artic
         $rows = $home['services']['items'] ?? [];
         usort($rows, static fn ($a,$b) => ($a['order'] ?? 0) <=> ($b['order'] ?? 0));
         foreach ($rows as $item) if (visible_content($item['visible'] ?? true)) {
-            $services .= '<article class="service-card"><h3>' . html_text($item['title']) . '</h3><p>' . html_text($item['text']) . '</p><a href="' . html_text($url($item['href'])) . '">' . html_text($item['linkLabel']) . '</a></article>';
+            $serviceKey = public_pages()['/' . ltrim($item['href'], '/')] ?? '';
+            $art = $site['pages'][$serviceKey]['hero']['image'] ?? $assets['servicesIllustration'] ?? '';
+            $services .= '<article class="service-card has-illustration"><img class="service-illustration" src="' . html_text($url($art)) . '" alt="" loading="lazy" decoding="async"><h3>' . html_text($item['title']) . '</h3><p>' . html_text($item['text']) . '</p><a href="' . html_text($url($item['href'])) . '">' . html_text($item['linkLabel']) . '</a></article>';
         }
         $replace('.service-grid', $services);
         $steps = '';
@@ -144,19 +152,23 @@ function render_site_page(string $html, array $site, string $path, ?array $artic
         $replace('.faq-list', $faq);
         $c = $home['contact'];
         $replace('.contact-card', '<a href="' . html_text($url('mailto:' . $c['email'])) . '">' . html_text($c['email']) . '</a><a href="' . html_text($url('tel:' . $c['phoneHref'])) . '">' . html_text($c['phone']) . '</a><span>' . html_text($c['cities']) . '</span><span>' . html_text($c['vat']) . '</span>');
-    } elseif ($key === 'article' && $article) {
+    }
+    if ($key === 'article' && $article) {
         $text('.article-hero h1', $article['title'] ?? $article['label']);
         $text('.article-lead', $article['excerpt'] ?? '');
         $text('.article-hero .eyebrow', $home['topics']['eyebrow'] ?? 'Risorse e temi');
         $image('.article-hero img', $article['heroImage'] ?? $assets['patternImage'], '');
         $replace('.article-content', rich_sections($article['sections'] ?? []));
-        $replace('.side-note', '<strong>Risorse di Laura Rossin</strong><span>Psicologa e psicoterapeuta a Bolzano</span><a href="/#servizi">Scopri i percorsi</a>');
+        $replace('.side-note', '<strong>Risorse di Laura Rossin</strong><span>Psicologa e psicoterapeuta a Bolzano</span><a href="/servizi.html">Scopri i percorsi</a>');
     } elseif ($page) {
         $text('.page-hero .eyebrow', $page['hero']['eyebrow'] ?? '');
         $text('.page-hero h1', $page['hero']['title'] ?? '');
         $text('.page-hero p:not(.eyebrow)', $page['hero']['text'] ?? '');
         $link('.page-hero .button', $page['hero']['buttonLabel'], $page['hero']['buttonHref']);
         $image('.page-hero img', $page['hero']['image'] ?? '', $page['hero']['imageAlt'] ?? '');
+        if (!empty($page['hero']['image'])) {
+            $doc->documentElement->setAttribute('style', $doc->documentElement->getAttribute('style') . '--page-image:url("' . str_replace(['"','<','>'], ['%22','%3C','%3E'], $url($page['hero']['image'])) . '");');
+        }
         $side = '<strong>' . html_text($page['sideNoteTitle'] ?? '') . '</strong>';
         foreach ($page['sideNotes'] ?? [] as $item) $side .= '<span>' . html_text($item) . '</span>';
         $replace('.side-note', $side);

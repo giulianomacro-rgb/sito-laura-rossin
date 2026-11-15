@@ -17,10 +17,10 @@
         <img src="assets/logo-laura-rossin.svg" alt="Laura Rossin">
       </a>
       <nav class="site-nav" aria-label="Navigazione principale">
-        <a href="index.html#servizi">Servizi</a>
-        <a href="index.html#metodo">Metodo</a>
-        <a href="index.html#iniziative">Iniziative</a>
-        <a href="index.html#contatti">Contatti</a>
+        <a href="servizi.html">Servizi</a>
+        <a href="metodo.html">Metodo</a>
+        <a href="iniziative.html">Iniziative</a>
+        <a href="contatti.html">Contatti</a>
       </nav>
       <a class="header-cta" href="prenotazioni.html" aria-current="page">Prenota</a>
     </header>
@@ -32,8 +32,8 @@
             <p class="eyebrow">Prenotazioni</p>
             <h1>Scegli un giorno e un orario disponibili per il primo contatto.</h1>
             <p>
-              Gli slot mostrati sono quelli resi disponibili da Laura nel proprio Google Calendar.
-              Dopo la conferma, l'orario viene bloccato automaticamente.
+              Scegli tra gli orari disponibili oppure contatta Laura per concordare un incontro.
+              Non è necessario raccontare qui nei dettagli la tua situazione.
             </p>
             <div class="hero-actions">
               <a class="button button-primary" href="#booking-title">Vai agli orari</a>
@@ -50,10 +50,14 @@
             <h2 id="booking-title">Dott.ssa Laura Rossin</h2>
             <a href="tel:+393466009503">+39 346 6009503</a>
             <a href="mailto:psi.laurarossin@gmail.com">psi.laurarossin@gmail.com</a>
-            <p>Bolzano</p>
+            <p>Piazza Domenicani 15<br>39100 Bolzano (BZ)</p>
           </aside>
 
           <div class="booking-widget" data-booking>
+            <div class="booking-test-notice" data-test-notice hidden>
+              <strong>Collaudo riservato</strong>
+              <p>Usa solo eventi di prova e dati inventati. L'evento viene davvero aggiornato su Google Calendar, ma non è un appuntamento reale. Eliminalo al termine della verifica.</p>
+            </div>
             <div class="booking-status" role="status" aria-live="polite">Caricamento disponibilità...</div>
 
             <div class="booking-calendar" hidden>
@@ -84,11 +88,17 @@
                     <option value="Altro / preferisco non indicarlo">Altro / preferisco non indicarlo</option>
                   </select>
                 </label>
-                <label class="full">Breve sintesi della problematica<textarea name="sintesi" rows="5" maxlength="1200" required></textarea></label>
+                <label class="full">Motivo del colloquio (facoltativo)<textarea name="sintesi" rows="4" maxlength="1200" aria-describedby="booking-data-note"></textarea>
+                  <small id="booking-data-note">Bastano poche parole. Non inserire referti o informazioni su altre persone; puoi parlarne direttamente al colloquio.</small>
+                </label>
               </div>
               <label class="privacy-check">
                 <input type="checkbox" name="privacy" value="1" required>
-                <span>Ho letto l'<a href="privacy-policy.html" target="_blank" rel="noopener">informativa privacy</a> e acconsento all'invio dei dati per la gestione della prenotazione.</span>
+                <span>Ho letto l'<a href="privacy-policy.html" target="_blank" rel="noopener">informativa privacy</a> e acconsento esplicitamente al trattamento degli eventuali dati relativi alla salute per gestire questa richiesta online. Posso revocare il consenso contattando Laura oppure prenotare per telefono.</span>
+              </label>
+              <label class="privacy-check" data-test-check hidden>
+                <input type="checkbox" name="testData" value="1">
+                <span>Sto usando solo dati inventati e un indirizzo email @example.invalid.</span>
               </label>
               <button class="button button-primary" type="submit">Conferma prenotazione</button>
             </form>

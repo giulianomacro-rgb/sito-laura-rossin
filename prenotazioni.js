@@ -12,6 +12,8 @@
   let slotsByDate = new Map();
   let activeDate = "";
   let submitting = false;
+  let privacyVersion = "";
+  let testCsrf = "";
 
   const setStatus = (message, type = "") => {
     status.textContent = message;
@@ -91,6 +93,11 @@
       }
 
       groupSlots(data.slots || []);
+      privacyVersion = data.privacyVersion || "";
+      testCsrf = data.testCsrf || "";
+      widget.querySelector('[data-test-notice]').hidden = !data.testMode;
+      widget.querySelector('[data-test-check]').hidden = !data.testMode;
+      form.elements.testData.required = Boolean(data.testMode);
       const dates = Array.from(slotsByDate.keys());
       if (!dates.length) {
         setStatus(notice || "Al momento non ci sono orari disponibili. Contatta Laura per informazioni.", type || "empty");
@@ -114,6 +121,9 @@
     const formData = new FormData(form);
     const payload = Object.fromEntries(formData.entries());
     payload.privacy = formData.has("privacy");
+    payload.privacyVersion = privacyVersion;
+    payload.testCsrf = testCsrf;
+    payload.testData = formData.has("testData");
 
     submitting = submit.disabled = true;
     setStatus("Verifica dello slot e conferma in corso...");

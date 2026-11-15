@@ -7,10 +7,10 @@
     "studioDeskImage": "assets/studio-scrivania.jpg",
     "ogImage": "assets/og-laura-rossin.jpg",
     "servicesIllustration": "assets/pattern-banner.jpg",
-    "methodIllustration": "assets/pattern-banner.jpg",
-    "initiativeIllustration": "assets/pattern-banner.jpg",
+    "methodIllustration": "assets/illustrazione-percorsi.png",
+    "initiativeIllustration": "assets/illustrazione-dialoghi.png",
     "pageIllustration": "assets/pattern-banner.jpg",
-    "articleIllustration": "assets/pattern-banner.jpg",
+    "articleIllustration": "assets/illustrazione-connessioni.png",
     "archimpresaLogo": "assets/archimpresa-logo.svg"
   },
   "home": {
@@ -27,7 +27,7 @@
       "primaryLabel": "Richiedi un colloquio",
       "primaryHref": "prenotazioni.html",
       "secondaryLabel": "Scopri i percorsi",
-      "secondaryHref": "#servizi"
+      "secondaryHref": "servizi.html"
     },
     "trust": [
       {
@@ -43,7 +43,7 @@
       {
         "title": "Aree",
         "text": "Psicoterapia, lavoro, coaching, adolescenti",
-        "href": "#servizi"
+        "href": "servizi.html"
       }
     ],
     "intro": {
@@ -367,12 +367,12 @@
           "answer": "La psicoterapia lavora su sofferenze, sintomi e blocchi emotivi o relazionali. Il coaching strategico è più orientato a obiettivi professionali, decisioni, comunicazione e performance."
         },
         {
-        "question": "È possibile attivare uno sportello psicologico in azienda?",
+          "question": "È possibile attivare uno sportello psicologico in azienda?",
           "answer": "Sì. Lo sportello può essere progettato con l'organizzazione per offrire ascolto, prevenzione e supporto alle persone, integrandosi con obiettivi HR e benessere organizzativo."
         },
         {
           "question": "Quanto ci metto a migliorare?",
-        "answer": "Non c’è un numero di incontri valido per tutti. La durata dipende dalla situazione, dagli obiettivi condivisi e da come procede il lavoro. Durante il percorso si verifica insieme ciò che sta cambiando e, quando necessario, si rivedono le strategie."
+          "answer": "Non c’è un numero di incontri valido per tutti. La durata dipende dalla situazione, dagli obiettivi condivisi e da come procede il lavoro. Durante il percorso si verifica insieme ciò che sta cambiando e, quando necessario, si rivedono le strategie."
         },
         {
           "question": "Ho qualcuno che vorrei aiutare, come mi devo comportare?",
@@ -391,7 +391,7 @@
       "email": "psi.laurarossin@gmail.com",
       "phone": "+39 346 6009503",
       "phoneHref": "+393466009503",
-      "cities": "Bolzano",
+      "cities": "Piazza Domenicani 15, 39100 Bolzano (BZ)",
       "vat": "Partita IVA 03119240219"
     },
     "footer": {
@@ -412,16 +412,16 @@
       "socialImage": "assets/og-laura-rossin.jpg",
       "seo": {
         "title": "Psicoterapia breve strategica a Bolzano | Laura Rossin",
-      "description": "Psicoterapia breve strategica a Bolzano con Laura Rossin: un percorso per affrontare ansia, panico e difficoltà relazionali. Scopri come si svolge il colloquio."
+        "description": "Psicoterapia breve strategica a Bolzano con Laura Rossin: un percorso per affrontare ansia, panico e difficoltà relazionali. Scopri come si svolge il colloquio."
       },
       "hero": {
         "eyebrow": "Psicoterapia a Bolzano",
-      "title": "Psicoterapia breve strategica a Bolzano.",
+        "title": "Psicoterapia breve strategica a Bolzano.",
         "text": "Un percorso orientato al cambiamento, per capire come il problema si mantiene nel presente e introdurre strategie concrete nella vita quotidiana.",
         "buttonLabel": "Richiedi informazioni",
         "buttonHref": "mailto:psi.laurarossin@gmail.com?subject=Richiesta%20psicoterapia",
-        "image": "assets/laura-rossin-primo-piano.jpg",
-        "imageAlt": "Dott.ssa Laura Rossin psicologa e psicoterapeuta a Bolzano"
+        "image": "assets/illustrazione-dialoghi.png",
+        "imageAlt": ""
       },
       "sideNoteTitle": "Aree di supporto",
       "sideNotes": [
@@ -459,7 +459,7 @@
       "slug": "servizi/coaching-professionale-strategico.html",
       "socialImage": "assets/og-laura-rossin.jpg",
       "seo": {
-      "title": "Coaching professionale a Bolzano | Laura Rossin",
+        "title": "Coaching professionale a Bolzano | Laura Rossin",
         "description": "Coaching strategico per professionisti, manager e liberi professionisti: comunicazione, decisioni, performance, gestione dello stress e obiettivi di lavoro."
       },
       "hero": {
@@ -468,8 +468,8 @@
         "text": "Il coaching professionale aiuta a migliorare decisioni, comunicazione, gestione delle pressioni e performance, mantenendo un lavoro concreto sugli obiettivi.",
         "buttonLabel": "Richiedi informazioni",
         "buttonHref": "mailto:psi.laurarossin@gmail.com?subject=Richiesta%20coaching%20professionale",
-        "image": "assets/laura-rossin-ritratto.jpg",
-        "imageAlt": "Laura Rossin psicologa del lavoro e coach strategica"
+        "image": "assets/illustrazione-percorsi.png",
+        "imageAlt": ""
       },
       "sideNoteTitle": "Per chi",
       "sideNotes": [
@@ -507,7 +507,7 @@
       "slug": "servizi/psicologia-del-lavoro-sportello-aziendale.html",
       "socialImage": "assets/og-laura-rossin.jpg",
       "seo": {
-      "title": "Psicologia del lavoro a Bolzano | Laura Rossin",
+        "title": "Psicologia del lavoro a Bolzano | Laura Rossin",
         "description": "Psicologia del lavoro, sportello psicologico aziendale e consulenza HR per benessere organizzativo, prevenzione e supporto alle persone."
       },
       "hero": {
@@ -516,8 +516,8 @@
         "text": "Progetti pensati per aziende, HR e contesti professionali che vogliono offrire ascolto qualificato, prevenzione e strumenti concreti alle persone.",
         "buttonLabel": "Parla del progetto",
         "buttonHref": "mailto:psi.laurarossin@gmail.com?subject=Richiesta%20progetto%20aziendale",
-        "image": "assets/studio-scrivania.jpg",
-        "imageAlt": "Spazio di colloquio per sportello psicologico aziendale"
+        "image": "assets/illustrazione-connessioni.png",
+        "imageAlt": ""
       },
       "sideNoteTitle": "Ambiti",
       "sideNotes": [
@@ -564,8 +564,8 @@
         "text": "Un percorso psico-educativo a cadenza mensile per dare parole, strumenti e spazio alle emozioni, ai pensieri e alla crescita personale.",
         "buttonLabel": "Richiedi informazioni",
         "buttonHref": "mailto:psi.laurarossin@gmail.com?subject=Informazioni%20Mente%20Adolescente",
-        "image": "assets/pattern-banner.jpg",
-        "imageAlt": "Illustrazione geometrica coordinata del progetto Laura Rossin"
+        "image": "assets/illustrazione-dialoghi.png",
+        "imageAlt": ""
       },
       "sideNoteTitle": "Struttura",
       "sideNotes": [
@@ -599,81 +599,272 @@
     },
     "privacy": {
       "published": true,
-      "title": "Privacy policy",
+      "title": "Informativa privacy",
       "slug": "privacy-policy.html",
       "socialImage": "assets/og-laura-rossin.jpg",
       "seo": {
-        "title": "Privacy policy | Laura Rossin",
-        "description": "Informativa privacy provvisoria del sito Laura Rossin. Testo segnaposto da validare con un professionista."
+        "title": "Informativa privacy | Laura Rossin",
+        "description": "Informativa su contatti, prenotazioni, Google Calendar, dati personali, fornitori e diritti. Dott.ssa Laura Rossin, Bolzano."
       },
       "hero": {
-        "eyebrow": "Informative",
-        "title": "Privacy policy",
-        "text": "Questa pagina contiene un testo segnaposto. Prima della pubblicazione definitiva, integrare e validare l informativa con un professionista.",
-        "buttonLabel": "Torna al sito",
-        "buttonHref": "index.html",
+        "eyebrow": "Laura Rossin · Bolzano",
+        "title": "Informativa privacy",
+        "text": "Come vengono trattati i dati di chi visita il sito, contatta Laura o richiede un appuntamento online. Versione del 15 novembre 2026.",
         "image": "",
-        "imageAlt": ""
+        "imageAlt": "",
+        "buttonLabel": "Contatta Laura",
+        "buttonHref": "contatti.html"
       },
-      "sideNoteTitle": "Da completare",
+      "sideNoteTitle": "Privacy",
       "sideNotes": [
-        "titolare del trattamento",
-        "base giuridica",
-        "tempi di conservazione",
-        "diritti dell interessato"
+        "Versione 15 novembre 2026",
+        "Prenotazioni in collaudo riservato",
+        "Nessun dato sanitario reale nei test"
       ],
       "sections": [
         {
-          "title": "Informativa provvisoria",
-          "text": "Il presente testo e un segnaposto operativo. Descrivere qui chi e il titolare del trattamento, quali dati vengono raccolti, per quali finalita, su quali basi giuridiche e per quanto tempo vengono conservati.",
+          "title": "Titolare e contatti",
+          "text": "Il titolare è la Dott.ssa Laura Rossin, P.IVA 03119240219, con studio in piazza Domenicani 15, 39100 Bolzano (BZ). Per richieste sui dati personali: psi.laurarossin@gmail.com oppure +39 346 6009503.",
           "items": []
         },
         {
-          "title": "Dati inviati tramite il form di prenotazione",
-          "text": "I dati inseriti nel form di prenotazione vengono usati per gestire la richiesta di contatto e l appuntamento. Specificare eventuali strumenti terzi, misure di sicurezza e modalita di cancellazione.",
+          "title": "Navigazione e sicurezza",
+          "text": "Il servizio di hosting tratta dati tecnici necessari a fornire le pagine e proteggere il sito, come indirizzo IP, data, percorso richiesto ed esito della risposta. Non sono installati strumenti di pubblicità o analisi del comportamento. Le risorse grafiche e i caratteri sono ospitati sul sito. I collegamenti esterni si aprono solo su richiesta della persona. La base giuridica per la sicurezza è il legittimo interesse alla protezione del servizio, ai sensi dell’art. 6.1.f GDPR.",
           "items": []
         },
         {
-          "title": "Diritti della persona interessata",
-          "text": "Indicare le modalita per esercitare i diritti di accesso, rettifica, cancellazione, limitazione, opposizione e reclamo presso l autorita competente.",
+          "title": "Contatti e prenotazioni",
+          "text": "Nome, cognome, telefono, email, età, indicazione del sesso e orario scelto servono a gestire la richiesta e ricontattarti. Puoi scegliere di non indicare il sesso. La breve nota sul motivo del colloquio è facoltativa: non inserire referti, dati di altre persone o dettagli clinici non necessari. La gestione della richiesta si basa sulle misure precontrattuali richieste dalla persona (art. 6.1.b GDPR). Per gli eventuali dati sulla salute comunicati nella prenotazione online è richiesto un consenso esplicito (art. 9.2.a GDPR). Puoi richiedere un appuntamento per telefono senza utilizzare il modulo. L’eventuale percorso sanitario è oggetto di un’informativa distinta.",
+          "items": []
+        },
+        {
+          "title": "Dove viene registrato l’appuntamento",
+          "text": "Il sito usa Google Calendar tramite un collegamento server: il calendario non è incorporato nella pagina. La conferma aggiorna l’evento scelto, che viene reso privato; titolo e descrizione contengono i dati inviati, la data della conferma e la versione dell’informativa accettata. Il sito restituisce al pubblico solo gli orari disponibili, mai titoli, descrizioni o invitati degli altri eventi. Non viene creata una cartella clinica nel CMS e non partono inviti automatici ai partecipanti. L’accesso al calendario resta limitato alle persone autorizzate dalla titolare.",
+          "items": []
+        },
+        {
+          "title": "Fornitori e trasferimenti",
+          "text": "Il sito è ospitato da Railway; Google fornisce il calendario e la casella email. Eventuali incaricati tecnici possono accedere solo per le attività autorizzate di gestione e assistenza. La configurazione di collaudo Railway utilizza una regione negli Stati Uniti. Prima dell’apertura delle prenotazioni reali la titolare deve verificare gli accordi sul trattamento con i fornitori, l’idoneità dell’account Google e le garanzie applicabili ai trasferimenti fuori dallo Spazio economico europeo. Questi controlli non si considerano assolti dalla sola accettazione del modulo.",
+          "items": []
+        },
+        {
+          "title": "Conservazione",
+          "text": "I dati del contatto e dell’agenda sono conservati per il tempo necessario a gestire la richiesta, gli eventuali spostamenti e i riscontri amministrativi, secondo le procedure definite dalla titolare. La documentazione clinica, se si avvia un percorso, segue regole distinte. Il sito non cancella automaticamente gli appuntamenti dal calendario. In collaudo si usano esclusivamente dati inventati: gli eventi di prova vanno eliminati a verifica conclusa. I registri tecnici seguono i tempi del servizio di hosting; i dettagli operativi devono essere verificati dalla titolare prima dell’apertura al pubblico.",
+          "items": []
+        },
+        {
+          "title": "I tuoi diritti",
+          "text": "Puoi chiedere accesso, rettifica, cancellazione, limitazione e, quando applicabile, portabilità dei dati o opporti al trattamento. Puoi revocare il consenso per la prenotazione online senza pregiudicare quanto effettuato prima della revoca. Scrivi alla titolare: la richiesta viene valutata tenendo conto anche degli obblighi di conservazione applicabili. È possibile presentare reclamo al Garante per la protezione dei dati personali, tramite www.garanteprivacy.it. Non vengono effettuate profilazioni né decisioni automatizzate con effetti sulla persona.",
+          "items": []
+        },
+        {
+          "title": "Stato del servizio",
+          "text": "Le prenotazioni sono in fase di collaudo riservato a chi ha accesso al CMS. In questa fase non devono essere inseriti dati di pazienti reali. L’attivazione pubblica richiede la verifica dell’informativa, dei tempi di conservazione e degli accordi con i fornitori da parte della titolare. Per un appuntamento reale usa i contatti diretti. Per richieste che riguardano minorenni, contatta Laura insieme a chi esercita la responsabilità genitoriale.",
           "items": []
         }
       ]
     },
     "cookie": {
       "published": true,
-      "title": "Cookie policy",
+      "title": "Cookie e tecnologie del sito",
       "slug": "cookie-policy.html",
       "socialImage": "assets/og-laura-rossin.jpg",
       "seo": {
         "title": "Cookie policy | Laura Rossin",
-        "description": "Informativa cookie provvisoria del sito Laura Rossin. Testo segnaposto da validare con un professionista."
+        "description": "Cookie tecnici del CMS, durata della sessione e preferenze del browser. Nessun cookie pubblicitario o di profilazione."
       },
       "hero": {
-        "eyebrow": "Informative",
-        "title": "Cookie policy",
-        "text": "Questa pagina contiene un testo segnaposto. Prima della pubblicazione definitiva, integrare e validare l informativa con un professionista.",
-        "buttonLabel": "Torna al sito",
-        "buttonHref": "index.html",
+        "eyebrow": "Laura Rossin · Bolzano",
+        "title": "Cookie e tecnologie del sito",
+        "text": "Il sito non usa cookie pubblicitari né strumenti di profilazione. Qui trovi le informazioni sulle sole funzioni tecniche. Versione del 15 novembre 2026.",
         "image": "",
-        "imageAlt": ""
+        "imageAlt": "",
+        "buttonLabel": "Leggi l’informativa privacy",
+        "buttonHref": "privacy-policy.html"
       },
-      "sideNoteTitle": "Da completare",
+      "sideNoteTitle": "In breve",
       "sideNotes": [
-        "cookie tecnici",
-        "strumenti statistici",
-        "terze parti",
-        "gestione consenso"
+        "Solo funzioni tecniche",
+        "Nessuna profilazione",
+        "Versione 15 novembre 2026"
       ],
       "sections": [
         {
-          "title": "Uso dei cookie",
-          "text": "Il presente testo e un segnaposto operativo. Indicare quali cookie tecnici, statistici o di terze parti vengono usati dal sito e con quali finalita.",
+          "title": "Navigazione pubblica",
+          "text": "Le pagine pubbliche non installano cookie di analisi o marketing. Non sono incorporati video, mappe o calendari di terze parti. I caratteri e le immagini sono caricati dallo stesso sito. Aprire un collegamento esterno porta a un servizio che ha una propria informativa.",
           "items": []
         },
         {
-          "title": "Gestione del consenso",
-          "text": "Descrivere come la persona puo accettare, rifiutare o modificare le preferenze sui cookie, se vengono usati strumenti che richiedono consenso.",
+          "title": "Accesso al CMS e collaudo",
+          "text": "Il cookie tecnico PHPSESSID mantiene la sessione di chi accede all’area riservata e consente il collaudo autorizzato delle prenotazioni. È un cookie di prima parte, senza finalità pubblicitarie; su HTTPS è protetto dagli attributi Secure, HttpOnly e SameSite=Lax. La sessione amministrativa scade dopo un’ora di inattività. Il cookie è di sessione e viene eliminato con l’uscita dal CMS; il comportamento alla chiusura del browser dipende anche dal ripristino delle sessioni impostato nel browser.",
+          "items": []
+        },
+        {
+          "title": "Preferenze e consenso",
+          "text": "Per i soli cookie tecnici non viene richiesto un consenso preventivo e non è mostrato un banner pubblicitario. Puoi bloccare o cancellare i cookie dalle impostazioni del browser; l’accesso al CMS e le prove riservate potrebbero non funzionare. Il consenso nel modulo riguarda i dati della prenotazione, non i cookie. Se verranno aggiunti strumenti non necessari, questa pagina e la gestione delle preferenze dovranno essere aggiornate prima di attivarli.",
+          "items": []
+        },
+        {
+          "title": "Titolare",
+          "text": "Dott.ssa Laura Rossin, piazza Domenicani 15, 39100 Bolzano (BZ), P.IVA 03119240219. Per informazioni: psi.laurarossin@gmail.com. L’informativa privacy descrive gli altri trattamenti e i diritti della persona.",
+          "items": []
+        }
+      ]
+    },
+    "servizi": {
+      "published": true,
+      "title": "Percorsi di psicologia e psicoterapia",
+      "slug": "servizi.html",
+      "socialImage": "assets/og-laura-rossin.jpg",
+      "seo": {
+        "title": "Percorsi di psicologia e psicoterapia | Laura Rossin a Bolzano",
+        "description": "Psicoterapia, coaching e psicologia del lavoro a Bolzano. Un primo colloquio aiuta a capire quale percorso risponde alla tua situazione."
+      },
+      "hero": {
+        "eyebrow": "Laura Rossin · Bolzano",
+        "title": "Percorsi di psicologia e psicoterapia",
+        "text": "Psicoterapia, coaching e psicologia del lavoro a Bolzano. Un primo colloquio aiuta a capire quale percorso risponde alla tua situazione.",
+        "image": "assets/illustrazione-dialoghi.png",
+        "imageAlt": "",
+        "buttonLabel": "Richiedi un colloquio",
+        "buttonHref": "prenotazioni.html"
+      },
+      "sideNoteTitle": "Laura Rossin",
+      "sideNotes": [
+        "Psicologa e psicoterapeuta",
+        "Piazza Domenicani 15",
+        "39100 Bolzano (BZ)"
+      ],
+      "sections": [
+        {
+          "title": "Da dove cominciare",
+          "text": "Non serve arrivare con una definizione precisa del problema. Puoi raccontare ciò che stai vivendo e quello che vorresti cambiare: nel primo incontro si valuta insieme come procedere.",
+          "items": []
+        },
+        {
+          "title": "Persone e contesti diversi",
+          "text": "Il lavoro clinico, il coaching professionale e la consulenza alle organizzazioni hanno finalità e confini diversi. Il percorso viene concordato a partire dalla richiesta, senza applicare una soluzione uguale per tutti.",
+          "items": []
+        }
+      ]
+    },
+    "metodo": {
+      "published": true,
+      "title": "Il metodo breve strategico",
+      "slug": "metodo.html",
+      "socialImage": "assets/og-laura-rossin.jpg",
+      "seo": {
+        "title": "Il metodo breve strategico | Laura Rossin a Bolzano",
+        "description": "L’approccio di Giorgio Nardone: capire come una difficoltà si mantiene nel presente e sperimentare nuove risposte nella vita quotidiana."
+      },
+      "hero": {
+        "eyebrow": "Laura Rossin · Bolzano",
+        "title": "Il metodo breve strategico",
+        "text": "L’approccio di Giorgio Nardone: capire come una difficoltà si mantiene nel presente e sperimentare nuove risposte nella vita quotidiana.",
+        "image": "assets/illustrazione-percorsi.png",
+        "imageAlt": "",
+        "buttonLabel": "Approfondisci la psicoterapia",
+        "buttonHref": "servizi/psicoterapia-breve-strategica-bolzano.html"
+      },
+      "sideNoteTitle": "Laura Rossin",
+      "sideNotes": [
+        "Psicologa e psicoterapeuta",
+        "Piazza Domenicani 15",
+        "39100 Bolzano (BZ)"
+      ],
+      "sections": [
+        {
+          "title": "La formazione e il modello",
+          "text": "La Dott.ssa Laura Rossin si è specializzata presso il Centro di Terapia Strategica di Arezzo, nel modello sviluppato da Giorgio Nardone. Il lavoro parte dal modo in cui la persona vive e affronta la difficoltà, con attenzione alle soluzioni già tentate.",
+          "items": []
+        },
+        {
+          "title": "Cosa accade negli incontri",
+          "text": "Il dialogo aiuta a definire il problema e gli obiettivi del percorso. Quando opportuno, si concordano esperienze o compiti tra una seduta e l’altra e si osservano insieme gli effetti. Le indicazioni vengono adattate alla persona, non seguite come una ricetta.",
+          "items": []
+        },
+        {
+          "title": "Breve non significa una scadenza uguale per tutti",
+          "text": "L’approccio cerca interventi mirati, ma durata e frequenza si valutano durante il percorso. Non è possibile promettere un risultato o un numero di incontri in anticipo: l’andamento viene verificato e discusso insieme.",
+          "items": []
+        }
+      ]
+    },
+    "iniziative": {
+      "published": true,
+      "title": "Iniziative e incontri",
+      "slug": "iniziative.html",
+      "socialImage": "assets/og-laura-rossin.jpg",
+      "seo": {
+        "title": "Iniziative e incontri | Laura Rossin a Bolzano",
+        "description": "Spazi di confronto e percorsi psico-educativi per adolescenti, professionisti e organizzazioni. Scopri i progetti e chiedi le prossime disponibilità."
+      },
+      "hero": {
+        "eyebrow": "Laura Rossin · Bolzano",
+        "title": "Iniziative e incontri",
+        "text": "Spazi di confronto e percorsi psico-educativi per adolescenti, professionisti e organizzazioni. Scopri i progetti e chiedi le prossime disponibilità.",
+        "image": "assets/illustrazione-dialoghi.png",
+        "imageAlt": "",
+        "buttonLabel": "Chiedi informazioni",
+        "buttonHref": "contatti.html"
+      },
+      "sideNoteTitle": "Laura Rossin",
+      "sideNotes": [
+        "Psicologa e psicoterapeuta",
+        "Piazza Domenicani 15",
+        "39100 Bolzano (BZ)"
+      ],
+      "sections": [
+        {
+          "title": "Mente Adolescente",
+          "text": "Un progetto psico-educativo dedicato a ragazze e ragazzi dai 14 ai 18 anni, per dare spazio alle emozioni e alle relazioni. La pagina del progetto ne presenta obiettivi e struttura; date, modalità e iscrizioni vanno concordate con Laura.",
+          "items": []
+        },
+        {
+          "title": "Progetti per il lavoro",
+          "text": "Per aziende e professionisti è possibile approfondire proposte di sportello psicologico e percorsi di coaching. Le attività si definiscono in base alle esigenze del gruppo e del contesto.",
+          "items": []
+        }
+      ]
+    },
+    "contatti": {
+      "published": true,
+      "title": "Contatti e studio a Bolzano",
+      "slug": "contatti.html",
+      "socialImage": "assets/og-laura-rossin.jpg",
+      "seo": {
+        "title": "Contatti e studio a Bolzano | Laura Rossin a Bolzano",
+        "description": "Lo studio di Laura Rossin si trova in piazza Domenicani 15, a Bolzano. Puoi scrivere, telefonare o consultare gli orari disponibili per un primo colloquio."
+      },
+      "hero": {
+        "eyebrow": "Laura Rossin · Bolzano",
+        "title": "Contatti e studio a Bolzano",
+        "text": "Lo studio di Laura Rossin si trova in piazza Domenicani 15, a Bolzano. Puoi scrivere, telefonare o consultare gli orari disponibili per un primo colloquio.",
+        "image": "assets/illustrazione-connessioni.png",
+        "imageAlt": "",
+        "buttonLabel": "Richiedi un colloquio",
+        "buttonHref": "prenotazioni.html"
+      },
+      "sideNoteTitle": "Laura Rossin",
+      "sideNotes": [
+        "Psicologa e psicoterapeuta",
+        "Piazza Domenicani 15",
+        "39100 Bolzano (BZ)"
+      ],
+      "sections": [
+        {
+          "title": "Ricevimento su appuntamento",
+          "text": "Piazza Domenicani 15, 39100 Bolzano (BZ). Prima di raggiungere lo studio, concorda un appuntamento con Laura.",
+          "items": []
+        },
+        {
+          "title": "Prima di scrivere",
+          "text": "Per il primo contatto bastano il tuo nome, un recapito e la richiesta di un appuntamento. Non è necessario inviare referti o raccontare nei dettagli la tua storia clinica: ne parlerete nel contesto del colloquio.",
+          "items": []
+        },
+        {
+          "title": "Spostare o annullare un incontro",
+          "text": "Contatta Laura via telefono o email indicando il giorno e l’orario dell’appuntamento. Questo sito non gestisce le urgenze.",
           "items": []
         }
       ]

@@ -51,7 +51,11 @@ Nel CMS, sezione "Prenotazioni", inserisci:
 - Fuso orario, normalmente `Europe/Rome`.
 - JSON dell'account di servizio Google.
 
-Il calendario Google deve essere privato, dedicato e condiviso con l'email `client_email` dell'account di servizio con accesso in modifica. Gli eventi con orario e tag `#disp` nel titolo o nella descrizione sono candidati alla prenotazione. Gli eventi occupati che si sovrappongono escludono lo slot. Quando uno slot viene prenotato, il sito aggiorna quello stesso evento e imposta l'appuntamento come privato. In anteprima usa un calendario separato e dati fittizi. Le prenotazioni restano disattivate fino all'attivazione esplicita nel CMS: prima di usarle con dati reali, completa l'informativa e verifica quali informazioni sono necessarie.
+Il calendario Google deve essere privato, dedicato alle prenotazioni e condiviso con l'email `client_email` dell'account di servizio con accesso in modifica. Nella nuova configurazione ogni evento con orario diventa uno slot, senza tag `#disp`. Eventi con invitati, di giornata intera, annullati, gia prenotati o con titolo che inizia con Appuntamento/Occupato non sono disponibili. Gli altri calendari non vengono letti: gli impegni personali vanno gestiti separatamente, evitando di creare disponibilita in quegli orari.
+
+Il sito aggiorna lo stesso evento, lo rende privato e salva un contrassegno `lauraBooked` che impedisce di riaprirlo anche cambiandone il titolo. Il collaudo e riservato a una sessione CMS valida, con dati fittizi ed email @example.invalid. Per pubblicare il servizio occorre disattivare il collaudo e confermare la verifica privacy. Vedere `PRIVACY-COLLAUDO.md`: la pubblicazione dei testi non equivale a certificazione legale.
+
+I contenuti salvati online non vengono sovrascritti da un deploy. `node tools/publish-content.mjs <commit-precedente>` confronta le sole modifiche locali con il contenuto autenticato del CMS; rifiuta conflitti. `APPLY_CONTENT=1` applica il confronto, crea una copia locale riservata e verifica il risultato. Non usare il JSON pubblico filtrato per risalvare il CMS.
 
 ## Pubblicazione
 
