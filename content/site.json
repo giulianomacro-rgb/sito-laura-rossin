@@ -16,13 +16,13 @@
   "home": {
     "seo": {
       "title": "Laura Rossin | Psicologa e psicoterapeuta a Bolzano",
-      "description": "Per chi cerca uno psicologo a Bolzano: Dott.ssa Laura Rossin, psicologa e psicoterapeuta. Psicoterapia breve strategica, coaching e sportello aziendale.",
+      "description": "Laura Rossin, psicologa e psicoterapeuta a Bolzano. Percorsi di psicoterapia breve strategica, coaching professionale e supporto psicologico in azienda.",
       "ogTitle": "Laura Rossin | Psicologa e psicoterapeuta a Bolzano",
       "ogDescription": "Psicologa e psicoterapeuta a Bolzano per psicoterapia breve strategica, coaching professionale e supporto psicologico ad aziende, professionisti e adolescenti."
     },
     "hero": {
       "eyebrow": "Bolzano",
-      "title": "Psicologa e psicoterapeuta per persone, professionisti e aziende.",
+      "title": "Laura Rossin, psicologa e psicoterapeuta a Bolzano.",
       "lead": "La Dott.ssa Laura Rossin accompagna percorsi di psicoterapia breve strategica, coaching professionale e benessere psicologico nei contesti di vita e lavoro.",
       "primaryLabel": "Richiedi un colloquio",
       "primaryHref": "prenotazioni.html",
@@ -48,8 +48,8 @@
     ],
     "intro": {
       "eyebrow": "Uno sguardo concreto",
-      "title": "Quando qualcosa si blocca, non serve girarci intorno: serve capire cosa lo mantiene fermo.",
-      "text": "Il lavoro psicologico diventa uno spazio per osservare il problema con precisione, ridurre la confusione e costruire passi possibili. La relazione terapeutica resta accogliente, ma il percorso mantiene una direzione chiara: portare cambiamenti misurabili nella vita quotidiana, nelle relazioni e nel lavoro."
+      "title": "Capire cosa ti sta mettendo in difficoltà, trovare insieme un modo per affrontarlo.",
+      "text": "A volte una difficoltà occupa sempre più spazio, nella vita personale o nel lavoro. Il colloquio è un momento per fermarsi, raccontare ciò che succede e mettere a fuoco quello che vorresti cambiare. Da qui costruiamo un percorso con obiettivi condivisi, rispettando la tua situazione e i tuoi tempi."
     },
     "services": {
       "eyebrow": "Servizi principali",
@@ -124,7 +124,7 @@
     },
     "topics": {
       "eyebrow": "Risorse e temi",
-      "title": "Argomenti utili per chi cerca una psicologa, uno psicologo a Bolzano o un supporto nel lavoro.",
+      "title": "Per orientarsi, fare domande e capire da dove iniziare.",
       "items": [
         {
           "visible": true,
@@ -367,12 +367,12 @@
           "answer": "La psicoterapia lavora su sofferenze, sintomi e blocchi emotivi o relazionali. Il coaching strategico è più orientato a obiettivi professionali, decisioni, comunicazione e performance."
         },
         {
-          "question": "E possibile attivare uno sportello psicologico in azienda?",
+        "question": "È possibile attivare uno sportello psicologico in azienda?",
           "answer": "Sì. Lo sportello può essere progettato con l'organizzazione per offrire ascolto, prevenzione e supporto alle persone, integrandosi con obiettivi HR e benessere organizzativo."
         },
         {
           "question": "Quanto ci metto a migliorare?",
-          "answer": "Dipende dal tipo di difficoltà, da quanto è radicata e dagli obiettivi del percorso. L’approccio breve strategico lavora con verifiche frequenti: già dopo i primi incontri dovrebbe essere più chiaro cosa si muove e in quale direzione."
+        "answer": "Non c’è un numero di incontri valido per tutti. La durata dipende dalla situazione, dagli obiettivi condivisi e da come procede il lavoro. Durante il percorso si verifica insieme ciò che sta cambiando e, quando necessario, si rivedono le strategie."
         },
         {
           "question": "Ho qualcuno che vorrei aiutare, come mi devo comportare?",
@@ -387,7 +387,7 @@
     "contact": {
       "eyebrow": "Contatti",
       "title": "Per fissare un primo colloquio o valutare un progetto.",
-      "text": "Scrivi indicando il motivo della richiesta. Per aziende, scuole o iniziative formative è utile aggiungere contesto, obiettivi e periodo desiderato.",
+      "text": "Ricevo a Bolzano su appuntamento. Puoi chiamarmi o scrivermi per un primo colloquio, senza inviare dettagli personali delicati via email. Per aziende, scuole o progetti formativi, indica il contesto e il periodo di interesse.",
       "email": "psi.laurarossin@gmail.com",
       "phone": "+39 346 6009503",
       "phoneHref": "+393466009503",
@@ -412,11 +412,11 @@
       "socialImage": "assets/og-laura-rossin.jpg",
       "seo": {
         "title": "Psicoterapia breve strategica a Bolzano | Laura Rossin",
-        "description": "Per chi cerca uno psicologo a Bolzano: percorsi con la Dott.ssa Laura Rossin, psicologa e psicoterapeuta breve strategica per ansia, panico e blocchi."
+      "description": "Psicoterapia breve strategica a Bolzano con Laura Rossin: un percorso per affrontare ansia, panico e difficoltà relazionali. Scopri come si svolge il colloquio."
       },
       "hero": {
         "eyebrow": "Psicoterapia a Bolzano",
-        "title": "Psicoterapia breve strategica per superare blocchi, sintomi e schemi che si ripetono.",
+      "title": "Psicoterapia breve strategica a Bolzano.",
         "text": "Un percorso orientato al cambiamento, per capire come il problema si mantiene nel presente e introdurre strategie concrete nella vita quotidiana.",
         "buttonLabel": "Richiedi informazioni",
         "buttonHref": "mailto:psi.laurarossin@gmail.com?subject=Richiesta%20psicoterapia",
@@ -459,7 +459,7 @@
       "slug": "servizi/coaching-professionale-strategico.html",
       "socialImage": "assets/og-laura-rossin.jpg",
       "seo": {
-        "title": "Coaching professionale strategico | Laura Rossin",
+      "title": "Coaching professionale a Bolzano | Laura Rossin",
         "description": "Coaching strategico per professionisti, manager e liberi professionisti: comunicazione, decisioni, performance, gestione dello stress e obiettivi di lavoro."
       },
       "hero": {
@@ -507,7 +507,7 @@
       "slug": "servizi/psicologia-del-lavoro-sportello-aziendale.html",
       "socialImage": "assets/og-laura-rossin.jpg",
       "seo": {
-        "title": "Psicologa del lavoro e sportello aziendale | Laura Rossin",
+      "title": "Psicologia del lavoro a Bolzano | Laura Rossin",
         "description": "Psicologia del lavoro, sportello psicologico aziendale e consulenza HR per benessere organizzativo, prevenzione e supporto alle persone."
       },
       "hero": {

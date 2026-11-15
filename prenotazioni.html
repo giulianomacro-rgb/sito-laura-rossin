@@ -67,14 +67,14 @@
               </div>
             </div>
 
-            <form class="booking-form" hidden>
+            <form class="booking-form" method="post" action="api/prenotazioni.php?action=book" hidden>
               <input type="hidden" name="eventId">
               <p class="selected-slot"></p>
               <div class="form-grid">
-                <label>Nome<input name="nome" autocomplete="given-name" required></label>
-                <label>Cognome<input name="cognome" autocomplete="family-name" required></label>
-                <label>Telefono<input name="telefono" autocomplete="tel" required></label>
-                <label>Email<input type="email" name="email" autocomplete="email" required></label>
+                <label>Nome<input name="nome" autocomplete="given-name" maxlength="80" required></label>
+                <label>Cognome<input name="cognome" autocomplete="family-name" maxlength="80" required></label>
+                <label>Telefono<input type="tel" name="telefono" autocomplete="tel" maxlength="80" required></label>
+                <label>Email<input type="email" name="email" autocomplete="email" maxlength="160" required></label>
                 <label>Età<input type="number" name="eta" min="1" max="120" required></label>
                 <label>Sesso
                   <select name="sesso" required>
@@ -84,7 +84,7 @@
                     <option value="Altro / preferisco non indicarlo">Altro / preferisco non indicarlo</option>
                   </select>
                 </label>
-                <label class="full">Breve sintesi della problematica<textarea name="sintesi" rows="5" required></textarea></label>
+                <label class="full">Breve sintesi della problematica<textarea name="sintesi" rows="5" maxlength="1200" required></textarea></label>
               </div>
               <label class="privacy-check">
                 <input type="checkbox" name="privacy" value="1" required>
@@ -115,6 +115,7 @@
         </div>
       </div>
     </footer>
+    <script src="cms-content.js" defer></script>
     <script src="prenotazioni.js" defer></script>
   </body>
 </html>

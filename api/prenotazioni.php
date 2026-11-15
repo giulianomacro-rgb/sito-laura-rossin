@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once dirname(__DIR__) . '/lib/runtime.php';
 
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
@@ -18,7 +19,7 @@ function base64url(string $value): string
 
 function load_calendar_config(): array
 {
-    $file = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'google-calendar-config.php';
+    $file = calendar_config_file();
     if (!is_file($file)) {
         throw new RuntimeException('Google Calendar non configurato.');
     }
@@ -29,7 +30,7 @@ function load_calendar_config(): array
     }
 
     $serviceAccount = $config['service_account'] ?? [];
-    if (empty($config['calendar_id']) || !is_array($serviceAccount) || empty($serviceAccount['client_email']) || empty($serviceAccount['private_key'])) {
+    if (($config['enabled'] ?? false) !== true || empty($config['calendar_id']) || !is_array($serviceAccount) || empty($serviceAccount['client_email']) || empty($serviceAccount['private_key'])) {
         throw new RuntimeException('Google Calendar non configurato.');
     }
 
@@ -73,6 +74,7 @@ function http_request(string $method, string $url, array $headers = [], ?string 
             'header' => implode("\r\n", $headers),
             'content' => $body ?? '',
             'ignore_errors' => true,
+            'follow_location' => 0,
             'timeout' => 20,
         ],
     ]);
@@ -87,14 +89,14 @@ function http_request(string $method, string $url, array $headers = [], ?string 
 
 function google_access_token(array $serviceAccount): string
 {
-    $tokenUri = (string) ($serviceAccount['token_uri'] ?? 'https://oauth2.googleapis.com/token');
+    $tokenUri = 'https://oauth2.googleapis.com/token';
     $privateKey = (string) $serviceAccount['private_key'];
     $privateKey = str_replace('\\n', "\n", $privateKey);
     $now = time();
     $header = ['alg' => 'RS256', 'typ' => 'JWT'];
     $claims = [
         'iss' => (string) $serviceAccount['client_email'],
-        'scope' => 'https://www.googleapis.com/auth/calendar',
+        'scope' => 'https://www.googleapis.com/auth/calendar.events',
         'aud' => $tokenUri,
         'iat' => $now,
         'exp' => $now + 3600,
@@ -155,13 +157,66 @@ function calendar_event_url(string $calendarId, string $eventId = ''): string
 
 function event_is_available_slot(array $event): bool
 {
-    if (($event['status'] ?? '') === 'cancelled') {
+    if (($event['status'] ?? '') === 'cancelled' || ($event['eventType'] ?? 'default') !== 'default'
+        || !empty($event['attendees']) || empty($event['start']['dateTime']) || empty($event['end']['dateTime'])) {
         return false;
     }
 
     $summary = trim((string) ($event['summary'] ?? ''));
     $description = trim((string) ($event['description'] ?? ''));
-    return $summary === '' && $description === '';
+    return !str_starts_with($summary, 'Appuntamento - ')
+        && preg_match('/(?<![\pL\pN_])#disp(?![\pL\pN_])/iu', $summary . "\n" . strip_tags($description)) === 1;
+}
+
+function calendar_events(string $calendarId, string $token, DateTimeImmutable $from, DateTimeImmutable $to): array
+{
+    $params = [
+        'timeMin' => $from->format(DateTimeInterface::ATOM),
+        'timeMax' => $to->format(DateTimeInterface::ATOM),
+        'singleEvents' => 'true',
+        'orderBy' => 'startTime',
+        'maxResults' => '2500',
+        'fields' => 'nextPageToken,items(id,summary,description,status,eventType,start,end,attendees)',
+    ];
+    $events = [];
+    for ($page = 0; $page < 8; $page++) {
+        $response = google_request('GET', calendar_event_url($calendarId) . '?' . http_build_query($params), $token);
+        if ($response['status'] !== 200) {
+            throw new RuntimeException('Impossibile leggere Google Calendar.');
+        }
+        array_push($events, ...($response['data']['items'] ?? []));
+        $params['pageToken'] = $response['data']['nextPageToken'] ?? '';
+        if ($params['pageToken'] === '') {
+            return $events;
+        }
+    }
+    throw new RuntimeException('Troppi eventi per leggere il calendario completo.');
+}
+
+function busy_intervals(array $events, DateTimeZone $timezone): array
+{
+    $intervals = [];
+    foreach ($events as $event) {
+        if (($event['status'] ?? '') === 'cancelled' || event_is_available_slot($event)) {
+            continue;
+        }
+        $start = $event['start']['dateTime'] ?? $event['start']['date'] ?? '';
+        $end = $event['end']['dateTime'] ?? $event['end']['date'] ?? '';
+        if ($start !== '' && $end !== '') {
+            $intervals[] = [new DateTimeImmutable($start, $timezone), new DateTimeImmutable($end, $timezone)];
+        }
+    }
+    return $intervals;
+}
+
+function overlaps_busy(DateTimeImmutable $start, DateTimeImmutable $end, array $intervals): bool
+{
+    foreach ($intervals as [$busyStart, $busyEnd]) {
+        if ($start < $busyEnd && $busyStart < $end) {
+            return true;
+        }
+    }
+    return false;
 }
 
 function list_slots(array $config): array
@@ -171,21 +226,11 @@ function list_slots(array $config): array
     $now = new DateTimeImmutable('now', $timezone);
     $max = $now->modify('+' . $daysAhead . ' days');
     $token = google_access_token($config['service_account']);
-    $query = http_build_query([
-        'timeMin' => $now->format(DateTimeInterface::ATOM),
-        'timeMax' => $max->format(DateTimeInterface::ATOM),
-        'singleEvents' => 'true',
-        'orderBy' => 'startTime',
-        'maxResults' => '2500',
-    ]);
-    $response = google_request('GET', calendar_event_url((string) $config['calendar_id']) . '?' . $query, $token);
-
-    if ($response['status'] < 200 || $response['status'] >= 300) {
-        throw new RuntimeException('Impossibile leggere Google Calendar.');
-    }
+    $events = calendar_events($config['calendar_id'], $token, $now, $max);
+    $busy = busy_intervals($events, $timezone);
 
     $slots = [];
-    foreach (($response['data']['items'] ?? []) as $event) {
+    foreach ($events as $event) {
         if (!is_array($event) || !event_is_available_slot($event)) {
             continue;
         }
@@ -198,7 +243,7 @@ function list_slots(array $config): array
 
         $start = (new DateTimeImmutable((string) $startRaw))->setTimezone($timezone);
         $end = (new DateTimeImmutable((string) $endRaw))->setTimezone($timezone);
-        if ($start <= $now) {
+        if ($start <= $now || $start >= $max || $end <= $start || overlaps_busy($start, $end, $busy)) {
             continue;
         }
 
@@ -217,31 +262,40 @@ function list_slots(array $config): array
 
 function read_payload(): array
 {
-    $raw = file_get_contents('php://input');
+    if (strtolower(trim(explode(';', $_SERVER['CONTENT_TYPE'] ?? '')[0])) !== 'application/json') {
+        respond(['ok' => false, 'message' => 'Formato della richiesta non valido.'], 415);
+    }
+    $raw = file_get_contents('php://input', false, null, 0, 16385);
+    if ($raw === false || strlen($raw) > 16384) {
+        respond(['ok' => false, 'message' => 'Richiesta troppo lunga.'], 413);
+    }
     $data = json_decode((string) $raw, true);
     if (is_array($data)) {
         return $data;
     }
-    return $_POST;
+    respond(['ok' => false, 'message' => 'Richiesta non valida.'], 400);
+    return [];
 }
 
 function clean_text(array $payload, string $key, int $max = 500): string
 {
-    $value = trim((string) ($payload[$key] ?? ''));
-    $value = preg_replace('/[[:cntrl:]]+/u', ' ', $value) ?? $value;
-    return substr($value, 0, $max);
+    $raw = $payload[$key] ?? '';
+    $value = trim(is_string($raw) ? $raw : '');
+    $value = preg_replace('/[[:cntrl:]]+/u', ' ', $value) ?? '';
+    preg_match('/^.{0,' . $max . '}/us', $value, $limited);
+    return trim($limited[0] ?? '');
 }
 
 function book_slot(array $config, array $payload): array
 {
     $required = ['eventId', 'nome', 'cognome', 'telefono', 'email', 'eta', 'sesso', 'sintesi'];
     foreach ($required as $key) {
-        if (trim((string) ($payload[$key] ?? '')) === '') {
+        if (clean_text($payload, $key) === '') {
             respond(['ok' => false, 'message' => 'Compila tutti i campi obbligatori.'], 422);
         }
     }
 
-    if (empty($payload['privacy'])) {
+    if (($payload['privacy'] ?? false) !== true) {
         respond(['ok' => false, 'message' => 'Per prenotare è necessario il consenso privacy.'], 422);
     }
 
@@ -250,8 +304,8 @@ function book_slot(array $config, array $payload): array
         respond(['ok' => false, 'message' => 'Inserisci un indirizzo email valido.'], 422);
     }
 
-    $eta = (int) clean_text($payload, 'eta', 3);
-    if ($eta < 1 || $eta > 120) {
+    $eta = filter_var($payload['eta'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 120]]);
+    if ($eta === false) {
         respond(['ok' => false, 'message' => 'Inserisci un età valida.'], 422);
     }
 
@@ -261,10 +315,13 @@ function book_slot(array $config, array $payload): array
     $sesso = clean_text($payload, 'sesso', 80);
     $sintesi = clean_text($payload, 'sintesi', 1200);
     $eventId = clean_text($payload, 'eventId', 200);
+    if (!preg_match('/^[a-zA-Z0-9_-]{1,200}$/D', $eventId)) {
+        respond(['ok' => false, 'message' => 'Orario non valido.'], 422);
+    }
     $token = google_access_token($config['service_account']);
     $eventResponse = google_request('GET', calendar_event_url((string) $config['calendar_id'], $eventId), $token);
 
-    if ($eventResponse['status'] === 404) {
+    if (in_array($eventResponse['status'], [404, 410], true)) {
         respond(['ok' => false, 'message' => 'Questo orario non è più disponibile. Scegli un altro slot.'], 409);
     }
 
@@ -273,7 +330,16 @@ function book_slot(array $config, array $payload): array
     }
 
     $event = $eventResponse['data'];
-    if (!event_is_available_slot($event)) {
+    if (!event_is_available_slot($event) || empty($event['etag'])) {
+        respond(['ok' => false, 'message' => 'Questo orario non è più disponibile. Scegli un altro slot.'], 409);
+    }
+    $timezone = new DateTimeZone((string) ($config['timezone'] ?? 'Europe/Rome'));
+    $now = new DateTimeImmutable('now', $timezone);
+    $start = new DateTimeImmutable($event['start']['dateTime']);
+    $end = new DateTimeImmutable($event['end']['dateTime']);
+    $max = $now->modify('+' . max(1, min(180, (int) ($config['days_ahead'] ?? 60))) . ' days');
+    if ($start <= $now || $start >= $max || $end <= $start
+        || overlaps_busy($start, $end, busy_intervals(calendar_events($config['calendar_id'], $token, $start, $end), $timezone))) {
         respond(['ok' => false, 'message' => 'Questo orario non è più disponibile. Scegli un altro slot.'], 409);
     }
 
@@ -287,24 +353,21 @@ function book_slot(array $config, array $payload): array
         'Sintesi problematica: ' . $sintesi,
     ]);
 
-    $headers = [];
-    if (!empty($event['etag'])) {
-        $headers[] = 'If-Match: ' . (string) $event['etag'];
-    }
-
     $updateResponse = google_request(
         'PATCH',
-        calendar_event_url((string) $config['calendar_id'], $eventId),
+        calendar_event_url((string) $config['calendar_id'], $eventId) . '?sendUpdates=none&fields=id',
         $token,
         [
             'summary' => 'Appuntamento - ' . $nome . ' ' . $cognome,
-            'description' => $description,
+            'description' => htmlspecialchars($description, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8'),
             'status' => 'confirmed',
+            'visibility' => 'private',
+            'transparency' => 'opaque',
         ],
-        $headers
+        ['If-Match: ' . $event['etag']]
     );
 
-    if (in_array($updateResponse['status'], [409, 412], true)) {
+    if (in_array($updateResponse['status'], [404, 409, 410, 412], true)) {
         respond(['ok' => false, 'message' => 'Questo orario non è più disponibile. Scegli un altro slot.'], 409);
     }
 

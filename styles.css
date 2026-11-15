@@ -1089,7 +1089,8 @@ details p {
 .booking-day:focus-visible,
 .booking-day[aria-pressed="true"],
 .booking-slot:hover,
-.booking-slot:focus-visible {
+.booking-slot:focus-visible,
+.booking-slot[aria-pressed="true"] {
   background: var(--blue-deep);
   color: var(--paper);
 }
@@ -1108,6 +1109,10 @@ details p {
 
 .booking-status[data-type="ok"] {
   border-color: var(--blue-deep);
+}
+
+.booking-widget [hidden] {
+  display: none;
 }
 
 .booking-form {

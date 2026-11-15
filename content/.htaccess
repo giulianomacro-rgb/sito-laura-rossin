@@ -1,5 +1,5 @@
 Options -Indexes
 
-<FilesMatch "\.(bak|tmp)$">
+<FilesMatch "(^\.|^site-[0-9].*\.json$|\.(bak|tmp)$)">
   Require all denied
 </FilesMatch>

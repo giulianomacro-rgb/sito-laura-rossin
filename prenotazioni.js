@@ -11,6 +11,7 @@
   const eventInput = form.querySelector('[name="eventId"]');
   let slotsByDate = new Map();
   let activeDate = "";
+  let submitting = false;
 
   const setStatus = (message, type = "") => {
     status.textContent = message;
@@ -44,7 +45,9 @@
       button.textContent = dateLabel(dateKey);
       button.setAttribute("aria-pressed", dateKey === activeDate ? "true" : "false");
       button.addEventListener("click", () => {
+        if (submitting) return;
         activeDate = dateKey;
+        eventInput.value = "";
         form.hidden = true;
         renderDays();
         renderSlots();
@@ -61,8 +64,11 @@
       button.type = "button";
       button.className = "booking-slot";
       button.textContent = slot.timeLabel;
+      button.setAttribute("aria-pressed", String(eventInput.value === slot.id));
       button.addEventListener("click", () => {
+        if (submitting) return;
         eventInput.value = slot.id;
+        slotsWrap.querySelectorAll("button").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
         selectedSlot.textContent = `${dateLabel(slot.dateKey)} · ${slot.timeLabel}`;
         form.hidden = false;
         form.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -71,10 +77,11 @@
     });
   };
 
-  const loadSlots = async () => {
-    setStatus("Caricamento disponibilità...");
+  const loadSlots = async (notice = "", type = "") => {
+    if (!notice) setStatus("Caricamento disponibilità...");
     calendar.hidden = true;
     form.hidden = true;
+    eventInput.value = "";
 
     try {
       const response = await fetch("api/prenotazioni.php?action=slots", { cache: "no-store" });
@@ -86,28 +93,29 @@
       groupSlots(data.slots || []);
       const dates = Array.from(slotsByDate.keys());
       if (!dates.length) {
-        setStatus("Al momento non ci sono slot disponibili. Riprova più tardi.", "empty");
+        setStatus(notice || "Al momento non ci sono orari disponibili. Contatta Laura per informazioni.", type || "empty");
         return;
       }
 
-      activeDate = dates[0];
+      if (!slotsByDate.has(activeDate)) activeDate = dates[0];
       calendar.hidden = false;
-      setStatus("Seleziona un giorno e un orario tra quelli disponibili.", "ok");
+      setStatus(notice || "Seleziona un giorno e un orario tra quelli disponibili.", type || "ok");
       renderDays();
       renderSlots();
     } catch (error) {
-      setStatus("Calendario momentaneamente non disponibile. Verifica la configurazione Google Calendar nel CMS.", "error");
+      setStatus(notice || "Le prenotazioni online non sono disponibili. Per fissare un appuntamento, contatta Laura.", type || "error");
     }
   };
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (submitting || !eventInput.value) return;
     const submit = form.querySelector('button[type="submit"]');
     const formData = new FormData(form);
     const payload = Object.fromEntries(formData.entries());
     payload.privacy = formData.has("privacy");
 
-    submit.disabled = true;
+    submitting = submit.disabled = true;
     setStatus("Verifica dello slot e conferma in corso...");
 
     try {
@@ -117,19 +125,21 @@
         body: JSON.stringify(payload),
       });
       const data = await response.json();
+      if (response.status === 409) {
+        await loadSlots(data.message || "Questo orario non è più disponibile. Scegli un altro slot.", "error");
+        return;
+      }
       if (!response.ok || !data.ok) {
         throw new Error(data.message || "Prenotazione non riuscita.");
       }
 
       form.reset();
       form.hidden = true;
-      setStatus(data.message || "Prenotazione confermata.", "ok");
-      await loadSlots();
+      await loadSlots(data.message || "Prenotazione confermata.", "ok");
     } catch (error) {
-      setStatus(error.message || "Questo orario non è più disponibile. Scegli un altro slot.", "error");
-      await loadSlots();
+      setStatus(error.message || "Non è stato possibile confermare la prenotazione.", "error");
     } finally {
-      submit.disabled = false;
+      submitting = submit.disabled = false;
     }
   });
 

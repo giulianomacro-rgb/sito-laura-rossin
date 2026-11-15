@@ -3,7 +3,9 @@
   const prefix = nested ? "../" : "";
 
   const rootPath = (value) => {
-    if (!value) return "";
+    if (typeof value !== "string") return "";
+    value = value.trim();
+    if (!value || /[\u0000-\u001f\\]/.test(value) || (/^[a-z][a-z0-9+.-]*:/i.test(value) && !/^(https?|mailto|tel):/i.test(value))) return "";
     if (/^(https?:|mailto:|tel:|#|\/)/.test(value)) return value;
     return prefix + value;
   };
@@ -440,11 +442,22 @@
     updateActive();
   };
 
-  fetch(`${prefix}content/site.json`, { cache: "no-store" })
+  if (!document.documentElement.hasAttribute('data-server-rendered')) fetch(`${prefix}content/site.json`, { cache: "no-store" })
     .then((response) => (response.ok ? response.json() : null))
     .then((site) => {
       if (!site) return;
       const key = pageKey();
+      if (document.querySelector("[data-booking]")) {
+        const contact = site.home?.contact || {};
+        setImage(".brand img", site.assets?.logo, "Laura Rossin");
+        renderFooter(site.home, site.assets);
+        if (contact.email) {
+          setLink('.booking-contact a[href^="mailto:"]', contact.email, `mailto:${contact.email}`);
+          setLink('.hero-actions a[href^="mailto:"]', undefined, `mailto:${contact.email}`);
+        }
+        if (contact.phoneHref) setLink('.booking-contact a[href^="tel:"]', contact.phone, `tel:${contact.phoneHref}`);
+        return;
+      }
       if (key === "home") renderHome(site);
       else if (key === "article") renderArticle(site);
       else renderPage(site, key);

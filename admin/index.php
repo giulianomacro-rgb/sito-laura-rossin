@@ -1,7 +1,17 @@
 <?php
 declare(strict_types=1);
 
-$isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (($_SERVER['SERVER_PORT'] ?? '') === '443');
+require_once dirname(__DIR__) . '/lib/runtime.php';
+require_once dirname(__DIR__) . '/lib/seo.php';
+
+header('X-Robots-Tag: noindex, nofollow');
+header('X-Frame-Options: SAMEORIGIN');
+header('Cache-Control: no-store');
+$inContainer = getenv('CMS_CONTAINER') === '1';
+$isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+    || (($_SERVER['SERVER_PORT'] ?? '') === '443')
+    || ($inContainer && getenv('RAILWAY_ENVIRONMENT_ID') !== false);
+ini_set('session.use_strict_mode', '1');
 session_set_cookie_params([
     'lifetime' => 0,
     'path' => '/',
@@ -12,16 +22,18 @@ session_set_cookie_params([
 session_start();
 
 $root = dirname(__DIR__);
-$contentFile = $root . DIRECTORY_SEPARATOR . 'content' . DIRECTORY_SEPARATOR . 'site.json';
-$backupDir = $root . DIRECTORY_SEPARATOR . 'content' . DIRECTORY_SEPARATOR . 'backups';
-$configFile = __DIR__ . DIRECTORY_SEPARATOR . 'config.php';
-$calendarConfigFile = __DIR__ . DIRECTORY_SEPARATOR . 'google-calendar-config.php';
-$loginAttemptsFile = __DIR__ . DIRECTORY_SEPARATOR . '.login-attempts.json';
-$uploadDir = $root . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'uploads';
+$storage = storage_dir();
+$contentFile = site_content_file();
+$backupDir = $storage ? $storage . '/backups' : $root . '/content/backups';
+$configFile = $storage ? $storage . '/private/account.php' : __DIR__ . '/config.php';
+$calendarConfigFile = calendar_config_file();
+$loginAttemptsFile = $storage ? $storage . '/private/login-attempts.json' : __DIR__ . '/.login-attempts.json';
+$uploadDir = $storage ? $storage . '/uploads' : $root . '/assets/uploads';
 $uploadBase = 'assets/uploads/';
 
-if (!is_dir($uploadDir)) {
-    mkdir($uploadDir, 0775, true);
+if ($inContainer && (!$storage || !is_writable($storage))) {
+    http_response_code(503);
+    exit('CMS non ancora disponibile. Collega un volume Railway al percorso /data.');
 }
 
 if (empty($_SESSION['csrf'])) {
@@ -111,7 +123,7 @@ function write_auth_config(string $file, string $username, ?string $plainPasswor
     }
 
     $body = "<?php\nreturn " . var_export($next, true) . ";\n";
-    return file_put_contents($file, $body, LOCK_EX) !== false;
+    return atomic_write($file, $body);
 }
 
 function is_logged_in(): bool
@@ -121,7 +133,7 @@ function is_logged_in(): bool
 
 function verify_csrf(): bool
 {
-    return isset($_POST['csrf'], $_SESSION['csrf']) && hash_equals((string) $_SESSION['csrf'], (string) $_POST['csrf']);
+    return is_string($_POST['csrf'] ?? null) && isset($_SESSION['csrf']) && hash_equals($_SESSION['csrf'], $_POST['csrf']);
 }
 
 function destroy_session_and_redirect(): void
@@ -176,7 +188,7 @@ function read_site(string $file): array
 function write_site(string $file, array $data): bool
 {
     $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-    return $json !== false && file_put_contents($file, $json . PHP_EOL, LOCK_EX) !== false;
+    return $json !== false && atomic_write($file, $json . PHP_EOL);
 }
 
 function backup_site_file(string $file, string $backupDir): bool
@@ -189,7 +201,7 @@ function backup_site_file(string $file, string $backupDir): bool
         return false;
     }
 
-    $target = $backupDir . DIRECTORY_SEPARATOR . 'site-' . date('Ymd-His') . '.json';
+    $target = $backupDir . DIRECTORY_SEPARATOR . 'site-' . date('Ymd-His') . '-' . bin2hex(random_bytes(4)) . '.json';
     return copy($file, $target);
 }
 
@@ -619,11 +631,12 @@ function upload_image_file(array $file, string $uploadDir, string $uploadBase, s
         return ['ok' => false, 'message' => '"' . $label . '" supera il limite di 5 MB.'];
     }
 
-    $original = (string) ($file['name'] ?? '');
-    $extension = strtolower(pathinfo($original, PATHINFO_EXTENSION));
-    $allowed = ['jpg', 'jpeg', 'png', 'webp', 'svg'];
-    if (!in_array($extension, $allowed, true)) {
-        return ['ok' => false, 'message' => 'Formato non valido per "' . $label . '". Usa JPG, PNG, WebP o SVG.'];
+    $tmpFile = (string) ($file['tmp_name'] ?? '');
+    $image = is_uploaded_file($tmpFile) ? @getimagesize($tmpFile) : false;
+    $extensions = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp'];
+    $extension = $extensions[$image['mime'] ?? ''] ?? null;
+    if (!$extension || !($image[0] > 0 && $image[1] > 0) || $image[0] * $image[1] > 40000000) {
+        return ['ok' => false, 'message' => 'Usa un file JPG, PNG o WebP valido, fino a 40 megapixel.'];
     }
 
     if (!is_dir($uploadDir) && !mkdir($uploadDir, 0775, true)) {
@@ -632,9 +645,9 @@ function upload_image_file(array $file, string $uploadDir, string $uploadBase, s
 
     $safeSeed = trim((string) preg_replace('/[^a-z0-9-]+/i', '-', $nameSeed), '-');
     $safeSeed = $safeSeed !== '' ? strtolower($safeSeed) : 'immagine';
-    $filename = $safeSeed . '-' . date('YmdHis') . '.' . $extension;
+    $filename = substr($safeSeed, 0, 50) . '-' . bin2hex(random_bytes(10)) . '.' . $extension;
     $target = $uploadDir . DIRECTORY_SEPARATOR . $filename;
-    if (!move_uploaded_file((string) ($file['tmp_name'] ?? ''), $target)) {
+    if (!move_uploaded_file($tmpFile, $target)) {
         return ['ok' => false, 'message' => 'Non riesco a salvare "' . $label . '". Verifica i permessi della cartella uploads.'];
     }
 
@@ -672,7 +685,7 @@ function handle_uploads(array &$site, string $uploadDir, string $uploadBase, arr
 function write_google_calendar_config_file(string $file, array $data): bool
 {
     $body = "<?php\nreturn " . var_export($data, true) . ";\n";
-    return file_put_contents($file, $body, LOCK_EX) !== false;
+    return atomic_write($file, $body);
 }
 
 function service_account_status(array $calendarConfig): string
@@ -684,13 +697,11 @@ function service_account_status(array $calendarConfig): string
     return 'Non configurato';
 }
 
-function html_value(string $value): string
-{
-    return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-}
-
 function update_html_seo(string $root, array $site): void
 {
+    if (getenv('CMS_CONTAINER') === '1') {
+        return;
+    }
     $files = [
         'index.html' => [
             'title' => $site['home']['seo']['title'] ?? '',
@@ -735,32 +746,15 @@ function update_html_seo(string $root, array $site): void
             continue;
         }
 
-        if (!empty($seo['title'])) {
-            $html = preg_replace('/<title>.*?<\/title>/si', '<title>' . html_value((string) $seo['title']) . '</title>', $html, 1) ?? $html;
-        }
-
-        if (!empty($seo['description'])) {
-            $html = preg_replace('/<meta name="description" content=".*?">/si', '<meta name="description" content="' . html_value((string) $seo['description']) . '">', $html, 1) ?? $html;
-        }
-
-        if ($relative === 'index.html') {
-            if (!empty($seo['ogTitle'])) {
-                $html = preg_replace('/<meta property="og:title" content=".*?">/si', '<meta property="og:title" content="' . html_value((string) $seo['ogTitle']) . '">', $html, 1) ?? $html;
-            }
-            if (!empty($seo['ogDescription'])) {
-                $html = preg_replace('/<meta property="og:description" content=".*?">/si', '<meta property="og:description" content="' . html_value((string) $seo['ogDescription']) . '">', $html, 1) ?? $html;
-            }
-        }
-
-        file_put_contents($path, $html, LOCK_EX);
+        atomic_write($path, apply_site_seo($html, $seo));
     }
 }
 
 function password_errors(string $password): array
 {
     $errors = [];
-    if (strlen($password) < 12) {
-        $errors[] = 'La nuova password deve avere almeno 12 caratteri.';
+    if (strlen($password) < 12 || strlen($password) > 72 || str_contains($password, "\0")) {
+        $errors[] = 'La nuova password deve avere almeno 12 caratteri e non puo superare 72 byte.';
     }
     if (!preg_match('/[A-Z]/', $password) || !preg_match('/[a-z]/', $password) || !preg_match('/[0-9]/', $password)) {
         $errors[] = 'Usa almeno una maiuscola, una minuscola e un numero.';
@@ -787,31 +781,40 @@ function save_login_attempts(string $file, array $attempts): void
     file_put_contents($file, json_encode($attempts, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES), LOCK_EX);
 }
 
-function is_login_limited(string $file, string $key, int $limit, int $windowSeconds): bool
+function reserve_login_attempt(string $file, string $key, int $limit, int $windowSeconds): bool
 {
+    $lock = @fopen($file . '.lock', 'c');
+    if ($lock === false || !flock($lock, LOCK_EX)) {
+        return false;
+    }
     $attempts = login_attempts($file);
-    $now = time();
-    $recent = array_values(array_filter($attempts[$key] ?? [], static fn ($ts) => is_int($ts) && $ts > $now - $windowSeconds));
-    $attempts[$key] = $recent;
-    save_login_attempts($file, $attempts);
-    return count($recent) >= $limit;
-}
-
-function register_failed_login(string $file, string $key, int $windowSeconds): void
-{
-    $attempts = login_attempts($file);
-    $now = time();
-    $recent = array_values(array_filter($attempts[$key] ?? [], static fn ($ts) => is_int($ts) && $ts > $now - $windowSeconds));
-    $recent[] = $now;
-    $attempts[$key] = $recent;
-    save_login_attempts($file, $attempts);
+    $cutoff = time() - $windowSeconds;
+    foreach ($attempts as $ip => $times) {
+        $attempts[$ip] = array_values(array_filter((array) $times, static fn ($ts) => is_int($ts) && $ts > $cutoff));
+        if (!$attempts[$ip]) {
+            unset($attempts[$ip]);
+        }
+    }
+    // Cap per-IP and total attempts, including requests behind a shared proxy.
+    $allowed = count($attempts[$key] ?? []) < $limit && array_sum(array_map('count', $attempts)) < 100;
+    if ($allowed) {
+        $attempts[$key][] = time();
+        $allowed = atomic_write($file, (string) json_encode($attempts));
+    }
+    fclose($lock);
+    return $allowed;
 }
 
 function clear_failed_login(string $file, string $key): void
 {
+    $lock = @fopen($file . '.lock', 'c');
+    if ($lock === false || !flock($lock, LOCK_EX)) {
+        return;
+    }
     $attempts = login_attempts($file);
     unset($attempts[$key]);
     save_login_attempts($file, $attempts);
+    fclose($lock);
 }
 
 function format_time(?int $timestamp): string
@@ -930,7 +933,7 @@ $sections = [
 $assetDefinitions = [
     'logo' => [
         'label' => 'Logo',
-        'recommended' => 'SVG o PNG trasparente, larghezza 600 px.',
+        'recommended' => 'PNG trasparente, larghezza 600 px.',
     ],
     'heroImage' => [
         'label' => 'Foto principale homepage',
@@ -970,7 +973,7 @@ $assetDefinitions = [
     ],
     'archimpresaLogo' => [
         'label' => 'Logo Archimpresa',
-        'recommended' => 'SVG o PNG trasparente, larghezza 400 px.',
+        'recommended' => 'PNG trasparente, larghezza 400 px.',
     ],
     'ogImage' => [
         'label' => 'Immagine social',
@@ -979,6 +982,8 @@ $assetDefinitions = [
 ];
 
 $config = load_auth_config($configFile);
+$hasCredentials = is_modern_password_hash((string) ($config['password_hash'] ?? ''))
+    || (!$inContainer && !empty($config['password_salt']) && !empty($config['password_hash']));
 $calendarConfig = is_file($calendarConfigFile) ? require $calendarConfigFile : [];
 $calendarConfig = is_array($calendarConfig) ? $calendarConfig : [];
 $sessionLifetime = max(900, (int) (env_value('CMS_SESSION_LIFETIME') ?? 3600));
@@ -989,7 +994,9 @@ $errors = [];
 if (is_logged_in()) {
     $lastActivity = (int) ($_SESSION['last_activity'] ?? 0);
     $sessionVersion = (int) ($_SESSION['cms_session_version'] ?? 0);
-    if (($lastActivity > 0 && $lastActivity + $sessionLifetime < time()) || $sessionVersion !== (int) $config['session_version']) {
+    if (!$hasCredentials || ($lastActivity > 0 && $lastActivity + $sessionLifetime < time())
+        || $sessionVersion !== (int) $config['session_version']
+        || !hash_equals((string) ($_SESSION['cms_auth'] ?? ''), hash('sha256', $config['username'] . '|' . ($config['password_hash'] ?? '')))) {
         destroy_session_and_redirect();
     }
     $_SESSION['last_activity'] = time();
@@ -1000,11 +1007,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $returnSection = array_key_exists((string) ($_POST['section'] ?? ''), $sections) ? (string) $_POST['section'] : 'dashboard';
 
     if ($action === 'login') {
-        if (!verify_csrf()) {
+        if (!$hasCredentials || !verify_csrf()) {
             $errors[] = 'Sessione scaduta. Riprova.';
         } else {
             $key = login_key();
-            if (is_login_limited($loginAttemptsFile, $key, $maxLoginAttempts, $loginWindow)) {
+            if (!reserve_login_attempt($loginAttemptsFile, $key, $maxLoginAttempts, $loginWindow)) {
                 $errors[] = 'Accesso non riuscito. Riprova tra qualche minuto.';
             } else {
                 $username = trim((string) ($_POST['username'] ?? ''));
@@ -1019,19 +1026,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['last_activity'] = time();
                     $_SESSION['csrf'] = bin2hex(random_bytes(32));
 
-                    if ($passwordCheck['needs_rehash'] && !auth_uses_env()) {
-                        write_auth_config($configFile, $username, $password, $config);
+                    if ($passwordCheck['needs_rehash'] && !auth_uses_env() && write_auth_config($configFile, $username, $password, $config)) {
+                        $config = load_auth_config($configFile);
                     }
+                    $_SESSION['cms_auth'] = hash('sha256', $config['username'] . '|' . $config['password_hash']);
                     redirect_section('dashboard');
                 }
 
-                register_failed_login($loginAttemptsFile, $key, $loginWindow);
                 $errors[] = 'Accesso non riuscito. Controlla le credenziali e riprova.';
             }
         }
     }
 
-    if ($action === 'logout') {
+    if ($action === 'logout' && verify_csrf()) {
         destroy_session_and_redirect();
     }
 
@@ -1137,10 +1144,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $credentialErrors[] = 'La nuova password e la conferma non coincidono.';
         }
 
-        if ($credentialErrors === [] && write_auth_config($configFile, $newUser, $newPassword, $config)) {
+        if ($credentialErrors === [] && write_auth_config($configFile, $newUser, $newPassword, $config, $config['session_version'] + 1)) {
             $config = load_auth_config($configFile);
             $_SESSION['cms_user'] = $newUser;
             $_SESSION['cms_session_version'] = (int) $config['session_version'];
+            $_SESSION['cms_auth'] = hash('sha256', $config['username'] . '|' . $config['password_hash']);
             flash('success', 'Password aggiornata correttamente.');
         } elseif ($credentialErrors === []) {
             $credentialErrors[] = 'Impossibile aggiornare le credenziali.';
@@ -1178,24 +1186,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $timezone = trim((string) ($_POST['timezone'] ?? 'Europe/Rome')) ?: 'Europe/Rome';
         $daysAhead = max(1, min(180, (int) ($_POST['days_ahead'] ?? 60)));
         $serviceAccountJson = trim((string) ($_POST['service_account_json'] ?? ''));
+        $enabled = ($_POST['booking_enabled'] ?? '') === '1';
         $serviceAccount = is_array($calendarConfig['service_account'] ?? null) ? $calendarConfig['service_account'] : [];
         $calendarErrors = [];
 
-        if ($calendarId === '') {
+        if ($enabled && $calendarId === '') {
             $calendarErrors[] = 'Inserisci il Google Calendar ID.';
+        }
+        if (!in_array($timezone, DateTimeZone::listIdentifiers(DateTimeZone::ALL_WITH_BC), true)) {
+            $calendarErrors[] = 'Inserisci un fuso orario valido, ad esempio Europe/Rome.';
         }
 
         if ($serviceAccountJson !== '') {
             $decoded = json_decode($serviceAccountJson, true);
-            if (!is_array($decoded) || empty($decoded['client_email']) || empty($decoded['private_key'])) {
+            if (!is_array($decoded) || ($decoded['type'] ?? '') !== 'service_account'
+                || !is_string($decoded['client_email'] ?? null) || !filter_var($decoded['client_email'], FILTER_VALIDATE_EMAIL)
+                || !is_string($decoded['private_key'] ?? null) || !@openssl_pkey_get_private($decoded['private_key'])) {
                 $calendarErrors[] = 'Il JSON dell account di servizio Google non è valido.';
             } else {
-                $serviceAccount = $decoded;
+                $serviceAccount = array_intersect_key($decoded, array_flip(['client_email', 'private_key']));
             }
+        }
+
+        if ($enabled && (empty($serviceAccount['client_email']) || empty($serviceAccount['private_key']))) {
+            $calendarErrors[] = 'Per attivare le prenotazioni serve il JSON dell account di servizio.';
         }
 
         if ($calendarErrors === []) {
             $calendarConfig = [
+                'enabled' => $enabled,
                 'calendar_id' => $calendarId,
                 'timezone' => $timezone,
                 'days_ahead' => $daysAhead,
@@ -1242,6 +1261,9 @@ if (!is_logged_in()):
       <?php foreach ($errors as $error): ?>
         <p class="notice error"><?= e($error) ?></p>
       <?php endforeach; ?>
+      <?php if (!$hasCredentials): ?>
+        <p class="notice error">Accesso non configurato. Imposta CMS_USERNAME e CMS_PASSWORD_HASH sul server.</p>
+      <?php else: ?>
       <form method="post" class="grid">
         <input type="hidden" name="csrf" value="<?= e($_SESSION['csrf']) ?>">
         <input type="hidden" name="action" value="login">
@@ -1249,6 +1271,7 @@ if (!is_logged_in()):
         <?php field('Password', 'password', '', 'password', '', ['autocomplete' => 'current-password']); ?>
         <button type="submit">Entra</button>
       </form>
+      <?php endif; ?>
     </main>
   </body>
 </html>
@@ -1402,10 +1425,10 @@ $backupList = backup_files($backupDir);
                 </label>
                 <div class="visual-image-editor" data-visual-image-wrap hidden>
                   <img src="" alt="" data-visual-image-preview>
-                  <p class="hint" data-visual-image-help>JPG, PNG, WebP o SVG. Max 5 MB.</p>
+                  <p class="hint" data-visual-image-help>JPG, PNG o WebP. Max 5 MB.</p>
                   <label class="field">
                     <span>Carica nuova immagine</span>
-                    <input type="file" accept=".jpg,.jpeg,.png,.webp,.svg" data-visual-image-file>
+                    <input type="file" accept=".jpg,.jpeg,.png,.webp" data-visual-image-file>
                     <small>L'anteprima cambia subito; usa Salva modifiche per confermare nel contenuto.</small>
                   </label>
                   <label class="field">
@@ -1449,10 +1472,10 @@ $backupList = backup_files($backupDir);
                     </div>
                     <div class="media-body">
                       <h3><?= e($definition['label']) ?></h3>
-                      <p class="hint"><?= e($definition['recommended']) ?> Formati accettati: JPG, PNG, WebP, SVG. Peso massimo: 5 MB.</p>
+                      <p class="hint"><?= e($definition['recommended']) ?> Formati accettati: JPG, PNG, WebP. Peso massimo: 5 MB.</p>
                       <label class="upload-control">
                         <span>Carica nuovo file</span>
-                        <input type="file" name="uploads[<?= e($key) ?>]" accept=".jpg,.jpeg,.png,.webp,.svg" data-media-input="<?= e($key) ?>">
+                        <input type="file" name="uploads[<?= e($key) ?>]" accept=".jpg,.jpeg,.png,.webp" data-media-input="<?= e($key) ?>">
                       </label>
                       <p class="field-error" data-media-error="<?= e($key) ?>"></p>
                       <details class="advanced">
@@ -1747,7 +1770,7 @@ $backupList = backup_files($backupDir);
             <div class="section-title">
               <div>
                 <h2>Prenotazioni</h2>
-                <p class="hint">Il sito mostra come prenotabili gli eventi del calendario lasciati senza titolo e senza descrizione. Quando una persona prenota, l evento viene compilato e sparisce dagli slot disponibili.</p>
+                <p class="hint">Crea un evento con orario e aggiungi #disp al titolo o alla descrizione. Dopo la conferma, lo stesso evento diventa un appuntamento e sparisce dagli slot disponibili.</p>
               </div>
               <a class="button secondary" href="../prenotazioni.html" target="_blank" rel="noopener">Apri pagina prenotazioni</a>
             </div>
@@ -1760,6 +1783,7 @@ $backupList = backup_files($backupDir);
               <input type="hidden" name="csrf" value="<?= e($_SESSION['csrf']) ?>">
               <input type="hidden" name="action" value="save_google_calendar">
               <input type="hidden" name="section" value="prenotazioni">
+              <?php toggle_field('Attiva prenotazioni online', 'booking_enabled', ($calendarConfig['enabled'] ?? false) === true, 'Attiva solo dopo aver verificato il calendario e aggiornato l informativa privacy.'); ?>
               <div class="grid two">
                 <?php field('Google Calendar ID', 'calendar_id', (string) ($calendarConfig['calendar_id'] ?? ''), 'text', 'Di solito è un indirizzo email o una stringa lunga del calendario.'); ?>
                 <?php field('Fuso orario', 'timezone', (string) ($calendarConfig['timezone'] ?? 'Europe/Rome')); ?>
@@ -1911,10 +1935,10 @@ $backupList = backup_files($backupDir);
             if (error) error.textContent = "";
             if (!file) return;
 
-            const allowed = ["image/jpeg", "image/png", "image/webp", "image/svg+xml"];
+            const allowed = ["image/jpeg", "image/png", "image/webp"];
             const allowedName = /\.(jpe?g|png|webp|svg)$/i.test(file.name);
             if ((!allowed.includes(file.type) && !allowedName) || file.size > 5 * 1024 * 1024) {
-              if (error) error.textContent = "Formato non valido o file oltre 5 MB. Usa JPG, PNG, WebP o SVG.";
+              if (error) error.textContent = "Formato non valido o file oltre 5 MB. Usa JPG, PNG o WebP.";
               input.value = "";
               return;
             }
@@ -2113,7 +2137,7 @@ $backupList = backup_files($backupDir);
             if (parts[0] === "assets" && visualAssetDefinitions[parts[1]]?.recommended) {
               return visualAssetDefinitions[parts[1]].recommended;
             }
-            return fallback || "JPG, PNG, WebP o SVG. Max 5 MB.";
+            return fallback || "JPG, PNG o WebP. Max 5 MB.";
           };
 
           const addTopicOptions = () => {
@@ -2472,7 +2496,7 @@ $backupList = backup_files($backupDir);
 
             const extension = (file.name.split(".").pop() || "").toLowerCase();
             if (!["jpg", "jpeg", "png", "webp", "svg"].includes(extension)) {
-              setVisualStatus("Formato non valido. Usa JPG, PNG, WebP o SVG.", "error");
+              setVisualStatus("Formato non valido. Usa JPG, PNG o WebP.", "error");
               imageFile.value = "";
               return;
             }
