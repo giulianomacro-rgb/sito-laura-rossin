@@ -473,10 +473,10 @@ h3 {
   background: var(--paper);
 }
 
-.directory-hero::before { content: none; }
+.page-hero.directory-hero::before { content: none; }
 .directory-hero > .container { padding-block: 3rem 2.5rem; }
 .directory-hero h1 { max-width: 900px; }
-.directory-hero > img {
+.page-hero.directory-hero > img {
   display: block;
   width: 100%;
   height: 150px;
