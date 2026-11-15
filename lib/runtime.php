@@ -27,6 +27,9 @@ function atomic_write(string $file, string $body): bool
         && file_put_contents($temp, $body) === strlen($body) && rename($temp, $file);
     if (!$ok) {
         unlink($temp);
+    } elseif (str_ends_with($file, '.php') && function_exists('opcache_invalidate')) {
+        // Private PHP configuration must change immediately, including booking shutdown.
+        opcache_invalidate($file, true);
     }
     return $ok;
 }

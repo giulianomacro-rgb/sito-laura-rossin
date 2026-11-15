@@ -25,11 +25,21 @@ La pagina privacy non certifica la conformita del trattamento. La titolare deve 
 
 ## Collaudo Google reale
 
-Creare solo eventi fittizi nel calendario dedicato. Usare un evento senza tag, un evento Occupato sovrapposto e un evento con invitati di prova per verificare i filtri. Rimuovere gli eventi di prova al termine. Non modificare appuntamenti preesistenti.
+Completato il 15 novembre 2026 sul sito Railway con il calendario dedicato e dati inventati:
+
+- Verifica permessi Google dal CMS riuscita.
+- Conferma dal modulo web: stesso evento aggiornato, reso privato, consenso e versione informativa registrati; orario rimosso dalle disponibilita.
+- Due sessioni indipendenti sullo stesso evento: una sola conferma (200), seconda richiesta respinta (409). Anche il reinvio di una prenotazione gia confermata e stato respinto.
+- Eventi privati e Occupato esclusi; una disponibilita sovrapposta a Occupato non viene proposta.
+- Consenso obbligatorio e protezione della sessione verificati. Risposta pubblica senza dettagli degli eventi.
+- Tutti e cinque gli eventi fittizi sono stati eliminati con verifica successiva. Nessun appuntamento preesistente modificato e nessun invito inviato.
+- Il collaudo rimane accessibile solo a chi ha effettuato accesso al CMS; le prenotazioni pubbliche restano chiuse e la verifica privacy per apertura pubblica non e confermata.
+
+Per altre prove usare solo eventi fittizi, singoli e con orario. Rimuoverli al termine. Non modificare appuntamenti preesistenti.
 
 L'ID fornito va salvato nella configurazione privata del CMS, mai in script pubblici. La chiave non va inserita in GitHub, chat, HTML o cartelle pubbliche. Il sito resta chiuso al pubblico durante il collaudo.
 
-Test automatizzati: `tests/booking.php`, `tests/booking-flow.php` (Google simulato, non verifica credenziali o condivisioni reali), `tests/render.php`, `tests/cms.mjs`, `tests/http.mjs`.
+Test automatizzati: `tests/booking.php`, `tests/booking-flow.php` (Google simulato, non verifica credenziali o condivisioni reali), `tests/runtime.php` (salvataggio configurazione, da eseguire anche con OPcache attivo), `tests/render.php`, `tests/cms.mjs`, `tests/http.mjs`.
 
 ## Riferimenti ufficiali consultati
 
