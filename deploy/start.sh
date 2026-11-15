@@ -1,6 +1,10 @@
 #!/bin/sh
 set -eu
 
+# Reassert the single MPM at runtime as well as during the image build.
+a2dismod mpm_event mpm_worker >/dev/null
+a2enmod mpm_prefork >/dev/null
+
 port=${PORT:-8080}
 case "$port" in
     ''|*[!0-9]*) exit 1 ;;
@@ -25,4 +29,5 @@ if [ "${SITE_INDEXABLE:-0}" != 1 ]; then
 else
     set --
 fi
+apache2ctl -t "$@"
 exec apache2-foreground "$@"

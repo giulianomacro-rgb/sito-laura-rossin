@@ -8,3 +8,6 @@ assets/uploads/
 Thumbs.db
 /tools/*.zip
 /tools/*.local.*
+node_modules/
+.railway/*.snapshot.json
+.env*

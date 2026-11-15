@@ -19,6 +19,7 @@ RUN find . -type d -exec chmod 0755 {} + \
     && find . -type f -exec chmod 0644 {} + \
     && find . -name '*.php' -exec sh -ec 'for file do php -l "$file"; done' sh {} + \
     && apache2ctl configtest \
+    && apache2ctl -t -D LAURA_PREVIEW \
     && sed -i 's/\r$//' /usr/local/bin/laura-start \
     && chmod 0755 /usr/local/bin/laura-start
 CMD ["laura-start"]

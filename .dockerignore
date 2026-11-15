@@ -8,3 +8,7 @@ admin/.login-attempts.json
 content/backups
 assets/uploads
 .env*
+node_modules
+tools
+tests
+.railway

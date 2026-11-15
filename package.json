@@ -1,0 +1,7 @@
+{
+	"name": "sito-laura-rossin",
+	"private": true,
+	"devDependencies": {
+		"railway": "3.17.0"
+	}
+}

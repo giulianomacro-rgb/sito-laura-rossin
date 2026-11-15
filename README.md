@@ -1,6 +1,6 @@
 # Sito web Laura Rossin
 
-Sito statico ottimizzato per velocita, leggibilita e SEO locale.
+Sito PHP con CMS, ottimizzato per velocita, leggibilita e SEO locale.
 
 ## Struttura
 
@@ -61,6 +61,8 @@ Il calendario Google deve essere privato, dedicato e condiviso con l'email `clie
 4. In **Settings → Networking → Generate Domain**, genera un indirizzo Railway. Verifica `/`, `/admin/`, `/prenotazioni.html` e `/healthz`.
 
 Il deploy Railway usa PHP e Apache; la versione di prova invia `noindex` e non cambia il dominio ufficiale. Imposta `SITE_INDEXABLE=1` solo sul servizio collegato al dominio ufficiale. Su altri hosting PHP mantieni anche la cartella `lib/` e i file `.htaccess`.
+
+La configurazione di infrastruttura e in `.railway/railway.ts`. Installa le dipendenze di sviluppo con `pnpm install --frozen-lockfile`, poi usa `railway config plan` prima di `railway config apply`. Le variabili riservate restano gestite su Railway. Il volume esistente `/data` deve rimanere collegato: non applicare un piano che lo rimuove. Il codice del sito si aggiorna automaticamente dai push su `main`; le modifiche all'infrastruttura richiedono invece `config apply`.
 
 Dopo la pubblicazione è utile inviare la sitemap in Google Search Console e verificare che Google Business Profile sia completo e coerente con i dati presenti sul sito.
 
