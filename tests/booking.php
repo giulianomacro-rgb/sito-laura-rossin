@@ -14,6 +14,16 @@ verify(event_is_available_slot(array_replace($slot, ['summary' => ''])), 'Dedica
 verify(!event_is_available_slot(array_replace($slot, ['summary' => '#disponibile']), 'tag'), 'Legacy tag boundary');
 verify(!event_is_available_slot(array_replace($slot, ['summary' => '', 'extendedProperties' => ['private' => ['lauraBooked' => '1']]])), 'Renaming a booking never reopens it');
 verify(!event_is_available_slot(array_replace($slot, ['summary' => 'Occupato colloquio'])), 'Manual busy event excluded');
+verify(!event_is_available_slot(array_replace($slot, ['summary' => 'Busy', 'visibility' => 'private'])), 'Private busy blocks never become slots');
+verify(!event_is_available_slot(array_replace($slot, ['recurringEventId' => 'series'])), 'Recurring instance cannot alter other occurrences');
+verify(!event_is_available_slot(array_replace($slot, ['recurrence' => ['RRULE:FREQ=DAILY']])), 'Recurring master excluded');
+foreach (['reader', 'writerWithoutPrivateAccess', 'freeBusyReader', '', 'unknown'] as $role) {
+    $rejected = false;
+    try { require_calendar_write_access($role); } catch (RuntimeException $error) { $rejected = true; }
+    verify($rejected, 'Insufficient access fails closed: ' . $role);
+}
+require_calendar_write_access('writer');
+require_calendar_write_access('owner');
 verify(!event_is_available_slot(array_replace($slot, ['summary' => 'Appuntamento - #disp'])), 'Booked name cannot reopen slot');
 verify(!event_is_available_slot(array_replace($slot, ['status' => 'cancelled'])), 'Cancelled slot');
 verify(!event_is_available_slot(array_replace($slot, ['attendees' => [['email' => 'test@example.invalid']]])), 'Shared event is not bookable');

@@ -5,7 +5,9 @@
 - Informative privacy e cookie riferite a hosting Railway, API Google Calendar, cookie tecnico del CMS e assenza di analytics.
 - Titolare: Dott.ssa Laura Rossin, P.IVA 03119240219, piazza Domenicani 15, 39100 Bolzano (BZ); contatti esistenti del sito.
 - Nota sul motivo del colloquio facoltativa. Consenso esplicito registrato nell'evento con data e versione dell'informativa (hash del contenuto effettivo).
-- Calendario dedicato: eventi con orario disponibili senza #disp. Esclusi eventi annullati, con invitati, di giornata intera, di tipo speciale, con titolo Appuntamento/Occupato o contrassegno privato di prenotazione.
+- Calendario dedicato: eventi singoli con orario disponibili senza #disp. Esclusi eventi privati, ricorrenti, annullati, con invitati, di giornata intera, di tipo speciale, con titolo Appuntamento/Occupato o contrassegno privato di prenotazione.
+- Accesso Google richiesto: writer (Apporta modifiche e visualizza i dettagli degli eventi), non writerWithoutPrivateAccess. Letture e prenotazioni si interrompono se Google non restituisce un ruolo adeguato. Il CMS verifica i permessi prima di attivare il servizio e offre una verifica senza scritture.
+- Le ricorrenze sono escluse per evitare che rendere privata una singola occorrenza modifichi la visibilita delle altre. Usare un evento distinto per ogni slot.
 - Contrassegno `lauraBooked` persistente anche se il titolo viene cambiato. ETag e blocco locale delle scritture evitano conflitti; una seconda prenotazione dello stesso evento riceve 409.
 - Collaudo visibile solo con sessione CMS valida. Consenso di prova obbligatorio ed email @example.invalid. Nessun dato sanitario reale nei test.
 - Nessuna pubblicazione automatica dei dettagli del calendario. Nessun invito email automatico.

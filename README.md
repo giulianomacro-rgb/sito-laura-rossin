@@ -55,6 +55,8 @@ Il calendario Google deve essere privato, dedicato alle prenotazioni e condiviso
 
 Il sito aggiorna lo stesso evento, lo rende privato e salva un contrassegno `lauraBooked` che impedisce di riaprirlo anche cambiandone il titolo. Il collaudo e riservato a una sessione CMS valida, con dati fittizi ed email @example.invalid. Per pubblicare il servizio occorre disattivare il collaudo e confermare la verifica privacy. Vedere `PRIVACY-COLLAUDO.md`: la pubblicazione dei testi non equivale a certificazione legale.
 
+In Google Calendar scegliere **Apporta modifiche e visualizza i dettagli degli eventi** (ruolo `writer`). Il ruolo `writerWithoutPrivateAccess` non basta: il CMS lo rileva con **Verifica collegamento Google**, senza creare eventi. Creare eventi singoli: eventi esplicitamente privati e ricorrenti sono esclusi. Dal 2026 Google puo propagare la visibilita privata di un'occorrenza all'intera serie; il sito non modifica queste serie.
+
 I contenuti salvati online non vengono sovrascritti da un deploy. `node tools/publish-content.mjs <commit-precedente>` confronta le sole modifiche locali con il contenuto autenticato del CMS; rifiuta conflitti. `APPLY_CONTENT=1` applica il confronto, crea una copia locale riservata e verifica il risultato. Non usare il JSON pubblico filtrato per risalvare il CMS.
 
 ## Pubblicazione

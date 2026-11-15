@@ -1106,6 +1106,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         redirect_section('account');
     }
 
+    if (is_logged_in() && $action === 'check_google_calendar') {
+        if (!verify_csrf()) {
+            flash('error', 'Sessione scaduta. Riprova.');
+            redirect_section('prenotazioni');
+        }
+        define('BOOKING_LIBRARY_ONLY', true);
+        require_once dirname(__DIR__) . '/api/prenotazioni.php';
+        try {
+            verify_calendar_connection($calendarConfig);
+            flash('success', 'Collegamento Google verificato: lettura e modifica degli appuntamenti privati consentite. Nessun evento modificato.');
+        } catch (Throwable $error) {
+            flash('error', $error->getMessage());
+        }
+        redirect_section('prenotazioni');
+    }
+
     if (is_logged_in() && $action === 'save_google_calendar') {
         if (!verify_csrf()) {
             flash('error', 'Sessione scaduta. Riprova.');
@@ -1145,6 +1161,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($enabled && (empty($serviceAccount['client_email']) || empty($serviceAccount['private_key']))) {
             $calendarErrors[] = 'Per attivare le prenotazioni serve il JSON dell account di servizio.';
+        }
+
+        if ($enabled && $calendarErrors === []) {
+            define('BOOKING_LIBRARY_ONLY', true);
+            require_once dirname(__DIR__) . '/api/prenotazioni.php';
+            try {
+                verify_calendar_connection(['calendar_id' => $calendarId, 'service_account' => $serviceAccount]);
+            } catch (Throwable $error) {
+                $calendarErrors[] = $error->getMessage();
+            }
         }
 
         if ($calendarErrors === []) {
@@ -1713,14 +1739,19 @@ $backupList = backup_files($backupDir);
             <div class="section-title">
               <div>
                 <h2>Prenotazioni</h2>
-                <p class="hint">Nel calendario dedicato Prenotazioni ogni evento con giorno e orario diventa una disponibilità: non serve #disp. Non inserire qui impegni personali. Gli eventi con invitati, di giornata intera, già prenotati o con titolo che inizia per Appuntamento o Occupato sono esclusi.</p>
+                <p class="hint">Nel calendario dedicato Prenotazioni ogni evento singolo con giorno e orario diventa una disponibilità: non serve #disp. Non inserire qui impegni personali. Sono esclusi gli eventi privati, ricorrenti, con invitati, di giornata intera, già prenotati o con titolo che inizia per Appuntamento o Occupato.</p>
               </div>
               <a class="button secondary" href="../prenotazioni.html" target="_blank" rel="noopener">Apri pagina prenotazioni</a>
             </div>
             <div class="status-card <?= service_account_status($calendarConfig) === 'Non configurato' ? 'warn' : 'ok' ?>">
               <span>Google Calendar</span>
               <strong><?= e(service_account_status($calendarConfig)) ?></strong>
-              <p>Condividi il calendario Google con l email dell account di servizio prima di testare gli slot.</p>
+              <p>Condividi il calendario con l’account di servizio scegliendo Apporta modifiche e visualizza i dettagli degli eventi. Non serve la gestione delle condivisioni.</p>
+              <form method="post">
+                <input type="hidden" name="csrf" value="<?= e($_SESSION['csrf']) ?>">
+                <input type="hidden" name="action" value="check_google_calendar">
+                <button class="button secondary" type="submit">Verifica collegamento Google</button>
+              </form>
             </div>
             <form method="post" data-dirty-form class="settings-form">
               <input type="hidden" name="csrf" value="<?= e($_SESSION['csrf']) ?>">

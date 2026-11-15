@@ -2,8 +2,10 @@
 declare(strict_types=1);
 require_once dirname(__DIR__) . '/lib/runtime.php';
 
-header('Content-Type: application/json; charset=utf-8');
-header('Cache-Control: no-store');
+if (!defined('BOOKING_LIBRARY_ONLY')) {
+    header('Content-Type: application/json; charset=utf-8');
+    header('Cache-Control: no-store');
+}
 
 function respond(array $payload, int $status = 200): void
 {
@@ -165,6 +167,8 @@ function calendar_event_url(string $calendarId, string $eventId = ''): string
 function event_is_available_slot(array $event, string $mode = 'calendar'): bool
 {
     if (($event['status'] ?? '') === 'cancelled' || ($event['eventType'] ?? 'default') !== 'default'
+        || ($event['visibility'] ?? 'default') === 'private'
+        || !empty($event['recurringEventId']) || !empty($event['recurrence'])
         || !empty($event['attendees']) || !empty($event['extendedProperties']['private']['lauraBooked'])
         || empty($event['start']['dateTime']) || empty($event['end']['dateTime'])) {
         return false;
@@ -176,6 +180,27 @@ function event_is_available_slot(array $event, string $mode = 'calendar'): bool
     return $mode === 'calendar' || preg_match('/(?<![\pL\pN_])#disp(?![\pL\pN_])/iu', $summary . "\n" . strip_tags($description)) === 1;
 }
 
+function require_calendar_write_access(string $role): void
+{
+    if (!in_array($role, ['writer', 'owner'], true)) {
+        throw new RuntimeException('Nel calendario condiviso seleziona Apporta modifiche e visualizza i dettagli degli eventi. Il permesso attuale non consente di gestire gli appuntamenti privati.');
+    }
+}
+
+function verify_calendar_connection(array $config): void
+{
+    if (empty($config['calendar_id']) || empty($config['service_account']['private_key'])) {
+        throw new RuntimeException('Inserisci ID calendario e JSON dell’account di servizio, poi salva.');
+    }
+    $token = google_access_token($config['service_account']);
+    $response = google_request('GET', calendar_event_url($config['calendar_id']) . '?maxResults=1&fields=accessRole', $token);
+    if ($response['status'] === 404) {
+        throw new RuntimeException('Calendario non accessibile. Verifica l’ID e la condivisione con l’email dell’account di servizio.');
+    }
+    if ($response['status'] !== 200) throw new RuntimeException('Google Calendar non accessibile. Verifica API e autorizzazioni del progetto.');
+    require_calendar_write_access((string) ($response['data']['accessRole'] ?? ''));
+}
+
 function calendar_events(string $calendarId, string $token, DateTimeImmutable $from, DateTimeImmutable $to): array
 {
     $params = [
@@ -184,7 +209,7 @@ function calendar_events(string $calendarId, string $token, DateTimeImmutable $f
         'singleEvents' => 'true',
         'orderBy' => 'startTime',
         'maxResults' => '2500',
-        'fields' => 'nextPageToken,items(id,summary,description,status,eventType,start,end,attendees,extendedProperties)',
+        'fields' => 'accessRole,nextPageToken,items(id,summary,description,status,eventType,visibility,recurringEventId,recurrence,start,end,attendees,extendedProperties)',
     ];
     $events = [];
     for ($page = 0; $page < 8; $page++) {
@@ -192,6 +217,7 @@ function calendar_events(string $calendarId, string $token, DateTimeImmutable $f
         if ($response['status'] !== 200) {
             throw new RuntimeException('Impossibile leggere Google Calendar.');
         }
+        require_calendar_write_access((string) ($response['data']['accessRole'] ?? ''));
         array_push($events, ...($response['data']['items'] ?? []));
         $params['pageToken'] = $response['data']['nextPageToken'] ?? '';
         if ($params['pageToken'] === '') {
@@ -436,6 +462,8 @@ function book_slot_locked(array $config, array $payload): array
     try { return book_slot($config, $payload); }
     finally { flock($lock, LOCK_UN); fclose($lock); }
 }
+
+if (defined('BOOKING_LIBRARY_ONLY')) return;
 
 try {
     $config = load_calendar_config();
