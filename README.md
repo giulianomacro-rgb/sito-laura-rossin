@@ -71,3 +71,5 @@ Dopo la pubblicazione è utile inviare la sitemap in Google Search Console e ver
 Su Railway PHP 8.4 rende sul server i contenuti del CMS, i metadati, i dati strutturati e la sitemap. La versione locale HTML continua a caricare il JSON con JavaScript. Gli articoli non pubblicati restituiscono 404 sul server. Il file `AUDIT-SEO.md` raccoglie interventi e verifiche editoriali ancora necessarie.
 
 Controlli automatici: `php tests/render.php`, `php tests/booking.php`, `node --check cms-content.js`, `node --check prenotazioni.js`. Per un'anteprima PHP: `php -S 127.0.0.1:4175 tools/preview.php`.
+
+Il test `node tests/http.mjs` usa `TEST_SITE_URL` (default `http://127.0.0.1:4180`). Su una copia isolata con prenotazioni disattivate, `CMS_TEST_CREDENTIALS` puo indicare un file JSON locale riservato con `url`, `username` e `password`. Imposta `CMS_TEST_WRITE=1` solo per un collaudo autorizzato: risalva gli stessi contenuti e carica una copia dell'immagine social di prova, creando un backup senza cambiare i testi. Il test non prenota appuntamenti.

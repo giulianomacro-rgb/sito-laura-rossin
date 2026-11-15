@@ -19,7 +19,16 @@
 - Quando si collega il dominio ufficiale: impostare SITE_INDEXABLE=1 sul servizio definitivo, verificare URL canonici, inviare /sitemap.xml in Search Console e controllare copertura e query reali. Verificare i vecchi URL Wix e i reindirizzamenti necessari prima di sostituire il sito ufficiale.
 - Il miglioramento tecnico non garantisce posizioni su Google o citazioni nei motori AI. Non sono state misurate impressioni, clic o conversioni: manca l'accesso a Search Console e alle statistiche del sito ufficiale.
 
-## Fonti
+## Verifiche della pubblicazione
+
+- GitHub: ramo `main` collegato al servizio Railway `sito-laura-rossin`.
+- Homepage Railway: risposta HTTP 200, titolo aggiornato e contenuti gia presenti nell'HTML. La risposta include `noindex, nofollow`, come previsto per questa copia di prova.
+- Avvio Apache corretto e controllo di salute `/healthz` riuscito. Volume persistente collegato a `/data`; credenziali CMS escluse da Git e dall'immagine pubblicata.
+- Test PHP: nove tipi di pagina, dati strutturati, articoli, escaping dei contenuti e filtri delle disponibilita Calendar.
+- Test HTTP su copia locale isolata: 14 percorsi pubblici, errori 404, prenotazioni disattivate, login/logout CMS, protezione CSRF, salvataggio e rilettura degli stessi contenuti, upload JPEG e rifiuto SVG.
+- Non eseguiti: collaudo visivo desktop/mobile e login/salvataggio del CMS remoto, per mancata autorizzazione del browser. Non verificata una prenotazione su Google Calendar reale.
+
+## Riferimenti
 
 - https://developers.google.com/search/docs/fundamentals/ai-optimization-guide
 - https://developers.google.com/search/docs/essentials
