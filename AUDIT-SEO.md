@@ -25,8 +25,14 @@
 - Homepage Railway: risposta HTTP 200, titolo aggiornato e contenuti gia presenti nell'HTML. La risposta include `noindex, nofollow`, come previsto per questa copia di prova.
 - Avvio Apache corretto e controllo di salute `/healthz` riuscito. Volume persistente collegato a `/data`; credenziali CMS escluse da Git e dall'immagine pubblicata.
 - Test PHP: nove tipi di pagina, dati strutturati, articoli, escaping dei contenuti e filtri delle disponibilita Calendar.
-- Test HTTP su copia locale isolata: 14 percorsi pubblici, errori 404, prenotazioni disattivate, login/logout CMS, protezione CSRF, salvataggio e rilettura degli stessi contenuti, upload JPEG e rifiuto SVG.
-- Non eseguiti: collaudo visivo desktop/mobile e login/salvataggio del CMS remoto, per mancata autorizzazione del browser. Non verificata una prenotazione su Google Calendar reale.
+- Test HTTP ripetuti sul sito Railway: 14 percorsi pubblici, errori 404, prenotazioni disattivate, login/logout CMS, protezione CSRF, salvataggio e rilettura degli stessi contenuti, upload JPEG e rifiuto SVG. Verificati anche i cookie Secure/HttpOnly/SameSite, il divieto di cache del CMS e la protezione dei percorsi riservati.
+- Browser autorizzato: collaudo visivo desktop/mobile completato. Homepage controllata a 320, 390, 768, 1024, 1280 e 1440 pixel, dopo il caricamento dei font: nessuno sforamento del titolo o della pagina; cartellini professionali contenuti nel riquadro e separati dalla foto. Non e un test su dispositivi fisici.
+- Verificati navigazione del menu, carosello iniziative, FAQ, pagina di servizio, articolo e pagina Prenota. Immagini pubbliche caricate correttamente; nessun errore JavaScript osservato nella homepage e nell'editor. La pagina Prenota segnala la disattivazione e nasconde il form.
+- CMS remoto: accesso riuscito, selezione dei testi e delle immagini nell'editor, cambio pagina e salvataggio dal pulsante verificati. Testato anche su larghezze di 320 e 390 pixel senza scorrimento orizzontale.
+- Corretti durante il collaudo: link delle iniziative sovrascritti dal rendering, altezza della prima sezione, dimensioni del titolo sui dispositivi stretti, campi nascosti nell'editor, associazione dei contenuti riordinati/nascosti, paragrafi ripetuti e URL delle anteprime immagini. La sessione scaduta produce un messaggio comprensibile e non consente il salvataggio (HTTP 401).
+- Persistenza verificata dopo nuove pubblicazioni: SHA-256 di `/data/site.json` invariato (`8257d069ab9201377f89a119d08d20179025bfb2ad3ea27cf5150692d2ca1155`); immagine caricata dal CMS ancora disponibile e identica all'originale. Le due copie di prova sono state poi rimosse, senza modificare i contenuti del sito.
+- Il servizio usa un solo volume persistente: durante la sostituzione del container e stata osservata una breve interruzione. Non si tratta di un rilascio senza downtime.
+- Resta non verificata una prenotazione su Google Calendar reale: configurazione e informativa devono essere completate prima dell'attivazione. Nessun dato di pazienti e stato usato nel collaudo.
 
 ## Riferimenti
 
