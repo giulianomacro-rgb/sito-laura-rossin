@@ -1410,8 +1410,11 @@ details p {
 
   .page-hero-grid {
     gap: 1.5rem;
-    padding: 3rem 0;
+    padding: 7.25rem 0 3rem;
   }
+
+  .booking-hero-grid,
+  .legal-hero-grid { padding-top: 3rem; }
 
   .page-hero img {
     height: 360px;
