@@ -31,9 +31,9 @@
   --cream: #e8ddc9;
   --blue: #419cbc;
   --blue-deep: #237d8f;
-  --blue-ink: #1d6978;
+  --blue-ink: var(--blue-deep);
   --red: #e4452e;
-  --red-ink: #ad3020;
+  --red-ink: var(--red);
   --yellow: #f6a723;
   --paper-texture: url("assets/carta-beige.png");
   --red-paper-texture: url("assets/carta-rossa.png");

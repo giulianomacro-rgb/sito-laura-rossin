@@ -20,9 +20,14 @@ const luminance = hex => {
   return rgb[0] * .2126 + rgb[1] * .7152 + rgb[2] * .0722;
 };
 const contrast = (a, b) => (Math.max(luminance(a), luminance(b)) + .05) / (Math.min(luminance(a), luminance(b)) + .05);
-for (const ink of ['1d6978', 'ad3020', '5f645f']) {
+assert.match(css, /--red:\s*#e4452e;/);
+assert.match(css, /--blue-deep:\s*#237d8f;/);
+assert.match(css, /--red-ink:\s*var\(--red\);/);
+assert.match(css, /--blue-ink:\s*var\(--blue-deep\);/);
+assert.doesNotMatch(css, /#ad3020|#1d6978/i);
+for (const ink of ['1d1d1b', '5f645f']) {
   for (const paper of ['f8f2e8', 'fdf9f2', 'eae0d0']) assert.ok(contrast(ink, paper) >= 4.5, `${ink}/${paper} readable`);
 }
 for (const color of ['e4452e', '237d8f']) assert.ok(contrast(color, 'fdf9f2') >= 3, 'Large band heading contrast');
 new vm.Script(readFileSync(new URL('cms-content.js', root), 'utf8'));
-console.log('OK: borderless surfaces, keyboard focus, typography, textures, text contrast, client syntax');
+console.log('OK: original brand accents, borderless surfaces, keyboard focus, typography, textures, body text contrast, client syntax');
