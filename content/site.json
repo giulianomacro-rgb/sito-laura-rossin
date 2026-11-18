@@ -18,15 +18,15 @@
       "title": "Laura Rossin | Psicologa e psicoterapeuta a Bolzano",
       "description": "Psicoterapia breve strategica a Bolzano con Laura Rossin. Il suo approccio, come si svolgono gli incontri e come richiedere un primo colloquio.",
       "ogTitle": "Laura Rossin | Psicologa e psicoterapeuta a Bolzano",
-      "ogDescription": "Conosci Laura Rossin, il suo approccio alla psicoterapia e i percorsi per persone, professionisti e organizzazioni a Bolzano."
+      "ogDescription": "L’attività della Dott.ssa Laura Rossin a Bolzano: psicoterapia breve strategica, approccio terapeutico e percorsi per persone e organizzazioni."
     },
     "hero": {
       "eyebrow": "Bolzano",
       "title": "Laura Rossin, psicologa e psicoterapeuta a Bolzano.",
-      "lead": "Mi occupo di psicoterapia breve strategica. Negli incontri partiamo da ciò che stai vivendo e da quello che vorresti cambiare, per capire come affrontarlo insieme.",
+      "lead": "La Dott.ssa Laura Rossin è specializzata in psicoterapia breve strategica. Il suo lavoro integra l’ascolto della persona con un’attenzione concreta alle difficoltà e alle possibilità di cambiamento nella vita quotidiana.",
       "primaryLabel": "Richiedi un colloquio",
       "primaryHref": "prenotazioni.html",
-      "secondaryLabel": "Come lavoro",
+      "secondaryLabel": "L’approccio",
       "secondaryHref": "metodo.html"
     },
     "trust": [
@@ -48,8 +48,8 @@
     ],
     "intro": {
       "eyebrow": "Uno sguardo concreto",
-      "title": "Il primo incontro serve a comprendere ciò che stai vivendo, anche quando è difficile raccontarlo.",
-      "text": "A volte una difficoltà occupa sempre più spazio, nella vita personale o nel lavoro. Il colloquio è un momento per fermarsi, raccontare ciò che succede e mettere a fuoco quello che vorresti cambiare. Da qui costruiamo un percorso con obiettivi condivisi, rispettando la tua situazione e i tuoi tempi."
+      "title": "Il primo colloquio è uno spazio di ascolto, per comprendere le difficoltà e valutare insieme come affrontarle.",
+      "text": "Una difficoltà può occupare uno spazio crescente nella vita personale, nelle relazioni o nel lavoro. Il colloquio permette di raccontare la propria esperienza e di comprenderne il contesto, senza dover arrivare con una spiegazione già definita. Da questo confronto prende forma la valutazione di un percorso, con obiettivi condivisi e attenzione alla situazione della persona."
     },
     "services": {
       "eyebrow": "Percorsi",
@@ -58,7 +58,7 @@
         {
           "marker": "blue",
           "title": "Psicoterapia breve strategica",
-          "text": "Per affrontare una sofferenza personale, l’ansia o difficoltà nelle relazioni. Il primo colloquio serve a comprendere la situazione e valutare il percorso.",
+          "text": "Un percorso dedicato alla sofferenza personale, all’ansia e alle difficoltà nelle relazioni, che prende avvio dall’ascolto e dalla valutazione della situazione individuale.",
           "href": "servizi/psicoterapia-breve-strategica-bolzano.html",
           "linkLabel": "Come si svolge la psicoterapia",
           "visible": true,
@@ -67,7 +67,7 @@
         {
           "marker": "yellow",
           "title": "Coaching professionale",
-          "text": "Per lavorare su una scelta, un passaggio di ruolo o una difficoltà di comunicazione nel lavoro. Ha obiettivi diversi dalla psicoterapia e non la sostituisce.",
+          "text": "Un lavoro su scelte, passaggi di ruolo e comunicazione nei contesti professionali. Si distingue dalla psicoterapia per finalità e ambito di intervento.",
           "href": "servizi/coaching-professionale-strategico.html",
           "linkLabel": "Quando scegliere il coaching",
           "visible": true,
@@ -76,7 +76,7 @@
         {
           "marker": "red",
           "title": "Psicologia del lavoro",
-          "text": "Per le organizzazioni che vogliono offrire ascolto alle persone e comprendere le difficoltà del contesto di lavoro, con sportelli, consulenza e formazione.",
+          "text": "Sportelli psicologici, consulenza e formazione per le organizzazioni, con attenzione sia al benessere delle persone sia alle condizioni e alle relazioni di lavoro.",
           "href": "servizi/psicologia-del-lavoro-sportello-aziendale.html",
           "linkLabel": "Il lavoro con le organizzazioni",
           "visible": true,
@@ -85,24 +85,24 @@
       ]
     },
     "method": {
-      "eyebrow": "Il mio approccio",
+      "eyebrow": "L’approccio terapeutico",
       "title": "Come si svolge il percorso",
-      "text": "Mi sono specializzata in Psicoterapia Breve Strategica presso il Centro di Terapia Strategica di Arezzo, nel modello di Giorgio Nardone. Ascolto la tua esperienza e cerchiamo di capire quando la difficoltà si presenta, come la affronti e cosa non sta aiutando. Da qui concordiamo il lavoro, verificando nel tempo se ti è utile.",
+      "text": "La Dott.ssa Rossin si è specializzata presso il Centro di Terapia Strategica di Arezzo, nel modello di Giorgio Nardone. Il percorso parte dall’ascolto della persona e considera come le difficoltà si presentano e vengono affrontate nella vita quotidiana. Su questa base si concordano gli obiettivi e si valuta, nel tempo, l’andamento del lavoro.",
       "steps": [
         {
           "number": "01",
           "title": "Comprendere",
-          "text": "Partiamo dal tuo racconto e da situazioni concrete: cosa succede, come ti senti e cosa hai già provato a fare."
+          "text": "Il racconto della persona e l’esame di situazioni concrete aiutano a comprendere la difficoltà e i modi con cui è stata affrontata."
         },
         {
           "number": "02",
           "title": "Concordare",
-          "text": "Definiamo ciò su cui lavorare. Quando opportuno, propongo osservazioni o esperienze da portare nella vita quotidiana."
+          "text": "Gli obiettivi vengono definiti insieme e possono prevedere osservazioni o esperienze nella vita quotidiana, quando utili al percorso."
         },
         {
           "number": "03",
           "title": "Verificare",
-          "text": "Negli incontri successivi osserviamo cosa cambia e cosa resta difficile. Se qualcosa non aiuta, rivediamo il percorso."
+          "text": "Gli incontri successivi permettono di valutare i cambiamenti e le difficoltà ancora presenti, adattando il lavoro quando necessario."
         }
       ]
     },
@@ -120,8 +120,8 @@
       "title": "Un progetto per l’adolescenza",
       "label": "Percorso psicoeducativo · 14–18 anni",
       "name": "Mente Adolescente",
-      "text": "Incontri di gruppo dedicati a emozioni, pensieri e relazioni. Un’occasione di confronto per ragazze e ragazzi, distinta da un percorso di psicoterapia individuale. Per conoscere le prossime edizioni, contattami.",
-      "buttonLabel": "Conosci Mente Adolescente",
+      "text": "Un percorso di gruppo in cui ragazze e ragazzi possono confrontarsi su emozioni, pensieri e relazioni attraverso attività guidate. Il progetto ha finalità psicoeducative e si distingue dalla psicoterapia individuale; le informazioni sulle prossime edizioni sono disponibili contattando la Dott.ssa Rossin.",
+      "buttonLabel": "Il progetto Mente Adolescente",
       "href": "iniziative/mente-adolescente.html"
     },
     "topics": {
@@ -135,23 +135,23 @@
           "slug": "ansia-panico-blocchi-personali",
           "href": "articolo.html?slug=ansia-panico-blocchi-personali",
           "title": "Ansia e panico: capire la propria esperienza",
-          "excerpt": "Sentire ansia e vivere un attacco di panico non sono la stessa esperienza. Il punto di partenza è capire cosa succede a te, senza attribuirti una diagnosi da una pagina web.",
+          "excerpt": "L’ansia e gli attacchi di panico possono incidere sulla vita quotidiana in modi diversi. Comprendere l’esperienza della persona è il primo passaggio per valutare la difficoltà, evitando di ricavare una diagnosi da una descrizione online.",
           "socialImage": "assets/og-laura-rossin.jpg",
           "heroImage": "assets/pattern-banner.jpg",
           "sections": [
             {
               "title": "Quando la paura condiziona le giornate",
-              "text": "La preoccupazione può accompagnare situazioni impegnative. Merita attenzione quando diventa difficile da gestire o porta a rinunciare ad attività importanti. Un attacco di panico può invece essere vissuto come un’ondata improvvisa di paura intensa, anche con sensazioni fisiche. Averne vissuto uno non equivale automaticamente a un disturbo di panico.",
+              "text": "La preoccupazione può accompagnare situazioni impegnative e merita attenzione quando diventa difficile da gestire o porta a rinunciare ad attività importanti. Un attacco di panico può invece essere vissuto come un’ondata improvvisa di paura intensa, accompagnata anche da sensazioni fisiche. Un singolo episodio non equivale automaticamente a un disturbo di panico.",
               "items": []
             },
             {
-              "title": "Capire prima di dare indicazioni",
-              "text": "In un colloquio puoi raccontare quando accade, cosa temi, come cerchi di proteggerti e cosa è cambiato nelle tue abitudini. Non esiste una spiegazione unica valida per tutti. Anche le strategie usate per sentirsi al sicuro vanno comprese nel loro contesto, senza giudizio.\nSintomi fisici nuovi, intensi o non chiariti richiedono una valutazione medica: non vanno attribuiti automaticamente all’ansia.",
+              "title": "Comprendere la situazione",
+              "text": "Il colloquio permette di approfondire quando si presenta la difficoltà, quali timori l’accompagnano e come sono cambiate le abitudini. Anche i modi utilizzati per sentirsi al sicuro vanno compresi nel loro contesto, senza ricorrere a una spiegazione unica valida per tutti.\nSintomi fisici nuovi, intensi o non chiariti richiedono una valutazione medica e non devono essere attribuiti automaticamente all’ansia.",
               "items": []
             },
             {
-              "title": "Un aiuto costruito sulla situazione",
-              "text": "La valutazione professionale serve a capire il bisogno e le possibilità di intervento. Non occorre aspettare di aver già trovato da soli il nome del problema. Questa lettura offre un orientamento generale, non una diagnosi o un programma di esercizi.",
+              "title": "La valutazione professionale",
+              "text": "La valutazione serve a comprendere il bisogno e le possibilità di intervento. È possibile chiedere un confronto anche senza aver già individuato il nome del problema: la lettura offre un orientamento generale, mentre la conoscenza della situazione richiede uno spazio individuale.",
               "items": []
             }
           ]
@@ -191,23 +191,23 @@
           "slug": "psicologo-bolzano-quando-iniziare",
           "href": "articolo.html?slug=psicologo-bolzano-quando-iniziare",
           "title": "Quando chiedere un aiuto psicologico",
-          "excerpt": "Non c’è una soglia di sofferenza da raggiungere per meritare ascolto. Un primo confronto può aiutare a capire che cosa sta succedendo e quale supporto cercare.",
+          "excerpt": "La richiesta di un aiuto psicologico può nascere da una sofferenza persistente, ma anche da un periodo di difficoltà o incertezza. Un primo confronto permette di comprenderne il significato e valutare quale supporto sia indicato.",
           "socialImage": "assets/og-laura-rossin.jpg",
           "heroImage": "assets/pattern-banner.jpg",
           "sections": [
             {
-              "title": "Guardare a ciò che cambia nella tua vita",
-              "text": "Puoi chiederti quanto spazio sta prendendo una difficoltà: interferisce con il sonno, con le relazioni, con il lavoro o con attività a cui tieni? Sono domande per raccontare la tua esperienza, non una lista con cui assegnarti una diagnosi. Anche un periodo di incertezza può essere un motivo per confrontarti con un professionista.",
+              "title": "Le difficoltà nella vita quotidiana",
+              "text": "Il modo in cui una difficoltà incide sul sonno, sulle relazioni, sul lavoro o sulle attività abituali può aiutare a descrivere la situazione. Non si tratta di una lista per formulare una diagnosi, ma di elementi da approfondire nel colloquio, insieme al significato che assumono per la persona.",
               "items": []
             },
             {
-              "title": "Non devi sapere già quale percorso scegliere",
-              "text": "Cercare uno psicologo non significa dover conoscere in anticipo la differenza tra tutti gli interventi. Il primo colloquio aiuta a chiarire la richiesta e a valutare il tipo di supporto. La psicoterapia è uno dei possibili percorsi e viene proposta quando la situazione lo richiede.",
+              "title": "La scelta del percorso",
+              "text": "Chi cerca uno psicologo non deve necessariamente conoscere in anticipo le differenze tra tutti gli interventi. Il primo colloquio aiuta a chiarire la richiesta e a valutare il tipo di supporto; la psicoterapia è uno dei possibili percorsi, da considerare in relazione alla situazione.",
               "items": []
             },
             {
-              "title": "Il primo contatto può essere semplice",
-              "text": "Per chiedere un appuntamento bastano il tuo nome e un recapito. Nel colloquio potrai spiegare meglio cosa ti porta lì e fare domande su metodo, costi e modalità. Non è necessario inviare informazioni delicate per email né presentarti con un racconto già ordinato.",
+              "title": "Il primo contatto",
+              "text": "Per chiedere un appuntamento sono sufficienti il nome e un recapito. Il colloquio offrirà lo spazio per approfondire la richiesta e chiarire metodo, costi e modalità, senza dover inviare informazioni riservate per email o preparare un racconto già completo.",
               "items": []
             }
           ]
@@ -219,23 +219,23 @@
           "slug": "coaching-manager-professionisti",
           "href": "articolo.html?slug=coaching-manager-professionisti",
           "title": "Coaching: partire da una questione di lavoro",
-          "excerpt": "Un passaggio di ruolo, una scelta o una relazione professionale difficile possono essere il punto di partenza. Occorre però chiarire quale tipo di aiuto serve.",
+          "excerpt": "Un passaggio di ruolo, una scelta o una relazione professionale complessa possono portare a valutare un coaching. La definizione della richiesta permette di comprenderne l’utilità e di distinguerlo da altri interventi.",
           "socialImage": "assets/og-laura-rossin.jpg",
           "heroImage": "assets/pattern-banner.jpg",
           "sections": [
             {
               "title": "Da un obiettivo concreto",
-              "text": "Il coaching professionale lavora su una richiesta circoscritta: per esempio preparare un confronto importante, assumere nuove responsabilità o valutare una direzione professionale. Prima delle azioni vengono le domande: quale risultato cerchi, quali vincoli ci sono e quali aspetti dipendono davvero da te?",
+              "text": "Il coaching professionale lavora su una richiesta circoscritta, come preparare un confronto importante, assumere nuove responsabilità o valutare una direzione professionale. Il percorso considera il risultato atteso, i vincoli e gli aspetti sui quali la persona ha un effettivo margine di azione.",
               "items": []
             },
             {
-              "title": "Non significa imparare a reggere tutto",
-              "text": "Il contesto di lavoro conta. Un obiettivo realistico considera risorse, responsabilità e condizioni organizzative, invece di attribuire ogni difficoltà alla persona. Negli incontri si esaminano le situazioni e si rivedono le esperienze fatte tra un colloquio e l’altro.",
+              "title": "Considerare il contesto di lavoro",
+              "text": "Un obiettivo realistico tiene conto delle risorse, delle responsabilità e delle condizioni organizzative, senza attribuire ogni difficoltà alla persona. Negli incontri vengono esaminate le situazioni professionali e le esperienze svolte tra un colloquio e l’altro, per rivedere il lavoro sulla base dei riscontri.",
               "items": []
             },
             {
               "title": "Il confine con la psicoterapia",
-              "text": "Il coaching non tratta i disturbi psicologici e non sostituisce una psicoterapia. Se la richiesta riguarda una sofferenza emotiva o difficoltà più ampie, va valutato un altro percorso. Il fatto che il problema sia emerso al lavoro non basta a stabilire quale intervento sia adatto.",
+              "text": "Il coaching non tratta i disturbi psicologici e non sostituisce una psicoterapia. Se la richiesta riguarda una sofferenza emotiva o difficoltà più ampie, è necessario valutare un altro percorso: il fatto che il problema sia emerso al lavoro non basta a stabilire quale intervento sia adatto.",
               "items": []
             }
           ]
@@ -247,7 +247,7 @@
           "slug": "sportello-psicologico-aziendale",
           "href": "articolo.html?slug=sportello-psicologico-aziendale",
           "title": "Che cosa offre uno sportello psicologico in azienda",
-          "excerpt": "Uno spazio di ascolto ha senso quando sono chiari finalità, accesso e riservatezza. Non deve diventare un modo per chiedere alle persone di adattarsi a qualsiasi condizione.",
+          "excerpt": "Lo sportello psicologico offre uno spazio di ascolto nei contesti di lavoro, con finalità, modalità di accesso e riservatezza definite. Il supporto alla persona si affianca all’attenzione per le condizioni organizzative.",
           "socialImage": "assets/og-laura-rossin.jpg",
           "heroImage": "assets/pattern-banner.jpg",
           "sections": [
@@ -303,23 +303,23 @@
           "slug": "domande-frequenti-psicoterapia",
           "href": "articolo.html?slug=domande-frequenti-psicoterapia",
           "title": "Le domande da fare prima di iniziare una psicoterapia",
-          "excerpt": "Capire come lavorerete è parte del primo colloquio. Chiedere spiegazioni non mette in discussione la relazione: aiuta a costruirla.",
+          "excerpt": "Comprendere il modo di lavorare della terapeuta e gli aspetti pratici del percorso è parte del primo colloquio. Le domande e gli eventuali dubbi contribuiscono a costruire una relazione professionale chiara e condivisa.",
           "socialImage": "assets/og-laura-rossin.jpg",
           "heroImage": "assets/pattern-banner.jpg",
           "sections": [
             {
               "title": "Sul modo di lavorare",
-              "text": "Puoi chiedere quale approccio viene usato, come si definiscono gli obiettivi e che cosa può accadere tra una seduta e l’altra. Una risposta comprensibile è più utile di un nome tecnico. È importante poter dire anche ciò che ti lascia perplesso.",
+              "text": "Il primo incontro offre l’occasione di chiedere quale approccio viene utilizzato, come si definiscono gli obiettivi e quale lavoro può essere proposto tra le sedute. Spiegazioni comprensibili permettono di andare oltre il nome del metodo e di discutere anche gli aspetti che suscitano perplessità.",
               "items": []
             },
             {
               "title": "Sugli aspetti pratici",
-              "text": "Prima di iniziare è utile chiarire frequenza, costi, modalità per spostare un appuntamento e riservatezza. La durata complessiva non è sempre prevedibile all’inizio: puoi chiedere come verrà rivalutata durante il percorso.",
+              "text": "Prima dell’avvio del percorso è utile chiarire frequenza, costi, riservatezza e modalità per spostare un appuntamento. La durata complessiva non è sempre prevedibile all’inizio; il confronto può riguardare anche il modo in cui verrà rivalutata durante il lavoro.",
               "items": []
             },
             {
-              "title": "Su come procede il percorso",
-              "text": "Negli incontri puoi parlare di ciò che sta aiutando, di ciò che resta difficile e di eventuali dubbi. Il confronto non riguarda soltanto i miglioramenti: anche l’assenza di cambiamento o una proposta che non senti adatta meritano attenzione. Un articolo può orientarti nelle domande, ma non stabilire quale percorso sia indicato per te.",
+              "title": "Sull’andamento del percorso",
+              "text": "Il dialogo durante gli incontri riguarda ciò che sta aiutando, le difficoltà ancora presenti e gli eventuali dubbi. Anche l’assenza di cambiamenti o una proposta percepita come poco adatta sono aspetti da approfondire nella relazione terapeutica. Le letture possono aiutare a formulare domande, mentre la valutazione del percorso resta individuale.",
               "items": []
             }
           ]
@@ -331,23 +331,23 @@
           "slug": "non-so-cosa-dire-primo-colloquio",
           "href": "articolo.html?slug=non-so-cosa-dire-primo-colloquio",
           "title": "Non so cosa dire al primo colloquio",
-          "excerpt": "La paura di non riuscire a spiegarsi è una domanda frequente prima di un incontro. Non occorre preparare un racconto completo.",
+          "excerpt": "La preoccupazione di non riuscire a spiegarsi può accompagnare la scelta di chiedere un colloquio. Non è necessario preparare un racconto completo: il dialogo con la terapeuta aiuta a ricostruire la situazione.",
           "socialImage": "assets/og-laura-rossin.jpg",
           "heroImage": "assets/illustrazione-connessioni.png",
           "sections": [
             {
-              "title": "Si può cominciare da un pezzo",
-              "text": "Un episodio recente, una sensazione che torna o la ragione per cui hai deciso di prendere appuntamento possono essere un inizio. Si può anche dire semplicemente di non sapere da dove partire. Le domande della terapeuta aiutano a ricostruire il contesto, senza richiedere un’esposizione perfetta.",
+              "title": "Trovare un punto di partenza",
+              "text": "Un episodio recente, una sensazione ricorrente o il motivo che ha portato a prendere appuntamento possono offrire un punto di partenza. Anche la difficoltà a trovare le parole può essere condivisa: le domande della terapeuta aiutano a comprendere il contesto, senza richiedere un’esposizione perfetta.",
               "items": []
             },
             {
-              "title": "Non è un esame",
-              "text": "Non occorre usare parole tecniche o avere già una spiegazione del problema. Se un tema è difficile da affrontare, lo puoi segnalare. Il colloquio serve anche a capire come ti trovi nella relazione e a chiedere chiarimenti sul lavoro proposto.",
+              "title": "Uno spazio di confronto",
+              "text": "Il colloquio non richiede un linguaggio tecnico né una spiegazione già definita del problema. Offre lo spazio per raccontare la propria esperienza, segnalare gli argomenti difficili da affrontare e conoscere il modo di lavorare della terapeuta, anche attraverso domande e chiarimenti.",
               "items": []
             },
             {
-              "title": "Che cosa potresti voler chiedere",
-              "text": "Può essere utile tenere a mente le domande che per te contano: come si svolgono gli incontri, quali sono i costi, come funziona la riservatezza o come si valuterà il percorso. Non sono un compito da preparare: puoi porle anche dopo, quando emergono.",
+              "title": "Le domande sul percorso",
+              "text": "Modalità degli incontri, costi, riservatezza e valutazione dell’andamento sono aspetti che possono essere chiariti nel primo colloquio. Non è necessario preparare un elenco completo: alcune domande emergono durante il confronto e altre possono essere riprese negli incontri successivi.",
               "items": []
             }
           ]
@@ -359,23 +359,23 @@
           "slug": "difficolta-lavoro-coaching-psicoterapia",
           "href": "articolo.html?slug=difficolta-lavoro-coaching-psicoterapia",
           "title": "Una difficoltà al lavoro: coaching o psicoterapia?",
-          "excerpt": "Il luogo in cui una difficoltà emerge non basta a scegliere il percorso. Conta la richiesta e il modo in cui la situazione incide sulla tua vita.",
+          "excerpt": "Il luogo in cui una difficoltà emerge non basta a individuare il percorso più adatto. La valutazione considera la richiesta, il contesto e il modo in cui la situazione incide sulla vita della persona.",
           "socialImage": "assets/og-laura-rossin.jpg",
           "heroImage": "assets/illustrazione-connessioni.png",
           "sections": [
             {
               "title": "Una distinzione da chiarire",
-              "text": "Prepararsi a un nuovo ruolo e affrontare una sofferenza emotiva non sono la stessa richiesta, anche quando entrambe riguardano il lavoro. Nel primo caso può essere utile valutare un coaching; nel secondo è importante comprendere se serve un intervento psicologico o psicoterapeutico. Non occorre decidere da soli prima del colloquio.",
+              "text": "Prepararsi a un nuovo ruolo e affrontare una sofferenza emotiva sono richieste differenti, anche quando entrambe riguardano il lavoro. Nel primo caso può essere utile valutare un coaching; nel secondo è importante comprendere se sia indicato un intervento psicologico o psicoterapeutico. Questa distinzione può essere approfondita durante il colloquio.",
               "items": []
             },
             {
               "title": "La persona e il contesto",
-              "text": "Carichi, responsabilità e relazioni professionali possono avere un peso. Il confronto non dovrebbe limitarsi a chiedere come diventare più resistenti, ma considerare anche ciò che sta accadendo nell’ambiente. Un percorso individuale non può risolvere da solo tutti i problemi organizzativi.",
+              "text": "Carichi, responsabilità e relazioni professionali possono avere un peso nella situazione. Il confronto considera quindi anche l’ambiente di lavoro, senza limitarsi alla capacità individuale di sostenere le difficoltà. Un percorso personale non può risolvere da solo tutti i problemi organizzativi.",
               "items": []
             },
             {
-              "title": "Partire dalla domanda, non dall’etichetta",
-              "text": "Raccontare un episodio concreto e spiegare cosa vorresti affrontare aiuta a definire la richiesta. Obiettivi, limiti e modalità del percorso si chiariscono dopo aver conosciuto la situazione. Se il bisogno cambia, anche il tipo di intervento va discusso di nuovo.",
+              "title": "Partire dalla richiesta",
+              "text": "Il racconto di episodi concreti e delle difficoltà da affrontare aiuta a definire la richiesta. Obiettivi, limiti e modalità del percorso vengono chiariti dopo aver conosciuto la situazione e possono essere ridiscussi se durante il lavoro emergono esigenze diverse.",
               "items": []
             }
           ]
@@ -415,35 +415,35 @@
       "title": "Il primo colloquio, in pratica",
       "items": [
         {
-          "question": "Devo sapere già cosa dire?",
-          "answer": "No. Puoi partire da un episodio, da una sensazione o da ciò che ti ha portato a chiedere un incontro. Ti aiuto con alcune domande a ricostruire la situazione: non serve preparare un discorso o arrivare con una diagnosi."
+          "question": "È necessario preparare il primo colloquio?",
+          "answer": "Non occorre preparare un discorso né avere già una diagnosi. È possibile partire da un episodio, da una sensazione ricorrente o dal motivo che ha portato a chiedere un incontro. Le domande della terapeuta aiutano a dare ordine al racconto e a comprendere la situazione, anche quando è difficile trovare le parole."
         },
         {
-          "question": "Cosa succede durante il primo incontro?",
-          "answer": "Ti ascolto e cerchiamo di comprendere la difficoltà e ciò che vorresti cambiare. Parliamo anche del modo di lavorare e degli aspetti pratici. Il colloquio serve a valutare se questo percorso è adatto alla tua richiesta; puoi fare domande e prenderti il tempo per decidere."
+          "question": "Come si svolge il primo incontro?",
+          "answer": "Il colloquio è dedicato all’ascolto della richiesta e alla conoscenza della persona. La Dott.ssa Rossin approfondisce le difficoltà, illustra il modo di lavorare e chiarisce gli aspetti pratici. È anche un’occasione per porre domande e valutare se il percorso proposto corrisponde alle proprie esigenze, senza dover prendere una decisione immediata."
         },
         {
           "question": "Quanto dura il percorso?",
-          "answer": "Non c’è un numero di incontri uguale per tutti. Durata e frequenza si concordano in base alla situazione e vengono rivalutate durante il lavoro. “Breve” indica un approccio mirato, non una promessa di soluzione entro una scadenza."
+          "answer": "La durata e la frequenza degli incontri dipendono dalla situazione e dagli obiettivi concordati, e vengono rivalutate nel corso del lavoro. Il termine “breve” indica un approccio mirato, non una durata uguale per tutti né una garanzia di risultato entro una scadenza prestabilita."
         },
         {
-          "question": "La mia difficoltà riguarda il lavoro: serve il coaching?",
-          "answer": "Non necessariamente. Il coaching riguarda obiettivi e competenze professionali; una sofferenza che coinvolge il benessere emotivo può richiedere un percorso psicologico o psicoterapeutico. Il contesto lavorativo, da solo, non decide quale sia la strada adatta."
+          "question": "Una difficoltà lavorativa richiede sempre coaching?",
+          "answer": "Il contesto in cui nasce una difficoltà non basta a individuare l’intervento più adatto. Il coaching riguarda obiettivi e competenze professionali, mentre una sofferenza che coinvolge il benessere emotivo può richiedere un percorso psicologico o psicoterapeutico. Il primo confronto permette di chiarire questa distinzione in relazione alla richiesta."
         },
         {
-          "question": "Come posso chiedere un appuntamento?",
-          "answer": "Ricevo a Bolzano su appuntamento. Puoi chiamarmi o scrivermi indicando il tuo nome e un recapito. Non occorre inviare dettagli clinici via email. Prima di iniziare chiariremo anche costi e modalità degli incontri."
+          "question": "Come si può richiedere un appuntamento?",
+          "answer": "La Dott.ssa Rossin riceve a Bolzano su appuntamento. La richiesta può essere inviata per email o effettuata per telefono, indicando il nome e un recapito. Non è necessario trasmettere dettagli clinici via email; costi e modalità degli incontri vengono chiariti prima dell’avvio del percorso."
         },
         {
-          "question": "E se la richiesta riguarda un minorenne?",
-          "answer": "Contattami per un primo confronto insieme a chi esercita la responsabilità genitoriale. Valuteremo la richiesta, le modalità di coinvolgimento e gli aspetti del consenso. Il laboratorio Mente Adolescente è una proposta di gruppo e non equivale a una psicoterapia individuale."
+          "question": "Come procedere se la richiesta riguarda un minorenne?",
+          "answer": "Un primo contatto con la Dott.ssa Rossin permette di comprendere la richiesta e chiarire il coinvolgimento del minorenne, di chi esercita la responsabilità genitoriale e gli aspetti del consenso. La valutazione tiene conto anche del tipo di intervento: il laboratorio Mente Adolescente è una proposta psicoeducativa di gruppo, distinta dalla psicoterapia individuale."
         }
       ]
     },
     "contact": {
       "eyebrow": "Contatti",
-      "title": "Puoi contattarmi per un primo colloquio o per chiarire un dubbio sul percorso.",
-      "text": "Ricevo a Bolzano, in piazza Domenicani 15, su appuntamento. Per il primo contatto bastano il tuo nome e un recapito: delle informazioni personali più delicate parleremo durante l’incontro. Per un progetto aziendale o un’iniziativa, indica il contesto e il motivo della richiesta.",
+      "title": "Il primo contatto permette di chiarire la richiesta e concordare un colloquio.",
+      "text": "La Dott.ssa Laura Rossin riceve su appuntamento in piazza Domenicani 15, a Bolzano. È possibile contattarla per telefono o email indicando il proprio nome e un recapito, senza inviare informazioni cliniche riservate. Per iniziative o progetti aziendali è utile aggiungere una breve descrizione del contesto e della richiesta.",
       "email": "psi.laurarossin@gmail.com",
       "phone": "+39 346 6009503",
       "phoneHref": "+393466009503",
@@ -473,7 +473,7 @@
       "hero": {
         "eyebrow": "Psicoterapia a Bolzano",
         "title": "Psicoterapia breve strategica",
-        "text": "Quando una difficoltà pesa sulle tue giornate o sulle relazioni, parlarne può essere un primo passo. Negli incontri cerchiamo di comprenderla e valutiamo come lavorarci.",
+        "text": "La psicoterapia offre uno spazio professionale in cui comprendere le difficoltà che incidono sulla vita personale e sulle relazioni. La Dott.ssa Laura Rossin lavora secondo l’approccio breve strategico, definendo il percorso a partire dalla situazione e dalla richiesta della persona.",
         "buttonLabel": "Richiedi un primo colloquio",
         "buttonHref": "prenotazioni.html",
         "image": "assets/illustrazione-dialoghi.png",
@@ -487,23 +487,23 @@
       ],
       "sections": [
         {
-          "title": "Da ciò che stai vivendo",
-          "text": "Puoi rivolgerti a me per difficoltà come ansia, panico, sofferenza nelle relazioni o momenti in cui ti senti bloccato. Non è necessario riconoscerti in un elenco di sintomi: conta quello che stai vivendo e quanto interferisce con la tua quotidianità.\nIl primo colloquio serve a conoscere la situazione, non a confermare una diagnosi trovata online. Valutiamo se il mio ambito di lavoro risponde alla tua richiesta e quale tipo di aiuto possa essere indicato.",
+          "title": "A partire dall’esperienza della persona",
+          "text": "Ansia, panico, sofferenza nelle relazioni o la sensazione di non riuscire ad affrontare un passaggio della propria vita possono portare a richiedere un colloquio. Non è necessario riconoscersi in una categoria precisa: la valutazione considera l’esperienza della persona e il modo in cui la difficoltà incide sulla quotidianità.\nIl primo incontro consente alla Dott.ssa Rossin di conoscere la situazione, chiarire la richiesta e valutare quale tipo di aiuto possa essere indicato.",
           "items": []
         },
         {
-          "title": "Ascoltare e comprendere il problema",
-          "text": "Ti chiedo di raccontare episodi e situazioni concrete: quando la difficoltà si presenta, cosa pensi o provi, come reagisci e cosa hai già cercato di fare. La tua storia aiuta a comprenderne il significato; l’attenzione al presente permette di individuare su cosa intervenire.\nOsservare le risposte che non aiutano non significa attribuirti la colpa. Molti modi di affrontare una difficoltà nascono proprio dal tentativo di stare meglio.",
+          "title": "Ascolto e comprensione del problema",
+          "text": "Il lavoro approfondisce episodi e situazioni concrete: quando si presenta la difficoltà, quali pensieri ed emozioni l’accompagnano e quali risposte sono state messe in atto. La storia personale contribuisce a comprenderne il significato, mentre l’attenzione al presente aiuta a individuare gli aspetti su cui intervenire.\nEsaminare le strategie che non hanno portato il sollievo cercato non significa attribuire una colpa, ma comprendere tentativi che spesso nascono proprio dal desiderio di stare meglio.",
           "items": []
         },
         {
           "title": "Il lavoro tra gli incontri",
-          "text": "Nel modello breve strategico il dialogo può accompagnarsi a osservazioni o esperienze da svolgere nella vita quotidiana. Le proposte vengono spiegate e adattate alla situazione; puoi portare dubbi, difficoltà o ciò che non ti sembra adatto.\nNegli incontri successivi esaminiamo gli effetti del lavoro. Non conta eseguire un compito alla perfezione, ma capire se ciò che stiamo facendo ti aiuta.",
+          "text": "Nel modello breve strategico il dialogo può accompagnarsi a osservazioni o esperienze da svolgere nella vita quotidiana. Le proposte vengono spiegate e adattate alla situazione, lasciando spazio a dubbi, difficoltà e riscontri personali.\nNegli incontri successivi la terapeuta e la persona ne esaminano gli effetti: l’obiettivo non è eseguire un compito alla perfezione, ma comprendere se il lavoro sta contribuendo ad affrontare la difficoltà.",
           "items": []
         },
         {
-          "title": "Durata, scelte e limiti",
-          "text": "Frequenza e durata si concordano e si rivedono durante il percorso. Non posso promettere un risultato o un numero prestabilito di sedute. Se emerge un bisogno diverso, ne parliamo e valutiamo anche il coinvolgimento di altri professionisti.\nPrima di iniziare puoi chiedere chiarimenti su metodo, costi, riservatezza e modalità degli incontri.",
+          "title": "Durata e valutazione del percorso",
+          "text": "Frequenza e durata degli incontri vengono concordate e rivalutate durante il percorso, senza garantire risultati o un numero prestabilito di sedute. Se emerge un bisogno diverso, la valutazione può comprendere anche il coinvolgimento di altri professionisti.\nMetodo, costi, riservatezza e modalità degli incontri vengono chiariti prima di iniziare e possono essere oggetto di confronto anche durante il lavoro.",
           "items": []
         }
       ]
@@ -520,7 +520,7 @@
       "hero": {
         "eyebrow": "Coaching strategico",
         "title": "Coaching professionale",
-        "text": "Un percorso dedicato a una questione del tuo lavoro: prendere una decisione, affrontare un nuovo ruolo o gestire una relazione professionale. Prima di iniziare definiamo insieme la richiesta.",
+        "text": "Il coaching professionale è dedicato a richieste legate al lavoro, come una scelta, un passaggio di ruolo o una relazione professionale complessa. Il percorso con la Dott.ssa Rossin parte dalla conoscenza del contesto e dalla definizione di obiettivi circoscritti.",
         "buttonLabel": "Richiedi informazioni",
         "buttonHref": "mailto:psi.laurarossin@gmail.com?subject=Richiesta%20coaching%20professionale",
         "image": "assets/illustrazione-percorsi.png",
@@ -535,22 +535,22 @@
       "sections": [
         {
           "title": "Una richiesta circoscritta",
-          "text": "Il coaching parte da una situazione professionale concreta. Può riguardare, per esempio, il confronto con un responsabile, il coordinamento di un gruppo o una scelta di carriera. L’obiettivo non è chiederti di rendere sempre di più, ma chiarire cosa vuoi affrontare e quali margini di azione hai.",
+          "text": "Il coaching può riguardare, per esempio, il confronto con un responsabile, il coordinamento di un gruppo o una scelta di carriera. La definizione della richiesta permette di distinguere gli aspetti su cui è possibile agire dai vincoli del contesto, senza ridurre il percorso a una richiesta di maggiore produttività.",
           "items": []
         },
         {
-          "title": "Come lavoriamo",
-          "text": "Esaminiamo il contesto, le responsabilità, le risorse e gli ostacoli. Concordiamo un obiettivo e osserviamo come affronti le situazioni che lo riguardano. Tra gli incontri possono esserci esperienze da provare nel lavoro, da discutere e rivedere al colloquio successivo.",
+          "title": "Come si sviluppa il lavoro",
+          "text": "La Dott.ssa Rossin approfondisce responsabilità, risorse e ostacoli insieme alla persona, per concordare un obiettivo e osservare i modi con cui vengono affrontate le situazioni professionali. Tra gli incontri possono essere proposte esperienze da svolgere nel lavoro, i cui esiti vengono discussi e rivisti nel colloquio successivo.",
           "items": []
         },
         {
-          "title": "Quando non è il percorso adatto",
-          "text": "Il coaching non è una psicoterapia più breve e non tratta i disturbi psicologici. Se la richiesta riguarda una sofferenza emotiva, sintomi o difficoltà che vanno oltre il ruolo professionale, valutiamo un percorso diverso. Una difficoltà nata al lavoro non richiede automaticamente coaching.",
+          "title": "La distinzione dalla psicoterapia",
+          "text": "Il coaching ha finalità diverse dalla psicoterapia e non è un trattamento dei disturbi psicologici. Quando la richiesta riguarda una sofferenza emotiva, sintomi o difficoltà più ampie, è importante valutare un intervento adeguato: il fatto che una difficoltà sia emersa al lavoro non rende automaticamente indicato un coaching.",
           "items": []
         },
         {
           "title": "Se il percorso è proposto dall’azienda",
-          "text": "Prima di iniziare si chiariscono obiettivi, ruoli e riservatezza: chi richiede il percorso, chi vi partecipa e quali informazioni potranno essere condivise. Questi accordi non vanno dati per scontati.",
+          "text": "Quando l’azienda propone il percorso, prima dell’avvio vengono chiariti obiettivi, ruoli e riservatezza. È importante distinguere chi richiede l’intervento da chi vi partecipa e concordare quali informazioni potranno essere condivise, affinché il lavoro si svolga entro un quadro comprensibile a tutte le parti.",
           "items": []
         }
       ]
@@ -567,7 +567,7 @@
       "hero": {
         "eyebrow": "Psicologia del lavoro",
         "title": "Psicologia del lavoro e organizzazioni",
-        "text": "Mi occupo anche del benessere psicologico nei contesti di lavoro. Progetto con le organizzazioni spazi di ascolto e interventi che considerano sia le persone sia le condizioni in cui lavorano.",
+        "text": "L’attività della Dott.ssa Rossin comprende interventi di psicologia del lavoro rivolti alle organizzazioni. Sportelli di ascolto, consulenza e formazione vengono progettati considerando il benessere delle persone insieme alle condizioni e alle relazioni del contesto professionale.",
         "buttonLabel": "Parliamo del progetto",
         "buttonHref": "mailto:psi.laurarossin@gmail.com?subject=Richiesta%20progetto%20aziendale",
         "image": "assets/illustrazione-connessioni.png",
@@ -583,17 +583,17 @@
       "sections": [
         {
           "title": "Ascoltare le persone, conoscere il contesto",
-          "text": "Una difficoltà lavorativa può riguardare relazioni, carichi, ruoli poco chiari o cambiamenti organizzativi. Non tutto si risolve chiedendo alla singola persona di gestire meglio lo stress. Il primo confronto con l’organizzazione serve a capire la richiesta e a definire un intervento coerente.",
+          "text": "Relazioni, carichi, chiarezza dei ruoli e cambiamenti organizzativi possono contribuire alle difficoltà lavorative. Per questo il primo confronto con l’organizzazione considera sia le esigenze delle persone sia il contesto, senza ricondurre ogni problema alla sola capacità individuale di gestire lo stress.",
           "items": []
         },
         {
           "title": "Lo sportello psicologico",
-          "text": "Lo sportello offre colloqui riservati di ascolto, supporto e orientamento. Non coincide automaticamente con una psicoterapia: il numero di incontri e le finalità si definiscono nel progetto, e possono emergere richieste che richiedono un percorso esterno.\nPrima dell’avvio si chiariscono modalità di accesso, riservatezza e informazioni condivisibili con l’organizzazione. I contenuti personali dei colloqui non diventano materiale di valutazione del dipendente.",
+          "text": "Lo sportello offre colloqui riservati di ascolto, supporto e orientamento, con finalità e numero di incontri definiti nel progetto. Non coincide automaticamente con una psicoterapia e può far emergere richieste per le quali è indicato un percorso esterno.\nPrima dell’avvio vengono chiarite le modalità di accesso e di tutela della riservatezza, comprese le informazioni eventualmente condivisibili con l’organizzazione. I contenuti personali dei colloqui restano distinti dalla valutazione del dipendente.",
           "items": []
         },
         {
           "title": "Consulenza e formazione",
-          "text": "In base al contesto, il lavoro può comprendere:",
+          "text": "A partire dalle esigenze del contesto, l’intervento può comprendere:",
           "items": [
             "Confronto con chi si occupa delle persone per comprendere bisogni e criticità.",
             "Incontri su comunicazione, relazioni e gestione dei conflitti.",
@@ -602,7 +602,7 @@
         },
         {
           "title": "Definire il progetto",
-          "text": "Concordiamo destinatari, obiettivi, modalità e criteri per valutare il lavoro. Eventuali restituzioni all’organizzazione riguardano temi generali e dati aggregati, con attenzione a non rendere riconoscibili le persone. Non si promettono aumenti di produttività o risultati uguali in ogni contesto.",
+          "text": "La Dott.ssa Rossin concorda con l’organizzazione destinatari, obiettivi, modalità e criteri di valutazione del lavoro. Le eventuali restituzioni riguardano temi generali e dati aggregati, con attenzione a non rendere riconoscibili le persone. L’andamento viene valutato in relazione al contesto e agli obiettivi concordati, senza promettere risultati uguali per ogni organizzazione.",
           "items": []
         }
       ]
@@ -619,7 +619,7 @@
       "hero": {
         "eyebrow": "Laboratori 14-18 anni",
         "title": "Mente Adolescente",
-        "text": "Un progetto psicoeducativo di gruppo per ragazze e ragazzi dai 14 ai 18 anni. Uno spazio di confronto su emozioni, pensieri e relazioni, con attività guidate.",
+        "text": "Mente Adolescente è un progetto psicoeducativo di gruppo per ragazze e ragazzi dai 14 ai 18 anni. Attraverso attività guidate, offre occasioni di confronto sul rapporto con pensieri, emozioni e relazioni.",
         "buttonLabel": "Chiedi informazioni sul progetto",
         "buttonHref": "mailto:psi.laurarossin@gmail.com?subject=Informazioni%20Mente%20Adolescente",
         "image": "assets/illustrazione-dialoghi.png",
@@ -629,27 +629,27 @@
       "sideNotes": [
         "Ragazze e ragazzi di 14–18 anni",
         "Percorso di gruppo",
-        "Edizioni e modalità da concordare"
+        "Informazioni sulle prossime edizioni"
       ],
       "sections": [
         {
           "title": "Il senso degli incontri",
-          "text": "Il progetto propone momenti di confronto e attività per riconoscere ciò che si prova e trovare parole per raccontarlo. Non richiede di arrivare con una risposta pronta: il gruppo è un’occasione per ascoltare punti di vista diversi dal proprio.",
+          "text": "Il progetto propone attività e momenti di confronto per riconoscere le proprie esperienze emotive e trovare parole per raccontarle. La dimensione di gruppo permette di ascoltare punti di vista diversi e di affrontare temi condivisi, senza richiedere risposte già definite.",
           "items": []
         },
         {
           "title": "I temi del percorso",
-          "text": "Il programma affronta il rapporto con pensieri ed emozioni e con le altre persone. I temi comprendono paura, rabbia, dolore e piacere, attraverso confronto guidato, osservazioni e materiali di lavoro. Il programma dell’edizione viene condiviso prima dell’iscrizione.",
+          "text": "Il programma considera il rapporto con pensieri, emozioni e altre persone, affrontando temi come paura, rabbia, dolore e piacere attraverso confronto guidato, osservazioni e materiali di lavoro. Il programma della singola edizione viene condiviso prima dell’iscrizione.",
           "items": []
         },
         {
-          "title": "Una distinzione importante",
-          "text": "Un laboratorio psicoeducativo non sostituisce una valutazione clinica né una psicoterapia individuale. Prima della partecipazione è importante chiarire la richiesta e capire se il gruppo risponde alle esigenze della ragazza o del ragazzo.",
+          "title": "Finalità e partecipazione",
+          "text": "Il laboratorio ha finalità psicoeducative e non sostituisce una valutazione clinica o una psicoterapia individuale. Un confronto preliminare permette di chiarire la richiesta e valutare se la proposta di gruppo risponde alle esigenze della ragazza o del ragazzo.",
           "items": []
         },
         {
           "title": "Informazioni sulle edizioni",
-          "text": "Per conoscere date, sede, costi e modalità di partecipazione, contattami insieme a chi esercita la responsabilità genitoriale. La presentazione del progetto non indica che siano aperte iscrizioni o che un’edizione sia già in calendario.",
+          "text": "Per conoscere date, sede, costi e modalità di partecipazione è possibile contattare la Dott.ssa Rossin, con il coinvolgimento di chi esercita la responsabilità genitoriale. La disponibilità di un’edizione e l’apertura delle iscrizioni vengono confermate al momento della richiesta.",
           "items": []
         }
       ]
@@ -780,7 +780,7 @@
       "hero": {
         "eyebrow": "Laura Rossin · Bolzano",
         "title": "Psicoterapia e altri percorsi",
-        "text": "Il mio lavoro clinico è dedicato alla psicoterapia breve strategica. Mi occupo anche di coaching e psicologia del lavoro: sono ambiti diversi, da scegliere in base alla richiesta e non soltanto al contesto in cui nasce una difficoltà.",
+        "text": "La psicoterapia breve strategica costituisce l’ambito clinico del lavoro della Dott.ssa Rossin. Accanto a questo, l’attività comprende coaching professionale e psicologia del lavoro: percorsi con finalità differenti, individuati a partire dalla richiesta e dalle esigenze della persona o dell’organizzazione.",
         "image": "assets/illustrazione-dialoghi.png",
         "imageAlt": "",
         "buttonLabel": "Richiedi un colloquio",
@@ -794,36 +794,36 @@
       ],
       "sections": [
         {
-          "title": "Non devi scegliere da solo il servizio",
-          "text": "Se non sai quale percorso faccia al caso tuo, puoi partire da un primo contatto. Descrivi in poche parole ciò che ti porta a cercare aiuto: il colloquio permetterà di comprendere meglio la situazione e valutare come procedere.",
+          "title": "Orientarsi nella scelta del percorso",
+          "text": "Non è necessario conoscere già il tipo di intervento più adatto prima di chiedere un colloquio. Un primo confronto con la Dott.ssa Rossin consente di descrivere la difficoltà, approfondire il contesto e valutare come procedere, senza dover ricondurre da soli la propria esperienza a una categoria.",
           "items": []
         },
         {
           "title": "Le differenze essenziali",
-          "text": "La psicoterapia riguarda una sofferenza o difficoltà psicologica; il coaching lavora su obiettivi e competenze professionali; gli interventi nelle organizzazioni considerano anche relazioni e condizioni di lavoro. Un bisogno non va forzato dentro una categoria: se emerge una richiesta diversa, la discutiamo.",
+          "text": "La psicoterapia riguarda la sofferenza e le difficoltà psicologiche; il coaching lavora su obiettivi e competenze professionali; gli interventi nelle organizzazioni considerano anche le relazioni e le condizioni di lavoro. La scelta tiene conto della richiesta concreta e può essere rivista se durante il percorso emergono esigenze diverse.",
           "items": []
         }
       ]
     },
     "metodo": {
       "published": true,
-      "title": "Come lavoro",
+      "title": "L’approccio terapeutico",
       "slug": "metodo.html",
       "socialImage": "assets/og-laura-rossin.jpg",
       "seo": {
-        "title": "Come lavoro: psicoterapia breve strategica | Laura Rossin",
+        "title": "L’approccio terapeutico: psicoterapia breve strategica | Laura Rossin",
         "description": "Il modello breve strategico di Giorgio Nardone nel lavoro di Laura Rossin. Ascolto, obiettivi condivisi, esperienze tra gli incontri e verifica del percorso."
       },
       "hero": {
         "eyebrow": "Laura Rossin · Bolzano",
-        "title": "Come lavoro",
-        "text": "Ascolto la tua esperienza e ti aiuto a osservare cosa accade nelle situazioni difficili. Il metodo orienta il lavoro, ma non prende il posto della conoscenza della persona.",
+        "title": "L’approccio terapeutico",
+        "text": "Nel lavoro della Dott.ssa Laura Rossin, la conoscenza della persona orienta l’applicazione del metodo. L’approccio breve strategico unisce l’ascolto dell’esperienza individuale all’osservazione delle difficoltà e dei modi con cui vengono affrontate nella vita quotidiana.",
         "image": "assets/illustrazione-percorsi.png",
         "imageAlt": "",
         "buttonLabel": "Il percorso di psicoterapia",
         "buttonHref": "servizi/psicoterapia-breve-strategica-bolzano.html"
       },
-      "sideNoteTitle": "La mia formazione",
+      "sideNoteTitle": "Formazione e approccio",
       "sideNotes": [
         "Psicologa e psicoterapeuta",
         "Specializzazione al CTS di Arezzo",
@@ -832,22 +832,22 @@
       "sections": [
         {
           "title": "Il modello breve strategico",
-          "text": "Mi sono specializzata presso il Centro di Terapia Strategica di Arezzo. Il mio riferimento è il modello breve strategico di Giorgio Nardone, sviluppato nel dialogo con il lavoro di Paul Watzlawick.\nL’attenzione è rivolta al modo in cui una difficoltà si mantiene nel presente. Conoscere la tua storia resta importante: non si tratta di ignorare il passato, ma di capire su cosa possiamo lavorare oggi.",
+          "text": "La Dott.ssa Laura Rossin si è specializzata presso il Centro di Terapia Strategica di Arezzo. Il suo riferimento è il modello breve strategico di Giorgio Nardone, sviluppato nel dialogo con il lavoro di Paul Watzlawick.\nL’attenzione è rivolta al modo in cui una difficoltà si mantiene nel presente. La storia della persona contribuisce alla comprensione della situazione, mentre il lavoro terapeutico cerca di individuare su quali aspetti sia possibile intervenire oggi.",
           "items": []
         },
         {
-          "title": "Cosa intendiamo per “tentate soluzioni”",
-          "text": "Sono i modi con cui cerchiamo di affrontare un problema. Alcuni aiutano; altri possono dare sollievo nell’immediato senza risolvere la difficoltà nel tempo. Osservarli non significa che il problema sia colpa tua, ma cercare possibilità diverse da quelle già provate.",
+          "title": "Il significato di “tentate soluzioni”",
+          "text": "Nel linguaggio del modello, le “tentate soluzioni” sono i modi con cui una persona cerca di affrontare una difficoltà. Alcuni possono risultare utili, mentre altri offrono sollievo nell’immediato senza modificare il problema nel tempo. Esaminarli permette di valutare possibilità diverse da quelle già sperimentate, senza attribuire alla persona la colpa della propria sofferenza.",
           "items": []
         },
         {
           "title": "Dialogo ed esperienze quotidiane",
-          "text": "Negli incontri uso domande per comprendere il tuo punto di vista e concordare obiettivi riconoscibili nella vita di tutti i giorni. Quando utile, propongo osservazioni o esperienze tra una seduta e l’altra. Ne discutiamo il senso e gli effetti: non sono istruzioni standard da applicare a chiunque.",
+          "text": "Il dialogo terapeutico approfondisce il punto di vista della persona e consente di concordare obiettivi riconoscibili nella vita quotidiana. Quando opportuno, la Dott.ssa Rossin propone osservazioni o esperienze tra una seduta e l’altra, discutendone il senso e gli effetti. Le proposte vengono adattate alla situazione e non costituiscono istruzioni standard valide per chiunque.",
           "items": []
         },
         {
           "title": "Cosa significa “breve”",
-          "text": "Significa cercare un lavoro mirato e verificarne l’andamento, non fissare in anticipo una durata uguale per tutti. Se non emergono cambiamenti utili, o la situazione richiede un altro tipo di intervento, è parte del lavoro riconoscerlo e parlarne. Non vengono garantiti risultati né scadenze di miglioramento.",
+          "text": "Il termine indica un lavoro mirato, il cui andamento viene verificato durante il percorso, e non una durata prestabilita o una promessa di risultato. Se non emergono cambiamenti utili, o la situazione richiede un altro tipo di intervento, il confronto riguarda anche la possibilità di rivedere l’impostazione del lavoro.",
           "items": []
         }
       ]
@@ -864,7 +864,7 @@
       "hero": {
         "eyebrow": "Laura Rossin · Bolzano",
         "title": "Iniziative e incontri",
-        "text": "Accanto ai percorsi individuali, propongo occasioni di confronto e attività psicoeducative in gruppo. Qui trovi il progetto Mente Adolescente; puoi contattarmi per conoscere date e modalità delle prossime edizioni.",
+        "text": "Accanto ai percorsi individuali, l’attività della Dott.ssa Rossin comprende proposte psicoeducative e occasioni di confronto in gruppo. Il progetto Mente Adolescente è dedicato a ragazze e ragazzi; date e modalità delle prossime edizioni possono essere richieste attraverso i contatti dello studio.",
         "image": "assets/illustrazione-dialoghi.png",
         "imageAlt": "",
         "buttonLabel": "Chiedi informazioni",
@@ -879,12 +879,12 @@
       "sections": [
         {
           "title": "Prima di partecipare",
-          "text": "Conoscere le finalità di un progetto aiuta a capire se risponde alle proprie esigenze. Per Mente Adolescente, il primo contatto serve anche a chiarire programma, organizzazione e coinvolgimento di chi esercita la responsabilità genitoriale.",
+          "text": "Conoscere le finalità del progetto aiuta a valutarne l’adeguatezza rispetto alle proprie esigenze. Per Mente Adolescente, il primo contatto permette anche di approfondire programma, organizzazione e coinvolgimento di chi esercita la responsabilità genitoriale.",
           "items": []
         },
         {
           "title": "Per gruppi e organizzazioni",
-          "text": "Mi occupo anche di formazione e supporto nei contesti professionali. Queste proposte rientrano nella psicologia del lavoro e vengono costruite con l’organizzazione, a partire dai bisogni e dalle persone coinvolte.",
+          "text": "Le proposte di formazione e supporto nei contesti professionali rientrano nell’attività di psicologia del lavoro della Dott.ssa Rossin. Vengono definite insieme all’organizzazione, a partire dai bisogni, dal contesto e dalle persone coinvolte.",
           "items": []
         }
       ]
@@ -901,7 +901,7 @@
       "hero": {
         "eyebrow": "Laura Rossin · Bolzano",
         "title": "Contatti e studio a Bolzano",
-        "text": "Ricevo su appuntamento in piazza Domenicani 15, a Bolzano. Puoi chiamarmi o scrivermi per concordare un primo colloquio o chiedere un chiarimento.",
+        "text": "La Dott.ssa Laura Rossin riceve su appuntamento in piazza Domenicani 15, a Bolzano. È possibile contattarla per telefono o email per concordare un primo colloquio o ricevere informazioni sui percorsi e sulle iniziative.",
         "image": "assets/illustrazione-connessioni.png",
         "imageAlt": "",
         "buttonLabel": "Richiedi un colloquio",
@@ -916,17 +916,17 @@
       "sections": [
         {
           "title": "Per un primo appuntamento",
-          "text": "Indica il tuo nome e un recapito a cui posso risponderti. Non è necessario inviare referti o raccontare la tua storia clinica via email: ne parleremo durante l’incontro. Costi e modalità vengono chiariti prima di iniziare.",
+          "text": "Per avviare il contatto sono sufficienti il nome e un recapito a cui rispondere. Non occorre inviare referti o informazioni cliniche riservate via email: questi aspetti potranno essere approfonditi durante il colloquio. Costi e modalità degli incontri vengono chiariti prima di iniziare.",
           "items": []
         },
         {
           "title": "Per iniziative e progetti aziendali",
-          "text": "Specifica il progetto che ti interessa o il contesto della richiesta. Per un’organizzazione sono utili una breve descrizione dei bisogni, il numero indicativo di persone coinvolte e il periodo di interesse.",
+          "text": "La richiesta può indicare il progetto di interesse o descrivere brevemente il contesto. Per un’organizzazione sono utili una sintesi delle esigenze, il numero indicativo di persone coinvolte e il periodo di interesse, così da valutare la proposta in relazione alla situazione.",
           "items": []
         },
         {
           "title": "Per spostare un appuntamento",
-          "text": "Contattami via telefono o email indicando giorno e orario dell’incontro da modificare. La casella email e questo sito non sono servizi di emergenza.",
+          "text": "Le richieste di modifica di un appuntamento possono essere comunicate per telefono o email, specificando giorno e orario dell’incontro. La casella email e questo sito non sono servizi di emergenza.",
           "items": []
         }
       ]

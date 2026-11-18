@@ -14,6 +14,21 @@ for (const item of topics) {
   assert.equal(item.href, 'articolo.html?slug=' + item.slug);
 }
 assert.equal(site.home.hero.secondaryHref, 'metodo.html');
+assert.equal(site.home.hero.secondaryLabel, 'L’approccio');
+assert.equal(site.pages.metodo.hero.title, 'L’approccio terapeutico');
+assert.match(site.home.hero.lead, /^La Dott\.ssa Laura Rossin/);
+const promotionalContent = {
+  home: site.home,
+  pages: Object.fromEntries(Object.entries(site.pages).filter(([key]) => !['privacy', 'cookie'].includes(key)))
+};
+const personalVoice = /\b(mi occupo|mi sono|mio|mia|miei|mie|tuo|tua|tuoi|tue|ti ascolto|ti aiuto|contattami|chiamarmi|scrivermi|ricevo|concordiamo|valutiamo|costruiamo|partiamo|cerchiamo|lavoriamo)\b/i;
+function checkVoice(value, path = '') {
+  if (typeof value === 'string') assert.ok(!personalVoice.test(value), 'Editorial third-person voice: ' + path);
+  else if (value && typeof value === 'object') {
+    for (const [key, child] of Object.entries(value)) checkVoice(child, path + '.' + key);
+  }
+}
+checkVoice(promotionalContent);
 assert.equal(site.home.services.items[0].href, 'servizi/psicoterapia-breve-strategica-bolzano.html');
 assert.equal(site.home.faq.items.length, 6);
 const admin = read('admin/index.php');

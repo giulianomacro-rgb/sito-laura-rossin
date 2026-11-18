@@ -2,6 +2,12 @@
 
 18 novembre 2026. Revisione di chiarezza, coerenza e percorso di lettura. Non costituisce una validazione clinica dei testi da parte di Laura.
 
+## Aggiornamento del tono editoriale
+
+Su indicazione del committente, la revisione successiva adotta una voce editoriale in terza persona. Il sito presenta l'attività della Dott.ssa Rossin senza farla parlare direttamente al lettore. Rimangono un linguaggio accessibile e l'attenzione all'esperienza individuale, con periodi più distesi e meno frasi frammentate o esortative. I pulsanti mantengono le consuete etichette operative.
+
+La direzione riguarda presentazione, approccio, servizi, FAQ, contatti e letture. Sono invariati l'ordine delle sezioni, la grafica, le impostazioni delle prenotazioni e lo stato non pubblicato dei tre nuovi articoli. Privacy e cookie non sono oggetto di questa revisione stilistica.
+
 ## Problemi individuati e interventi
 
 | Prima | Intervento |
@@ -42,7 +48,7 @@ Le bozze non devono comparire nella homepage, nel contenuto JSON pubblico o nell
 
 ## Da confermare con Laura
 
-- Aderenza della voce in prima persona al suo effettivo modo di lavorare.
+- Aderenza della presentazione professionale al suo effettivo modo di lavorare.
 - Formulazione della formazione e degli ambiti professionali: la specializzazione al CTS è stata confermata dal committente nella conversazione, non verificata autonomamente in un documento professionale in questa revisione.
 - Costi, durata dei singoli incontri, lingue e modalità eventualmente online: non inseriti perché non confermati.
 - Programma, date, sede, costi e modalità delle nuove edizioni di Mente Adolescente.
