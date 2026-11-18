@@ -168,7 +168,6 @@ function render_site_page(string $html, array $site, string $path, ?array $artic
         $text('.article-hero .eyebrow', $home['topics']['eyebrow'] ?? 'Risorse e temi');
         $image('.article-hero img', $article['heroImage'] ?? $assets['patternImage'], '');
         $replace('.article-content', rich_sections($article['sections'] ?? []));
-        $replace('.side-note', '<strong>Risorse di Laura Rossin</strong><span>Psicologa e psicoterapeuta a Bolzano</span><a href="/servizi.html">Scopri i percorsi</a>');
     } elseif ($page) {
         $text('.page-hero .eyebrow', $page['hero']['eyebrow'] ?? '');
         $text('.page-hero h1', $page['hero']['title'] ?? '');

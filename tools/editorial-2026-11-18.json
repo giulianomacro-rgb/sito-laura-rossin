@@ -1,0 +1,238 @@
+{
+  "home": {
+    "seo": {
+      "description": "Psicoterapia breve strategica a Bolzano con Laura Rossin. Il suo approccio, come si svolgono gli incontri e come richiedere un primo colloquio.",
+      "ogDescription": "Conosci Laura Rossin, il suo approccio alla psicoterapia e i percorsi per persone, professionisti e organizzazioni a Bolzano."
+    },
+    "hero": {
+      "lead": "Mi occupo di psicoterapia breve strategica. Negli incontri partiamo da ciò che stai vivendo e da quello che vorresti cambiare, per capire come affrontarlo insieme.",
+      "secondaryLabel": "Come lavoro",
+      "secondaryHref": "metodo.html"
+    },
+    "trust": [
+      {"title":"Albo","text":"Psicologi Provincia di Bolzano, Sez. A n. 1006","href":"https://areariservata.psy.it/albo/iscritto/laura_rossin_187418"},
+      {"title":"Approccio","text":"Psicoterapia breve strategica","href":"metodo.html"},
+      {"title":"Ambiti","text":"Psicoterapia, coaching e psicologia del lavoro","href":"servizi.html"}
+    ],
+    "intro": {"title":"Il primo incontro serve a comprendere ciò che stai vivendo, anche quando è difficile raccontarlo."},
+    "method": {
+      "eyebrow":"Il mio approccio",
+      "title":"Come si svolge il percorso",
+      "text":"Mi sono specializzata in Psicoterapia Breve Strategica presso il Centro di Terapia Strategica di Arezzo, nel modello di Giorgio Nardone. Ascolto la tua esperienza e cerchiamo di capire quando la difficoltà si presenta, come la affronti e cosa non sta aiutando. Da qui concordiamo il lavoro, verificando nel tempo se ti è utile.",
+      "steps":[
+        {"number":"01","title":"Comprendere","text":"Partiamo dal tuo racconto e da situazioni concrete: cosa succede, come ti senti e cosa hai già provato a fare."},
+        {"number":"02","title":"Concordare","text":"Definiamo ciò su cui lavorare. Quando opportuno, propongo osservazioni o esperienze da portare nella vita quotidiana."},
+        {"number":"03","title":"Verificare","text":"Negli incontri successivi osserviamo cosa cambia e cosa resta difficile. Se qualcosa non aiuta, rivediamo il percorso."}
+      ]
+    },
+    "services": {
+      "eyebrow":"Percorsi",
+      "title":"Psicoterapia e altri ambiti di lavoro",
+      "items":[
+        {"marker":"blue","title":"Psicoterapia breve strategica","text":"Per affrontare una sofferenza personale, l’ansia o difficoltà nelle relazioni. Il primo colloquio serve a comprendere la situazione e valutare il percorso.","href":"servizi/psicoterapia-breve-strategica-bolzano.html","linkLabel":"Come si svolge la psicoterapia","visible":true,"order":1},
+        {"marker":"yellow","title":"Coaching professionale","text":"Per lavorare su una scelta, un passaggio di ruolo o una difficoltà di comunicazione nel lavoro. Ha obiettivi diversi dalla psicoterapia e non la sostituisce.","href":"servizi/coaching-professionale-strategico.html","linkLabel":"Quando scegliere il coaching","visible":true,"order":2},
+        {"marker":"red","title":"Psicologia del lavoro","text":"Per le organizzazioni che vogliono offrire ascolto alle persone e comprendere le difficoltà del contesto di lavoro, con sportelli, consulenza e formazione.","href":"servizi/psicologia-del-lavoro-sportello-aziendale.html","linkLabel":"Il lavoro con le organizzazioni","visible":true,"order":3}
+      ]
+    },
+    "initiative": {
+      "eyebrow":"Iniziative",
+      "title":"Un progetto per l’adolescenza",
+      "label":"Percorso psicoeducativo · 14–18 anni",
+      "text":"Incontri di gruppo dedicati a emozioni, pensieri e relazioni. Un’occasione di confronto per ragazze e ragazzi, distinta da un percorso di psicoterapia individuale. Per conoscere le prossime edizioni, contattami.",
+      "buttonLabel":"Conosci Mente Adolescente"
+    },
+    "topics":{"eyebrow":"Letture per orientarsi","title":"Alcune domande da cui partire"},
+    "faq": {
+      "eyebrow":"Prima di iniziare",
+      "title":"Il primo colloquio, in pratica",
+      "items":[
+        {"question":"Devo sapere già cosa dire?","answer":"No. Puoi partire da un episodio, da una sensazione o da ciò che ti ha portato a chiedere un incontro. Ti aiuto con alcune domande a ricostruire la situazione: non serve preparare un discorso o arrivare con una diagnosi."},
+        {"question":"Cosa succede durante il primo incontro?","answer":"Ti ascolto e cerchiamo di comprendere la difficoltà e ciò che vorresti cambiare. Parliamo anche del modo di lavorare e degli aspetti pratici. Il colloquio serve a valutare se questo percorso è adatto alla tua richiesta; puoi fare domande e prenderti il tempo per decidere."},
+        {"question":"Quanto dura il percorso?","answer":"Non c’è un numero di incontri uguale per tutti. Durata e frequenza si concordano in base alla situazione e vengono rivalutate durante il lavoro. “Breve” indica un approccio mirato, non una promessa di soluzione entro una scadenza."},
+        {"question":"La mia difficoltà riguarda il lavoro: serve il coaching?","answer":"Non necessariamente. Il coaching riguarda obiettivi e competenze professionali; una sofferenza che coinvolge il benessere emotivo può richiedere un percorso psicologico o psicoterapeutico. Il contesto lavorativo, da solo, non decide quale sia la strada adatta."},
+        {"question":"Come posso chiedere un appuntamento?","answer":"Ricevo a Bolzano su appuntamento. Puoi chiamarmi o scrivermi indicando il tuo nome e un recapito. Non occorre inviare dettagli clinici via email. Prima di iniziare chiariremo anche costi e modalità degli incontri."},
+        {"question":"E se la richiesta riguarda un minorenne?","answer":"Contattami per un primo confronto insieme a chi esercita la responsabilità genitoriale. Valuteremo la richiesta, le modalità di coinvolgimento e gli aspetti del consenso. Il laboratorio Mente Adolescente è una proposta di gruppo e non equivale a una psicoterapia individuale."}
+      ]
+    },
+    "contact": {
+      "title":"Puoi contattarmi per un primo colloquio o per chiarire un dubbio sul percorso.",
+      "text":"Ricevo a Bolzano, in piazza Domenicani 15, su appuntamento. Per il primo contatto bastano il tuo nome e un recapito: delle informazioni personali più delicate parleremo durante l’incontro. Per un progetto aziendale o un’iniziativa, indica il contesto e il motivo della richiesta."
+    }
+  },
+  "pages": {
+    "psicoterapia": {
+      "hero":{"title":"Psicoterapia breve strategica","text":"Quando una difficoltà pesa sulle tue giornate o sulle relazioni, parlarne può essere un primo passo. Negli incontri cerchiamo di comprenderla e valutiamo come lavorarci.","buttonLabel":"Richiedi un primo colloquio","buttonHref":"prenotazioni.html"},
+      "sideNoteTitle":"Il percorso","sideNotes":["Colloqui individuali","Approccio breve strategico","A Bolzano, su appuntamento"],
+      "sections":[
+        {"title":"Da ciò che stai vivendo","text":"Puoi rivolgerti a me per difficoltà come ansia, panico, sofferenza nelle relazioni o momenti in cui ti senti bloccato. Non è necessario riconoscerti in un elenco di sintomi: conta quello che stai vivendo e quanto interferisce con la tua quotidianità.\nIl primo colloquio serve a conoscere la situazione, non a confermare una diagnosi trovata online. Valutiamo se il mio ambito di lavoro risponde alla tua richiesta e quale tipo di aiuto possa essere indicato.","items":[]},
+        {"title":"Ascoltare e comprendere il problema","text":"Ti chiedo di raccontare episodi e situazioni concrete: quando la difficoltà si presenta, cosa pensi o provi, come reagisci e cosa hai già cercato di fare. La tua storia aiuta a comprenderne il significato; l’attenzione al presente permette di individuare su cosa intervenire.\nOsservare le risposte che non aiutano non significa attribuirti la colpa. Molti modi di affrontare una difficoltà nascono proprio dal tentativo di stare meglio.","items":[]},
+        {"title":"Il lavoro tra gli incontri","text":"Nel modello breve strategico il dialogo può accompagnarsi a osservazioni o esperienze da svolgere nella vita quotidiana. Le proposte vengono spiegate e adattate alla situazione; puoi portare dubbi, difficoltà o ciò che non ti sembra adatto.\nNegli incontri successivi esaminiamo gli effetti del lavoro. Non conta eseguire un compito alla perfezione, ma capire se ciò che stiamo facendo ti aiuta.","items":[]},
+        {"title":"Durata, scelte e limiti","text":"Frequenza e durata si concordano e si rivedono durante il percorso. Non posso promettere un risultato o un numero prestabilito di sedute. Se emerge un bisogno diverso, ne parliamo e valutiamo anche il coinvolgimento di altri professionisti.\nPrima di iniziare puoi chiedere chiarimenti su metodo, costi, riservatezza e modalità degli incontri.","items":[]}
+      ]
+    },
+    "coaching": {
+      "seo":{"description":"Coaching professionale a Bolzano con Laura Rossin: scelte, cambiamenti di ruolo e comunicazione al lavoro. Obiettivi e differenze rispetto alla psicoterapia."},
+      "hero":{"title":"Coaching professionale","text":"Un percorso dedicato a una questione del tuo lavoro: prendere una decisione, affrontare un nuovo ruolo o gestire una relazione professionale. Prima di iniziare definiamo insieme la richiesta."},
+      "sideNotes":["Scelte professionali","Passaggi di ruolo","Comunicazione al lavoro"],
+      "sections":[
+        {"title":"Una richiesta circoscritta","text":"Il coaching parte da una situazione professionale concreta. Può riguardare, per esempio, il confronto con un responsabile, il coordinamento di un gruppo o una scelta di carriera. L’obiettivo non è chiederti di rendere sempre di più, ma chiarire cosa vuoi affrontare e quali margini di azione hai.","items":[]},
+        {"title":"Come lavoriamo","text":"Esaminiamo il contesto, le responsabilità, le risorse e gli ostacoli. Concordiamo un obiettivo e osserviamo come affronti le situazioni che lo riguardano. Tra gli incontri possono esserci esperienze da provare nel lavoro, da discutere e rivedere al colloquio successivo.","items":[]},
+        {"title":"Quando non è il percorso adatto","text":"Il coaching non è una psicoterapia più breve e non tratta i disturbi psicologici. Se la richiesta riguarda una sofferenza emotiva, sintomi o difficoltà che vanno oltre il ruolo professionale, valutiamo un percorso diverso. Una difficoltà nata al lavoro non richiede automaticamente coaching.","items":[]},
+        {"title":"Se il percorso è proposto dall’azienda","text":"Prima di iniziare si chiariscono obiettivi, ruoli e riservatezza: chi richiede il percorso, chi vi partecipa e quali informazioni potranno essere condivise. Questi accordi non vanno dati per scontati.","items":[]}
+      ]
+    },
+    "lavoro": {
+      "seo":{"description":"Sportelli psicologici, consulenza e formazione con Laura Rossin. Ascolto delle persone e attenzione alle condizioni di lavoro nelle organizzazioni."},
+      "hero":{"title":"Psicologia del lavoro e organizzazioni","text":"Mi occupo anche del benessere psicologico nei contesti di lavoro. Progetto con le organizzazioni spazi di ascolto e interventi che considerano sia le persone sia le condizioni in cui lavorano.","buttonLabel":"Parliamo del progetto"},
+      "sections":[
+        {"title":"Ascoltare le persone, conoscere il contesto","text":"Una difficoltà lavorativa può riguardare relazioni, carichi, ruoli poco chiari o cambiamenti organizzativi. Non tutto si risolve chiedendo alla singola persona di gestire meglio lo stress. Il primo confronto con l’organizzazione serve a capire la richiesta e a definire un intervento coerente.","items":[]},
+        {"title":"Lo sportello psicologico","text":"Lo sportello offre colloqui riservati di ascolto, supporto e orientamento. Non coincide automaticamente con una psicoterapia: il numero di incontri e le finalità si definiscono nel progetto, e possono emergere richieste che richiedono un percorso esterno.\nPrima dell’avvio si chiariscono modalità di accesso, riservatezza e informazioni condivisibili con l’organizzazione. I contenuti personali dei colloqui non diventano materiale di valutazione del dipendente.","items":[]},
+        {"title":"Consulenza e formazione","text":"In base al contesto, il lavoro può comprendere:","items":["Confronto con chi si occupa delle persone per comprendere bisogni e criticità.","Incontri su comunicazione, relazioni e gestione dei conflitti.","Formazione e accompagnamento nei cambiamenti organizzativi."]},
+        {"title":"Definire il progetto","text":"Concordiamo destinatari, obiettivi, modalità e criteri per valutare il lavoro. Eventuali restituzioni all’organizzazione riguardano temi generali e dati aggregati, con attenzione a non rendere riconoscibili le persone. Non si promettono aumenti di produttività o risultati uguali in ogni contesto.","items":[]}
+      ]
+    },
+    "mente": {
+      "seo":{"title":"Mente Adolescente | Laura Rossin","description":"Mente Adolescente: un percorso psicoeducativo di gruppo per ragazze e ragazzi tra 14 e 18 anni. Emozioni, pensieri e relazioni; informazioni sulle edizioni."},
+      "hero":{"title":"Mente Adolescente","text":"Un progetto psicoeducativo di gruppo per ragazze e ragazzi dai 14 ai 18 anni. Uno spazio di confronto su emozioni, pensieri e relazioni, con attività guidate.","buttonLabel":"Chiedi informazioni sul progetto"},
+      "sideNoteTitle":"A chi si rivolge","sideNotes":["Ragazze e ragazzi di 14–18 anni","Percorso di gruppo","Edizioni e modalità da concordare"],
+      "sections":[
+        {"title":"Il senso degli incontri","text":"Il progetto propone momenti di confronto e attività per riconoscere ciò che si prova e trovare parole per raccontarlo. Non richiede di arrivare con una risposta pronta: il gruppo è un’occasione per ascoltare punti di vista diversi dal proprio.","items":[]},
+        {"title":"I temi del percorso","text":"Il programma affronta il rapporto con pensieri ed emozioni e con le altre persone. I temi comprendono paura, rabbia, dolore e piacere, attraverso confronto guidato, osservazioni e materiali di lavoro. Il programma dell’edizione viene condiviso prima dell’iscrizione.","items":[]},
+        {"title":"Una distinzione importante","text":"Un laboratorio psicoeducativo non sostituisce una valutazione clinica né una psicoterapia individuale. Prima della partecipazione è importante chiarire la richiesta e capire se il gruppo risponde alle esigenze della ragazza o del ragazzo.","items":[]},
+        {"title":"Informazioni sulle edizioni","text":"Per conoscere date, sede, costi e modalità di partecipazione, contattami insieme a chi esercita la responsabilità genitoriale. La presentazione del progetto non indica che siano aperte iscrizioni o che un’edizione sia già in calendario.","items":[]}
+      ]
+    },
+    "servizi": {
+      "title":"Psicoterapia e altri percorsi",
+      "seo":{"title":"Psicoterapia e altri percorsi | Laura Rossin, Bolzano","description":"Psicoterapia individuale, coaching professionale e psicologia del lavoro: cosa cambia, a chi si rivolgono e come orientarsi con Laura Rossin."},
+      "hero":{"title":"Psicoterapia e altri percorsi","text":"Il mio lavoro clinico è dedicato alla psicoterapia breve strategica. Mi occupo anche di coaching e psicologia del lavoro: sono ambiti diversi, da scegliere in base alla richiesta e non soltanto al contesto in cui nasce una difficoltà."},
+      "sections":[
+        {"title":"Non devi scegliere da solo il servizio","text":"Se non sai quale percorso faccia al caso tuo, puoi partire da un primo contatto. Descrivi in poche parole ciò che ti porta a cercare aiuto: il colloquio permetterà di comprendere meglio la situazione e valutare come procedere.","items":[]},
+        {"title":"Le differenze essenziali","text":"La psicoterapia riguarda una sofferenza o difficoltà psicologica; il coaching lavora su obiettivi e competenze professionali; gli interventi nelle organizzazioni considerano anche relazioni e condizioni di lavoro. Un bisogno non va forzato dentro una categoria: se emerge una richiesta diversa, la discutiamo.","items":[]}
+      ]
+    },
+    "metodo": {
+      "title":"Come lavoro",
+      "seo":{"title":"Come lavoro: psicoterapia breve strategica | Laura Rossin","description":"Il modello breve strategico di Giorgio Nardone nel lavoro di Laura Rossin. Ascolto, obiettivi condivisi, esperienze tra gli incontri e verifica del percorso."},
+      "hero":{"title":"Come lavoro","text":"Ascolto la tua esperienza e ti aiuto a osservare cosa accade nelle situazioni difficili. Il metodo orienta il lavoro, ma non prende il posto della conoscenza della persona.","buttonLabel":"Il percorso di psicoterapia"},
+      "sideNoteTitle":"La mia formazione","sideNotes":["Psicologa e psicoterapeuta","Specializzazione al CTS di Arezzo","Modello breve strategico di Giorgio Nardone"],
+      "sections":[
+        {"title":"Il modello breve strategico","text":"Mi sono specializzata presso il Centro di Terapia Strategica di Arezzo. Il mio riferimento è il modello breve strategico di Giorgio Nardone, sviluppato nel dialogo con il lavoro di Paul Watzlawick.\nL’attenzione è rivolta al modo in cui una difficoltà si mantiene nel presente. Conoscere la tua storia resta importante: non si tratta di ignorare il passato, ma di capire su cosa possiamo lavorare oggi.","items":[]},
+        {"title":"Cosa intendiamo per “tentate soluzioni”","text":"Sono i modi con cui cerchiamo di affrontare un problema. Alcuni aiutano; altri possono dare sollievo nell’immediato senza risolvere la difficoltà nel tempo. Osservarli non significa che il problema sia colpa tua, ma cercare possibilità diverse da quelle già provate.","items":[]},
+        {"title":"Dialogo ed esperienze quotidiane","text":"Negli incontri uso domande per comprendere il tuo punto di vista e concordare obiettivi riconoscibili nella vita di tutti i giorni. Quando utile, propongo osservazioni o esperienze tra una seduta e l’altra. Ne discutiamo il senso e gli effetti: non sono istruzioni standard da applicare a chiunque.","items":[]},
+        {"title":"Cosa significa “breve”","text":"Significa cercare un lavoro mirato e verificarne l’andamento, non fissare in anticipo una durata uguale per tutti. Se non emergono cambiamenti utili, o la situazione richiede un altro tipo di intervento, è parte del lavoro riconoscerlo e parlarne. Non vengono garantiti risultati né scadenze di miglioramento.","items":[]}
+      ]
+    },
+    "iniziative": {
+      "seo":{"description":"Mente Adolescente, il progetto psicoeducativo di Laura Rossin. Finalità, destinatari e informazioni sulle prossime edizioni."},
+      "hero":{"text":"Accanto ai percorsi individuali, propongo occasioni di confronto e attività psicoeducative in gruppo. Qui trovi il progetto Mente Adolescente; puoi contattarmi per conoscere date e modalità delle prossime edizioni."},
+      "sections":[
+        {"title":"Prima di partecipare","text":"Conoscere le finalità di un progetto aiuta a capire se risponde alle proprie esigenze. Per Mente Adolescente, il primo contatto serve anche a chiarire programma, organizzazione e coinvolgimento di chi esercita la responsabilità genitoriale.","items":[]},
+        {"title":"Per gruppi e organizzazioni","text":"Mi occupo anche di formazione e supporto nei contesti professionali. Queste proposte rientrano nella psicologia del lavoro e vengono costruite con l’organizzazione, a partire dai bisogni e dalle persone coinvolte.","items":[]}
+      ]
+    },
+    "contatti": {
+      "seo":{"title":"Contatti e studio a Bolzano | Laura Rossin","description":"Laura Rossin riceve in piazza Domenicani 15, Bolzano, su appuntamento. Telefono ed email per chiedere un primo colloquio o informazioni sui percorsi."},
+      "hero":{"text":"Ricevo su appuntamento in piazza Domenicani 15, a Bolzano. Puoi chiamarmi o scrivermi per concordare un primo colloquio o chiedere un chiarimento."},
+      "sections":[
+        {"title":"Per un primo appuntamento","text":"Indica il tuo nome e un recapito a cui posso risponderti. Non è necessario inviare referti o raccontare la tua storia clinica via email: ne parleremo durante l’incontro. Costi e modalità vengono chiariti prima di iniziare.","items":[]},
+        {"title":"Per iniziative e progetti aziendali","text":"Specifica il progetto che ti interessa o il contesto della richiesta. Per un’organizzazione sono utili una breve descrizione dei bisogni, il numero indicativo di persone coinvolte e il periodo di interesse.","items":[]},
+        {"title":"Per spostare un appuntamento","text":"Contattami via telefono o email indicando giorno e orario dell’incontro da modificare. La casella email e questo sito non sono servizi di emergenza.","items":[]}
+      ]
+    }
+  },
+  "articles": {
+    "ansia-panico-blocchi-personali": {
+      "label":"Ansia e panico: capire la propria esperienza","title":"Ansia e panico: capire la propria esperienza",
+      "excerpt":"Sentire ansia e vivere un attacco di panico non sono la stessa esperienza. Il punto di partenza è capire cosa succede a te, senza attribuirti una diagnosi da una pagina web.",
+      "sections":[
+        {"title":"Quando la paura condiziona le giornate","text":"La preoccupazione può accompagnare situazioni impegnative. Merita attenzione quando diventa difficile da gestire o porta a rinunciare ad attività importanti. Un attacco di panico può invece essere vissuto come un’ondata improvvisa di paura intensa, anche con sensazioni fisiche. Averne vissuto uno non equivale automaticamente a un disturbo di panico.","items":[]},
+        {"title":"Capire prima di dare indicazioni","text":"In un colloquio puoi raccontare quando accade, cosa temi, come cerchi di proteggerti e cosa è cambiato nelle tue abitudini. Non esiste una spiegazione unica valida per tutti. Anche le strategie usate per sentirsi al sicuro vanno comprese nel loro contesto, senza giudizio.\nSintomi fisici nuovi, intensi o non chiariti richiedono una valutazione medica: non vanno attribuiti automaticamente all’ansia.","items":[]},
+        {"title":"Un aiuto costruito sulla situazione","text":"La valutazione professionale serve a capire il bisogno e le possibilità di intervento. Non occorre aspettare di aver già trovato da soli il nome del problema. Questa lettura offre un orientamento generale, non una diagnosi o un programma di esercizi.","items":[]}
+      ]
+    },
+    "psicoterapia-breve-strategica-bolzano": {
+      "label":"Che cosa significa psicoterapia “breve”","title":"Che cosa significa psicoterapia “breve”",
+      "excerpt":"La parola “breve” descrive un orientamento del lavoro, non una durata garantita. È utile chiarire questa differenza prima di iniziare.",
+      "sections":[
+        {"title":"Un lavoro mirato","text":"Nella psicoterapia breve strategica si osserva come una difficoltà si presenta e si mantiene nella vita attuale. Gli obiettivi vengono definiti a partire dalla richiesta e discussi durante il percorso. La storia della persona non viene esclusa: aiuta a comprendere ciò che sta vivendo.","items":[]},
+        {"title":"Tra il colloquio e la vita quotidiana","text":"Oltre al dialogo, possono essere proposte osservazioni o esperienze da svolgere tra gli incontri. Il loro senso dipende dalla situazione: non sono consigli generici o esercizi da copiare da un articolo. I riscontri della persona servono a capire se il lavoro è utile e come adattarlo.","items":[]},
+        {"title":"Nessuna scadenza uguale per tutti","text":"Non è possibile stabilire da una descrizione online quante sedute serviranno. Durata, frequenza e possibilità di proseguire vengono valutate insieme. Chiedere come si osserveranno i cambiamenti è una domanda legittima, così come parlare di dubbi o di progressi che non arrivano.","items":[]}
+      ]
+    },
+    "psicologo-bolzano-quando-iniziare": {
+      "label":"Quando chiedere un aiuto psicologico","title":"Quando chiedere un aiuto psicologico",
+      "excerpt":"Non c’è una soglia di sofferenza da raggiungere per meritare ascolto. Un primo confronto può aiutare a capire che cosa sta succedendo e quale supporto cercare.",
+      "sections":[
+        {"title":"Guardare a ciò che cambia nella tua vita","text":"Puoi chiederti quanto spazio sta prendendo una difficoltà: interferisce con il sonno, con le relazioni, con il lavoro o con attività a cui tieni? Sono domande per raccontare la tua esperienza, non una lista con cui assegnarti una diagnosi. Anche un periodo di incertezza può essere un motivo per confrontarti con un professionista.","items":[]},
+        {"title":"Non devi sapere già quale percorso scegliere","text":"Cercare uno psicologo non significa dover conoscere in anticipo la differenza tra tutti gli interventi. Il primo colloquio aiuta a chiarire la richiesta e a valutare il tipo di supporto. La psicoterapia è uno dei possibili percorsi e viene proposta quando la situazione lo richiede.","items":[]},
+        {"title":"Il primo contatto può essere semplice","text":"Per chiedere un appuntamento bastano il tuo nome e un recapito. Nel colloquio potrai spiegare meglio cosa ti porta lì e fare domande su metodo, costi e modalità. Non è necessario inviare informazioni delicate per email né presentarti con un racconto già ordinato.","items":[]}
+      ]
+    },
+    "coaching-manager-professionisti": {
+      "label":"Coaching: partire da una questione di lavoro","title":"Coaching: partire da una questione di lavoro",
+      "excerpt":"Un passaggio di ruolo, una scelta o una relazione professionale difficile possono essere il punto di partenza. Occorre però chiarire quale tipo di aiuto serve.",
+      "sections":[
+        {"title":"Da un obiettivo concreto","text":"Il coaching professionale lavora su una richiesta circoscritta: per esempio preparare un confronto importante, assumere nuove responsabilità o valutare una direzione professionale. Prima delle azioni vengono le domande: quale risultato cerchi, quali vincoli ci sono e quali aspetti dipendono davvero da te?","items":[]},
+        {"title":"Non significa imparare a reggere tutto","text":"Il contesto di lavoro conta. Un obiettivo realistico considera risorse, responsabilità e condizioni organizzative, invece di attribuire ogni difficoltà alla persona. Negli incontri si esaminano le situazioni e si rivedono le esperienze fatte tra un colloquio e l’altro.","items":[]},
+        {"title":"Il confine con la psicoterapia","text":"Il coaching non tratta i disturbi psicologici e non sostituisce una psicoterapia. Se la richiesta riguarda una sofferenza emotiva o difficoltà più ampie, va valutato un altro percorso. Il fatto che il problema sia emerso al lavoro non basta a stabilire quale intervento sia adatto.","items":[]}
+      ]
+    },
+    "sportello-psicologico-aziendale": {
+      "label":"Che cosa offre uno sportello psicologico in azienda","title":"Che cosa offre uno sportello psicologico in azienda",
+      "excerpt":"Uno spazio di ascolto ha senso quando sono chiari finalità, accesso e riservatezza. Non deve diventare un modo per chiedere alle persone di adattarsi a qualsiasi condizione.",
+      "sections":[
+        {"title":"Ascolto e orientamento","text":"Lo sportello offre colloqui su difficoltà personali o lavorative e aiuta a valutare quale supporto possa essere utile. Non coincide automaticamente con un percorso di psicoterapia: finalità e limiti vanno dichiarati prima dell’avvio.","items":[]},
+        {"title":"La riservatezza va chiarita","text":"Chi partecipa deve sapere quali informazioni restano nel colloquio e quali eventuali restituzioni sono previste. I racconti personali non sono materiale per valutare il dipendente. Anche quando si restituiscono temi generali, va considerato il rischio che una persona sia riconoscibile, soprattutto nei gruppi piccoli.","items":[]},
+        {"title":"Anche l’organizzazione fa parte del lavoro","text":"Carichi, ruoli, relazioni e possibilità di incidere sul proprio lavoro contano per il benessere psicologico. Lo sportello può affiancare interventi sul contesto, non sostituirli. Il progetto si definisce quindi con l’organizzazione, mantenendo distinti il supporto alle persone e il lavoro sui bisogni collettivi.","items":[]}
+      ]
+    },
+    "benessere-psicologico-adolescenti": {
+      "label":"Adolescenza: ascoltare senza ridurre tutto a una fase","title":"Adolescenza: ascoltare senza ridurre tutto a una fase",
+      "excerpt":"I cambiamenti dell’adolescenza non sono tutti uguali. Per capire una difficoltà è importante dare spazio al punto di vista della ragazza o del ragazzo.",
+      "sections":[
+        {"title":"Conoscere la situazione","text":"Scuola, amicizie, famiglia e rapporto con sé possono cambiare molto in questi anni. Non ogni fatica indica un disturbo, ma non va nemmeno liquidata automaticamente come una fase. Contano ciò che la persona racconta, la persistenza della difficoltà e il suo effetto sulla vita quotidiana.","items":[]},
+        {"title":"Un confronto, non un’etichetta","text":"Un adulto può partire da ciò che osserva e lasciare spazio alla risposta, senza trasformare il dialogo in un interrogatorio. Se la sofferenza persiste o limita le attività abituali, un confronto professionale può aiutare a comprendere il bisogno. Le modalità del coinvolgimento familiare si chiariscono nella valutazione.","items":[]},
+        {"title":"Gruppo e percorso individuale non coincidono","text":"Un laboratorio psicoeducativo offre confronto e attività su temi condivisi. Una psicoterapia risponde invece a una richiesta clinica individuale. La scelta non dipende soltanto dall’età: prima di proporre un gruppo occorre capire se è adatto alla situazione.","items":[]}
+      ]
+    },
+    "domande-frequenti-psicoterapia": {
+      "label":"Le domande da fare prima di iniziare","title":"Le domande da fare prima di iniziare una psicoterapia",
+      "excerpt":"Capire come lavorerete è parte del primo colloquio. Chiedere spiegazioni non mette in discussione la relazione: aiuta a costruirla.",
+      "sections":[
+        {"title":"Sul modo di lavorare","text":"Puoi chiedere quale approccio viene usato, come si definiscono gli obiettivi e che cosa può accadere tra una seduta e l’altra. Una risposta comprensibile è più utile di un nome tecnico. È importante poter dire anche ciò che ti lascia perplesso.","items":[]},
+        {"title":"Sugli aspetti pratici","text":"Prima di iniziare è utile chiarire frequenza, costi, modalità per spostare un appuntamento e riservatezza. La durata complessiva non è sempre prevedibile all’inizio: puoi chiedere come verrà rivalutata durante il percorso.","items":[]},
+        {"title":"Su come procede il percorso","text":"Negli incontri puoi parlare di ciò che sta aiutando, di ciò che resta difficile e di eventuali dubbi. Il confronto non riguarda soltanto i miglioramenti: anche l’assenza di cambiamento o una proposta che non senti adatta meritano attenzione. Un articolo può orientarti nelle domande, ma non stabilire quale percorso sia indicato per te.","items":[]}
+      ]
+    }
+  },
+  "drafts": [
+    {
+      "slug":"non-so-cosa-dire-primo-colloquio","title":"Non so cosa dire al primo colloquio",
+      "excerpt":"La paura di non riuscire a spiegarsi è una domanda frequente prima di un incontro. Non occorre preparare un racconto completo.",
+      "sections":[
+        {"title":"Si può cominciare da un pezzo","text":"Un episodio recente, una sensazione che torna o la ragione per cui hai deciso di prendere appuntamento possono essere un inizio. Si può anche dire semplicemente di non sapere da dove partire. Le domande della terapeuta aiutano a ricostruire il contesto, senza richiedere un’esposizione perfetta.","items":[]},
+        {"title":"Non è un esame","text":"Non occorre usare parole tecniche o avere già una spiegazione del problema. Se un tema è difficile da affrontare, lo puoi segnalare. Il colloquio serve anche a capire come ti trovi nella relazione e a chiedere chiarimenti sul lavoro proposto.","items":[]},
+        {"title":"Che cosa potresti voler chiedere","text":"Può essere utile tenere a mente le domande che per te contano: come si svolgono gli incontri, quali sono i costi, come funziona la riservatezza o come si valuterà il percorso. Non sono un compito da preparare: puoi porle anche dopo, quando emergono.","items":[]}
+      ]
+    },
+    {
+      "slug":"difficolta-lavoro-coaching-psicoterapia","title":"Una difficoltà al lavoro: coaching o psicoterapia?",
+      "excerpt":"Il luogo in cui una difficoltà emerge non basta a scegliere il percorso. Conta la richiesta e il modo in cui la situazione incide sulla tua vita.",
+      "sections":[
+        {"title":"Una distinzione da chiarire","text":"Prepararsi a un nuovo ruolo e affrontare una sofferenza emotiva non sono la stessa richiesta, anche quando entrambe riguardano il lavoro. Nel primo caso può essere utile valutare un coaching; nel secondo è importante comprendere se serve un intervento psicologico o psicoterapeutico. Non occorre decidere da soli prima del colloquio.","items":[]},
+        {"title":"La persona e il contesto","text":"Carichi, responsabilità e relazioni professionali possono avere un peso. Il confronto non dovrebbe limitarsi a chiedere come diventare più resistenti, ma considerare anche ciò che sta accadendo nell’ambiente. Un percorso individuale non può risolvere da solo tutti i problemi organizzativi.","items":[]},
+        {"title":"Partire dalla domanda, non dall’etichetta","text":"Raccontare un episodio concreto e spiegare cosa vorresti affrontare aiuta a definire la richiesta. Obiettivi, limiti e modalità del percorso si chiariscono dopo aver conosciuto la situazione. Se il bisogno cambia, anche il tipo di intervento va discusso di nuovo.","items":[]}
+      ]
+    },
+    {
+      "slug":"parlare-adolescente-in-difficolta","title":"Parlare con un adolescente che sta facendo fatica",
+      "excerpt":"Quando si è preoccupati è facile passare subito alle soluzioni. A volte il primo passaggio è capire come la ragazza o il ragazzo descrive ciò che vive.",
+      "sections":[
+        {"title":"Partire da quello che si osserva","text":"Notare un cambiamento non significa conoscerne la causa. Nel dialogo può essere più utile descrivere una situazione concreta e fare una domanda aperta, invece di attribuire subito un’intenzione o una diagnosi. L’obiettivo non è ottenere una confessione, ma rendere possibile un confronto.","items":[]},
+        {"title":"Non minimizzare, non interpretare tutto","text":"Dire che è soltanto una fase può chiudere il dialogo; leggere ogni comportamento come un sintomo può far sentire sotto osservazione. Conta ascoltare ciò che viene raccontato e considerare il contesto, compresi scuola, amicizie e famiglia. Non esiste una frase capace di risolvere ogni situazione.","items":[]},
+        {"title":"Quando il confronto familiare non basta","text":"Se la sofferenza persiste o ostacola la vita quotidiana, si può chiedere un confronto professionale. Il primo incontro serve a comprendere la richiesta e a chiarire come coinvolgere il minorenne e chi esercita la responsabilità genitoriale. Un laboratorio di gruppo non va scelto come sostituto automatico di una valutazione individuale.","items":[]}
+      ]
+    }
+  ]
+}

@@ -809,7 +809,7 @@ function render_topic_item(array $item, $index): void
     ?>
     <div class="service-editor-row" data-topic-row>
       <div class="row-head">
-        <strong>Articolo</strong>
+        <strong><?= $visible ? 'Articolo pubblicato' : 'Bozza non pubblicata' ?></strong>
         <div class="row-actions">
           <button type="button" class="button secondary" data-move-topic="-1">Su</button>
           <button type="button" class="button secondary" data-move-topic="1">Giù</button>
@@ -819,7 +819,7 @@ function render_topic_item(array $item, $index): void
       </div>
       <div class="grid four">
         <?php field('Ordine', $base . '[order]', (string) ($item['order'] ?? ((int) $index + 1)), 'number', 'Numero più basso = prima posizione.', ['min' => '1']); ?>
-        <?php toggle_field('Visibile sul sito', $base . '[visible]', $visible, 'Disattiva per nasconderlo senza eliminarlo.'); ?>
+        <?php toggle_field('Visibile sul sito', $base . '[visible]', $visible, 'Lascia disattivato durante la revisione. La bozza non compare sul sito e il suo indirizzo non è pubblico.'); ?>
       </div>
       <div class="grid two">
         <?php field('Titolo nella lista', $base . '[label]', (string) ($item['label'] ?? '')); ?>
@@ -1578,7 +1578,7 @@ $backupList = backup_files($backupDir);
                   <?php field('Titolo sezione', 'site[home][topics][title]', value($site, ['home', 'topics', 'title'])); ?>
                 </div>
                 <div class="section-title compact">
-                  <p class="hint">Gli argomenti visibili diventano link a pagine articolo. Puoi crearne, nasconderne o eliminarne uno senza toccare i servizi.</p>
+                  <p class="hint">I nuovi articoli nascono come bozze: puoi rivedere qui tutti i testi prima di renderli visibili. L'editor visuale mostra soltanto gli articoli pubblicati.</p>
                   <button type="button" class="button secondary" data-add-topic>Aggiungi articolo</button>
                 </div>
                 <div data-topic-list>
@@ -1587,7 +1587,7 @@ $backupList = backup_files($backupDir);
                   <?php endforeach; ?>
                 </div>
                 <template data-topic-template>
-                  <?php render_topic_item(['visible' => true, 'order' => 1, 'label' => '', 'slug' => '', 'title' => '', 'excerpt' => '', 'socialImage' => value($site, ['assets', 'ogImage']), 'heroImage' => value($site, ['assets', 'articleIllustration']), 'sections' => []], '__INDEX__'); ?>
+                  <?php render_topic_item(['visible' => false, 'order' => 1, 'label' => '', 'slug' => '', 'title' => '', 'excerpt' => '', 'socialImage' => value($site, ['assets', 'ogImage']), 'heroImage' => value($site, ['assets', 'articleIllustration']), 'sections' => []], '__INDEX__'); ?>
                 </template>
               </details>
 
@@ -2139,7 +2139,7 @@ $backupList = backup_files($backupDir);
           const addTopicOptions = () => {
             if (!pageSelect || pageSelect.dataset.topicsAdded) return;
             (visualSite.home?.topics?.items || []).forEach((topic, index) => {
-              if (!topic.slug) return;
+              if (!topic.slug || [false, 0, "0"].includes(topic.visible)) return;
               const option = document.createElement("option");
               option.value = "topic:" + index;
               option.dataset.url = "../articolo.html?slug=" + encodeURIComponent(topic.slug);

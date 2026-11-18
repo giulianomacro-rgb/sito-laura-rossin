@@ -26,7 +26,9 @@ foreach (public_pages() as $path => $key) {
     }
     if (in_array($key, ['servizi','metodo','iniziative','contatti'], true)) {
         check($doc->querySelectorAll('.site-nav [aria-current="page"]')->length === 1, 'Current menu page: ' . $path);
-        check(str_contains($doc->body->textContent, $site['pages'][$key]['sections'][0]['text']), 'Dedicated CMS body: ' . $path);
+        foreach (preg_split('/\R+/u', $site['pages'][$key]['sections'][0]['text']) as $paragraph) {
+            check(str_contains($doc->body->textContent, $paragraph), 'Dedicated CMS paragraph: ' . $path);
+        }
     }
     if (in_array($key, ['home', 'servizi'], true)) {
         $images = [];
@@ -47,13 +49,23 @@ foreach (public_pages() as $path => $key) {
         check($doc->querySelector('.image-band')->getAttribute('aria-label') !== 'Studio professionale', 'Stock photo is not the studio');
         $links = $doc->querySelectorAll('.initiative-panel .button');
         check($links->item(0)->getAttribute('href') === $site['home']['initiative']['href'], 'CMS initiative link');
-        check($links->item(1)->getAttribute('href') === 'servizi/psicologia-del-lavoro-sportello-aziendale.html', 'Work initiative link preserved');
-        check($links->item(2)->getAttribute('href') === 'servizi/coaching-professionale-strategico.html', 'Coaching initiative link preserved');
+        check($links->length === 1, 'Only actual initiative, no duplicated services');
+        check($doc->querySelector('.initiative-controls') === null, 'No empty carousel controls');
+        $sections = [];
+        foreach ($doc->querySelectorAll('main > section') as $section) $sections[] = $section->getAttribute('id') ?: $section->getAttribute('class');
+        check(array_search('metodo', $sections) < array_search('servizi', $sections), 'Approach before service choice');
+        check(array_search('faq', $sections) < array_search('iniziative', $sections), 'First appointment before group projects');
+        check($doc->querySelector('.hero-actions .button-secondary')->getAttribute('href') === 'metodo.html', 'Primary orientation link explains approach');
+        foreach ($site['home']['topics']['items'] as $topic) {
+            if (!$topic['visible']) check(!str_contains($html, $topic['slug']), 'Draft not in home: ' . $topic['slug']);
+        }
     }
     if ($article) {
         check(str_contains($doc->querySelector('link[rel="canonical"]')->getAttribute('href'), '?slug=' . $article['slug']), 'Article canonical');
         check(str_contains($doc->body->textContent, $article['sections'][0]['text']), 'Article readable without JS');
         check(!str_contains($doc->body->textContent, 'Contenuto in caricamento'), 'No loading placeholder');
+        check($doc->querySelector('.article-hero .button')->getAttribute('href') === 'index.html#risorse-title', 'Article returns to reading list');
+        check(str_contains($doc->querySelector('.side-note')->textContent, 'orientamento generale'), 'Informational scope clear');
     }
 }
 $site['home']['hero']['title'] = 'CMS: <script>alert(1)</script> & prova';
