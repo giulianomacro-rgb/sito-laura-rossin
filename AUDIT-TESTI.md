@@ -13,6 +13,7 @@
 | Le domande frequenti mescolavano orientamento clinico e proposte aziendali. | FAQ centrate sul primo colloquio: come iniziare, cosa aspettarsi, durata, contatto e richieste per minorenni. |
 | Titoli delle letture ripetitivi e centrati anche sulla località. | Titoli descrittivi, comprensibili e distinti; indirizzi degli articoli conservati. Bolzano resta dove informa davvero: studio, contatti e percorsi. |
 | La pagina Prenotazioni prometteva orari mentre il calendario era in collaudo riservato. | Contatto diretto come possibilità sempre disponibile; orari online solo quando effettivamente disponibili. Configurazione e privacy non modificate. |
+| Il caricamento del CMS univa per posizione gli elenchi salvati e quelli iniziali: potevano ricomparire blocchi rimossi. | Gli elenchi salvati, anche vuoti, vengono rispettati integralmente. I valori iniziali completano solo i campi mancanti. Aggiunto un test di regressione. |
 
 ## Percorso della homepage
 

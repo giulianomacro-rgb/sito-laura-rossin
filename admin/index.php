@@ -342,7 +342,8 @@ function ensure_site_defaults(array $site): array
     foreach (page_defaults() as $key => $defaults) {
         $existing = is_array($site['pages'][$key] ?? null) ? $site['pages'][$key] : [];
         unset($defaults['label']);
-        $site['pages'][$key] = array_replace_recursive([
+        // Defaults fill missing fields; saved lists must replace defaults as a whole.
+        $site['pages'][$key] = merge_site_data(merge_site_data([
             'published' => true,
             'title' => $defaults['title'] ?? ($existing['hero']['title'] ?? ''),
             'slug' => $defaults['slug'] ?? '',
@@ -352,7 +353,7 @@ function ensure_site_defaults(array $site): array
             'sideNoteTitle' => '',
             'sideNotes' => [],
             'sections' => [],
-        ], $defaults, $existing);
+        ], $defaults), $existing);
     }
 
     return $site;
