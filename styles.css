@@ -225,7 +225,7 @@ h3 {
 }
 
 .header-cta {
-  border: 0;
+  border: 1px solid var(--red-ink);
   border-radius: 999px;
   background: var(--soft);
   color: var(--red-ink);
@@ -319,7 +319,7 @@ h3 {
   justify-content: center;
   min-height: 44px;
   padding: 0.64rem 1.15rem;
-  border: 0;
+  border: 1px solid var(--button-color);
   border-radius: 999px;
   background: var(--button-surface);
   color: var(--button-color);
@@ -696,8 +696,8 @@ h3 {
   place-items: center;
   width: 34px;
   height: 54px;
-  border: 0;
-  border-radius: 0;
+  border: 1px solid currentColor;
+  border-radius: 999px;
   background: transparent;
   color: var(--blue-deep);
   cursor: pointer;
@@ -1135,7 +1135,7 @@ details p {
 .booking-slot {
   min-height: 44px;
   padding: 0.6rem 0.9rem;
-  border: 0;
+  border: 1px solid var(--blue-ink);
   border-radius: 999px;
   background: var(--paper-warm);
   color: var(--blue-ink);
