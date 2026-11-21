@@ -227,7 +227,7 @@ h3 {
 .header-cta {
   border: 1px solid var(--red-ink);
   border-radius: 999px;
-  background: var(--soft);
+  background: transparent;
   color: var(--red-ink);
   transition: background-color 160ms ease, color 160ms ease;
 }
@@ -313,7 +313,6 @@ h3 {
 
 .button {
   --button-color: var(--blue-ink);
-  --button-surface: var(--soft);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -321,7 +320,7 @@ h3 {
   padding: 0.64rem 1.15rem;
   border: 1px solid var(--button-color);
   border-radius: 999px;
-  background: var(--button-surface);
+  background: transparent;
   color: var(--button-color);
   font-weight: 600;
   text-decoration: none;
@@ -654,9 +653,6 @@ h3 {
 .initiative-panel .button {
   margin-top: 1rem;
 }
-
-.initiative-panel .button,
-.booking-widget .button { --button-surface: var(--paper-warm); }
 
 .initiatives-carousel {
   position: relative;
@@ -1065,10 +1061,13 @@ details p {
 }
 
 .contact-strip .button {
+  --button-color: var(--paper-warm);
+}
+.contact-strip .button:hover,
+.contact-strip .button:focus-visible {
   background: var(--paper-warm);
   color: var(--blue-ink);
 }
-.contact-strip .button:hover { background: var(--soft); }
 .contact-strip :focus-visible { outline-color: var(--paper-warm); }
 
 .strip-grid {
@@ -1137,7 +1136,7 @@ details p {
   padding: 0.6rem 0.9rem;
   border: 1px solid var(--blue-ink);
   border-radius: 999px;
-  background: var(--paper-warm);
+  background: transparent;
   color: var(--blue-ink);
   cursor: pointer;
   font: inherit;
